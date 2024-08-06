@@ -1,0 +1,815 @@
+API 목록 (갱신된)
+사용자 관련 API
+사용자 로그인 상태 확인 API
+사용자 로그인 API
+사용자 회원가입 API
+검색 및 목록 관련 API
+카테고리, 굿즈, 오시 목록 API
+오시 관련 API
+오시 추가 API
+사용자 오시 목록 API
+굿즈 관련 API
+굿즈 추가 API
+굿즈 상세 정보 API
+굿즈 수정 API
+굿즈 삭제 API
+알림 설정 API
+알림 취소 API
+좋아요 API
+판매 굿즈 관련 API
+판매 굿즈 목록 API
+판매 굿즈 상세 정보 API
+판매 굿즈 수정 API
+판매 굿즈 삭제 API
+이미지 관련 API
+이미지 업로드 API (오시 추가 및 굿즈 추가 포함)
+이미지 불러오기 API
+마이페이지 관련 API
+사용자 판매 정보 API
+굿즈 알림 리스트 API
+1:1 대화 API
+1:1 대화 API
+
+
+---------------------------------------
+. 사용자 로그인 상태 확인 API
+
+URL: GET /api/user/status
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "User is logged in",
+    "status": "loggedIn"
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "User is not logged in"
+}
+
+---------------------------------------
+사용자 로그인 API
+
+URL: POST /api/user/login
+Content-Type: application/json
+Request Body:
+json
+코드 복사
+{
+    "email": "String",
+    "password": "String"
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Success",
+    "token": "generated token"
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Sign In Failed"
+}
+HTTP Status - 500 (Internal Server Error)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Sign In Failed"
+}
+
+
+---------------------------------------
+
+사용자 회원가입 API
+
+URL: POST /api/user/signup
+Content-Type: application/json
+Request Body:
+json
+코드 복사
+{
+    "email": "String",
+    "password": "String",
+    "username": "String"
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "User registered successfully"
+}
+실패:
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "User registration failed"
+}
+-----------------------------------------------
+카테고리, 굿즈, 오시 목록 검색API
+
+URL: GET /api/search
+Content-Type: application/json
+Request Params:
+query: String
+type: String (optional, e.g., "category", "goods", "oshi")
+Response:
+성공:
+json
+코드 복사
+성공:
+전체 검색:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Search results retrieved successfully",
+    "results": {
+        "oshis": [
+            {
+                "id": "String",
+                "name": "String",
+                "imageUrl": "String"
+            }
+        ],
+        "categories": [
+            {
+                "id": "String",
+                "name": "String",
+                "imageUrl": "String",
+                "oshiId": "String"
+            }
+        ],
+        "goods": [
+            {
+                "id": "String",
+                "name": "String",
+                "imageUrl": "String",
+                "categoryId": "String",
+                "oshiId": "String"
+            }
+        ]
+    }
+}
+카테고리 검색:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Search results retrieved successfully",
+    "results": {
+        "categories": [
+            {
+                "id": "String",
+                "name": "String",
+                "imageUrl": "String",
+                "oshiId": "String"
+            }
+        ]
+    }
+}
+굿즈 검색:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Search results retrieved successfully",
+    "results": {
+        "goods": [
+            {
+                "id": "String",
+                "name": "String",
+                "imageUrl": "String",
+                "categoryId": "String",
+                "oshiId": "String"
+            }
+        ]
+    }
+}
+오시 검색:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Search results retrieved successfully",
+    "results": {
+        "oshis": [
+            {
+                "id": "String",
+                "name": "String",
+                "imageUrl": "String"
+            }
+        ]
+    }
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "No results found"
+}
+
+------------------------------------------------
+5. 오시 추가 API
+
+URL: POST /api/oshi/add
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Request Body:
+json
+코드 복사
+{
+    "name": "String",
+    "description": "String",
+    "imageUrl": "String"
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Oshi added successfully"
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Unauthorized"
+}
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Failed to add Oshi"
+}
+
+---------------------------------------------------------
+
+사용자 오시 목록 API
+
+URL: GET /api/user/oshi
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "User Oshi list retrieved successfully",
+    "oshiList": [
+        {
+            "id": "String",
+            "name": "String",
+            "imageUrl": "String"
+        }
+    ]
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Unauthorized"
+}
+------------------------------------------------------
+굿즈 추가 API
+
+URL: POST /api/goods/add
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Request Body:
+json
+코드 복사
+{
+    "name": "String",
+    "description": "String",
+    "oshiId": "String",
+    "categoryId": "String",
+    "price": "Number",
+    "imageUrl": "String"
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Goods added successfully"
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Unauthorized"
+}
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Failed to add goods"
+}
+
+------------------------------------------------------
+
+굿즈 상세 정보 API
+
+URL: GET /api/goods/{id}
+Content-Type: application/json
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Goods retrieved successfully",
+    "goods": { 
+        "id": "String",
+        "name": "String",
+        "description": "String",
+        "oshi": {
+            "id": "String",
+            "name": "String"
+        },
+        "category": {
+            "id": "String",
+            "name": "String"
+        },
+        "price": "Number",
+        "imageUrl": "String"
+    }
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Goods not found"
+}
+
+------------------------------------------------------
+
+URL: PUT /api/goods/{id}
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Request Body:
+json
+코드 복사
+{
+    "name": "String",
+    "description": "String",
+    "oshiId": "String",
+    "categoryId": "String",
+    "price": "Number",
+    "imageUrl": "String"
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Goods updated successfully"
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Unauthorized"
+}
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Failed to update goods"
+}
+
+--------------------------------------------
+
+굿즈 삭제 API
+
+URL: DELETE /api/goods/{id}
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Goods deleted successfully"
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Goods not found"
+}
+
+알림 설정 API
+
+URL: POST /api/notifications/settings
+Content-Type: application/json
+Request Body:
+json
+코드 복사
+{
+    "userId": "String",
+    "settings": { /* notification settings */ }
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Notification settings updated successfully"
+}
+실패:
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Failed to update notification settings"
+}
+
+알림 취소 API
+
+URL: POST /api/notifications/cancel
+Content-Type: application/json
+Request Body:
+json
+코드 복사
+{
+    "userId": "String",
+    "goodsId": "String"
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Notification canceled successfully"
+}
+실패:
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Failed to cancel notification"
+}
+
+좋아요 API
+
+URL: POST /api/goods/{id}/like
+Content-Type: application/json
+Request Body:
+userId: "String"
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Goods liked successfully"
+}
+실패:
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Failed to like goods"
+}
+
+14. 판매 굿즈 목록 API
+
+URL: GET /api/sales/goods
+Content-Type: application/json
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Sales goods retrieved successfully",
+    "goods": [ /* sales goods list */ ]
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Sales goods not found"
+}
+
+판매 굿즈 상세 정보 API
+
+URL: GET /api/sales/goods/{id}
+Content-Type: application/json
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Sales goods retrieved successfully",
+    "goods": { 
+        "id": "String",
+        "name": "String",
+        "description": "String",
+        "oshi": {
+            "id": "String",
+            "name": "String"
+        },
+        "category": {
+            "id": "String",
+            "name": "String"
+        },
+        "price": "Number",
+        "status": "String",
+        "imageUrl": "String"
+    }
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Sales goods not found"
+}
+
+
+판매 굿즈 수정 API
+
+URL: PUT /api/sales/goods/{id}
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Request Body:
+json
+코드 복사
+{
+    "name": "String",
+    "description": "String",
+    "oshiId": "String",
+    "categoryId": "String",
+    "price": "Number",
+    "imageUrl": "String",
+    "status": "String"
+}
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Sales goods updated successfully"
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Unauthorized"
+}
+HTTP Status - 400 (Bad Request)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Failed to update sales goods"
+}
+
+
+판매 굿즈 삭제 API
+
+URL: DELETE /api/sales/goods/{id}
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Sales goods deleted successfully"
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Sales goods not found"
+}
+
+이미지 업로드 API
+
+URL: POST /api/images/upload
+Content-Type: multipart/form-data
+Request Body:
+file: binary
+type: String (optional, e.g., "oshi", "goods")
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Image uploaded successfully",
+    "imageUrl": "url_to_uploaded_image"
+}
+실패:
+HTTP Status - 500 (Internal Server Error)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Image upload failed"
+}
+
+이미지 불러오기 API
+
+URL: GET /api/images/{imageId}
+Content-Type: application/json
+Response:
+성공:
+이미지 파일 반환
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Image not found"
+}
+
+
+20. 사용자 판매 정보 API
+
+URL: GET /api/user/sales
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "User sales information retrieved successfully",
+    "sales": [ /* sales information list */ ]
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Unauthorized"
+}
+
+
+21. 굿즈 알림 리스트 API
+
+URL: GET /api/user/notifications
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Notifications retrieved successfully",
+    "notifications": [ /* notifications list */ ]
+}
+실패:
+HTTP Status - 401 (Unauthorized)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Unauthorized"
+}
+
+
+
+
+23. 채팅 내역 조회 API
+
+URL: GET /api/conversations/{id}/messages
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Messages retrieved successfully",
+    "messages": [
+        {
+            "id": "String",
+            "senderId": "String",
+            "receiverId": "String",
+            "message": "String",
+            "timestamp": "String"
+        }
+    ]
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Messages not found"
+}
+
+
+24. 채팅방 목록 API
+
+URL: GET /api/conversations
+Content-Type: application/json
+Request Header:
+Authorization: Bearer <token>
+Response:
+성공:
+json
+코드 복사
+{
+    "code": "Su",
+    "message": "Conversations retrieved successfully",
+    "conversations": [
+        {
+            "id": "String",
+            "participants": [
+                {
+                    "userId": "String",
+                    "username": "String"
+                }
+            ],
+            "lastMessage": "String",
+            "timestamp": "String"
+        }
+    ]
+}
+실패:
+HTTP Status - 404 (Not Found)
+json
+코드 복사
+{
+    "code": "SF",
+    "message": "Conversations not found"
+}
