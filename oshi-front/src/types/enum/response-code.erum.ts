@@ -1,0 +1,30 @@
+enum ResponseCode {
+        //HTTP STATUS 200
+   SUCCESSS = "SU",
+   
+   //HTTP STATUS 400
+   VALIDATION_FAILED = "VF",
+   DUPLICATE_EMAIL = "DE",
+   DUPLICATE_NAME= "DN",
+   DUPLICATE_OSHI = "DO",
+   DUPLICATE_CATEGORY = "DC",
+   DUPLICATE_GOODS = "DG",
+ 
+   NOT_EXISTED_USER ="NU",
+   NOT_EXISTED_BOARD = "NB",
+
+   //HTTP STATIS 401
+   SIGN_IN_FAILED = "SF",
+   AUTHORIZATION_FAIL = "AF",
+
+  //HTTP STATUS 403
+    NO_PERMISSSION = "NP",
+    //HTTP STATUS 404
+    NOT_FOUND = "NF",
+
+    //http status 500
+
+    DATABASE_ERROR = "DBE",
+
+}
+export default ResponseCode ;
