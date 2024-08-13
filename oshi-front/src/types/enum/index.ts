@@ -1,2 +1,2 @@
-import ResponseCode from "./response-code.erum";
+import ResponseCode from "./response-code.enum";
 export { ResponseCode };

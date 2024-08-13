@@ -1,0 +1,44 @@
+.oshi-list-item {
+    /* Frame 22 */
+
+/* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 19px 62px;
+    gap: 10px;
+
+    width: 1436px;
+    height: 219px;
+
+    background: #FFFFFF;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+
+}
+.oshi-list-main{
+    /* Frame 112 */
+
+/* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 13px;
+
+    width: 1312px;
+    height: 181px;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+
+}
+
