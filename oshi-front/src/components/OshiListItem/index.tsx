@@ -3,7 +3,6 @@ import './style.css';
 
 // componet: Oshi List Item 컴포넌트
 
-
 export default function OshiListItem() {
 
 
@@ -12,7 +11,12 @@ export default function OshiListItem() {
     <div className='oshi-list-item'>
         <div className='oshi-list-main'>
             <div className='oshi-list-item-top'> 
-                <div className='oshi-list-item-image' style={{backgroundImage: 'url()'}}></div>
+                <div className='oshi-list-item-logo'>
+                    <div className='oshi-list-item-imagebox'> 
+                    <div className='oshi-list-item-image' style={{ backgroundImage: `url(/아이유.jpg)` }}>dd</div>
+                    </div>
+                    <div className='oshi-list-item-select'></div>
+                </div>
                 <div className='oshi-list-item-who'>
                     <div className='oshi-list-item-oshi'>{'아이유'}</div>
                     <div className='ohsi-list-item-category'>{'공식: 2024 시즌 그리팅'}</div>
