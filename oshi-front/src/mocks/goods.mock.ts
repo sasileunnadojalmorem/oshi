@@ -13,7 +13,7 @@ const goodsmock: Goodsitem[] = [
         oshiName: "아이유",
         categoryId: 1,
         categoryName: "Official Merchandise",
-        categoryType: 'OFFICIAL',
+        categoryType: '공식',
         authorId: null, // 저자가 없는 경우
         authorName: null // 저자가 없는 경우
     },
@@ -29,7 +29,7 @@ const goodsmock: Goodsitem[] = [
         oshiName: "BTS",
         categoryId: 2,
         categoryName: "Fan-made Goods",
-        categoryType: 'NONOFFICIAL',
+        categoryType: '비공식',
         authorId: 123,
         authorName: "팬클럽"
     }

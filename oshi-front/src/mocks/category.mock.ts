@@ -4,7 +4,7 @@ const categorymock: Category[] = [
     {
         categoryId: 1,
         categoryName: "Official Merchandise",
-        categoryType: 'OFFICIAL',
+        categoryType: '공식',
         description: "공식 상품 카테고리",
         oshiId: 1,
         oshiName: "아이유"
@@ -12,7 +12,7 @@ const categorymock: Category[] = [
     {
         categoryId: 2,
         categoryName: "Fan-made Goods",
-        categoryType: 'NONOFFICIAL',
+        categoryType: '비공식',
         description: null, // 설명이 없는 경우
         oshiId: 2,
         oshiName: "BTS"
