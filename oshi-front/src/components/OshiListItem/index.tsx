@@ -1,56 +1,59 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './style.css';
+import Dropdown from './dropdown'; // 새로 만든 Dropdown 컴포넌트를 import
+import { Category, Goodsitem, Oshiitem ,Goodstypeitem} from 'types/interface';
+import defaultimg from 'assets/default image.jpg'
+interface Props {
+  oshiitem: Oshiitem;
+  categoryitem: Category;
+  goodsitem: Goodsitem;
+}
 
-export default function OshiListItem() {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-
-  // 드롭다운 표시 토글 함수
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
-
+  export default function OshiListItem({ oshiitem, categoryitem, goodsitem }: Props) {
+  const goodsTypes: Goodstypeitem = {
+    goodstype: ['굿즈 종류 1', '굿즈 종류 2', '굿즈 종류 3'],
+  }; 
+  const {oshiName,oshiImage} = oshiitem;
+  const {categoryName,categoryType} = categoryitem;
+  const {goodsType,goodsName} = goodsitem;
   return (
     <div className='oshi-list-item'>
       <div className='oshi-list-main'>
-        <div className='oshi-list-item-top'> 
+        <div className='oshi-list-item-top'>
           <div className='oshi-list-item-logo'>
             <div className='oshi-list-item-imagebox'>
-              <div className='oshi-list-item-image' style={{ backgroundImage: `url(/아이유.jpg)` }}></div>
+            <div
+                className='oshi-list-item-image'
+                style={{ backgroundImage: `url(${oshiImage ? oshiImage : defaultimg})` }} // } 문자 제거
+              ></div>            </div>
+            <div className='oshi-list-item-select'>
+              <div className='oshi-list-item-selectimage' style={{ backgroundImage: 'url(/vector.png)' }}></div>
             </div>
-            <div className='oshi-list-item-select'></div>
           </div>
           <div className='oshi-list-item-who'>
-            <div className='oshi-list-item-oshi'>{'아이유'}</div>
-            <div className='ohsi-list-item-category'>{'공식: 2024 시즌 그리팅'}</div>
-            <div className='oshi-list-item-goods'>{'포토 카드'}</div>
-          </div>
-        </div>
-        <div className='oshi-list-item-middle'> 
-          <div className='ohsi-list-item-search'>
-            <span>카테고리별</span>
-            <span> | </span>
-            <span>굿즈별</span>
-          </div>
-        </div>
-        <div className='oshi-list-item-bottom'> 
-          <div className='oshi-list-item-goods-type'>
-            <div className='oshi-list-item-goods-type-text'>{'굿즈 종류'}</div>
-            <div 
-              className='oshi-list-item-goods-type-select' 
-              onClick={toggleDropdown}
-            >
-              {'모두 보기'}
+            <div className='oshi-list-item-oshi'>{oshiName}</div>
+            <div className='ohsi-list-item-category'>
+              <div className='oshi-list-category-type'>{categoryType}</div>
+              <div className='oshi-list-category-name'>{categoryName}</div>
             </div>
-            {dropdownVisible && (
-              <ul className='dropdown-menu'>
-                <li>굿즈 종류 1</li>
-                <li>굿즈 종류 2</li>
-                <li>굿즈 종류 3</li>
-              </ul>
-            )}
+            <div className='oshi-list-item-goods'>
+              <div className='oshi-list-goods-type'>{goodsType}</div>
+              <div className='oshi-list-goods-name'>{goodsName}</div>
+            </div>
           </div>
+        </div>
+        <div className='oshi-list-item-middle'>
+          <div className='ohsi-list-item-search'>
+            <div className='oshi-list-item-search-category'>{'카테고리별'}</div>
+            <div className='oshi-list-item-search-goods'>{'굿즈별'}</div>
+          </div>
+        </div>
+        <div className='oshi-list-item-bottom'>
+          <Dropdown goodsTypes={goodsTypes} />
           <div className='oshi-list-item-goods-sort'>
-            {'최신순 | 발매순 | 인기순'}
+            <div className='oshi-list-item-goods-recent'>{'최신순'}</div>
+            <div className='oshi-list-item-goods-newest'>{'발매순'}</div>
+            <div className='oshi-list-item-goods-favorite'>{'인기순'}</div>
           </div>
         </div>
       </div>

@@ -26,14 +26,14 @@
 
 .oshi-list-item-logo {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
 }
 
 .oshi-list-item-imagebox {
     width: 100px; /* 프로필 이미지 박스의 크기 */
     height: 100px;
-    border-radius: 50%;
+    border-radius: 85%;
     overflow: hidden; /* 이미지가 원형으로 보이도록 */
 }
 
@@ -46,13 +46,26 @@
 }
 
 .oshi-list-item-select {
-    margin-top: 10px;
-    width: 20px;
-    height: 20px;
-    background-color: #eee; /* 선택 표시를 위한 임의의 스타일 */
+    width: 30px; /* 원하는 크기로 설정 */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능임을 나타냄 */
     border-radius: 50%;
+    overflow: hidden;
+    background-color: #f0f0f0; /* 선택된 상태를 위한 배경색 설정 (필요에 따라 변경) */
+    transition: background-color 0.3s ease; /* 호버 효과 */
 }
 
+.oshi-list-item-selectimage {
+    width: 22px;
+    height: 18px;
+    background-size: contain; /* 또는 cover */
+    background-position: 50% 50%; /* 또는 50% 40% 등으로 세밀하게 조정 */
+    background-repeat: no-repeat;
+    
+}
 .oshi-list-item-who {
     display: flex;
     flex-direction: column;
@@ -67,10 +80,65 @@
 
 .ohsi-list-item-category,
 .oshi-list-item-goods {
-    font-size: 14px;
-    color: #666;
+    display: flex; /* 플렉스 컨테이너로 설정 */
+    align-items: center; /* 수직 가운데 정렬 */
+    gap: 0; /* 요소 간의 간격 제거 */
 }
 
+.oshi-list-category-type{
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    display: block;
+    color: violet;
+
+    
+
+}
+.oshi-list-category-type::after{
+    content: ":";
+    position: absolute;
+    top: 0px;
+    right: -5px;
+    width: 1px;
+    height: 18px;
+    color: black;
+    display: inline-block; /* 인라인 블록으로 설정하여 공백 제거 */
+
+}
+.oshi-list-category-name{
+    cursor: pointer;
+    margin-right: 20px;
+    position: relative;
+        color: black;
+
+}
+.oshi-list-goods-type{
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    display: block;
+    color: violet;
+}
+
+.oshi-list-goods-type::after{
+    content: ":";
+    position: absolute;
+    top: 0px;
+    right: -5px;
+    width: 1px;
+    height: 18px;
+    color: black;
+
+}
+.oshi-list-goods-name{
+    cursor: pointer;
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: black;
+
+}
 .oshi-list-item-middle {
     display: flex;
     justify-content: space-between;
@@ -79,21 +147,48 @@
     border-bottom: 1px solid #eee;
 }
 
+
+
+
+
+
 .ohsi-list-item-search {
     font-size: 14px;
     color: #8a2be2; /* 보라색 텍스트 */
-    cursor: pointer;
+    display: flex;
+    flex-direction: row;
 }
+.oshi-list-item-search-category{
+    cursor: pointer;
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: violet;
 
-.ohsi-list-item-search span {
-    margin: 0 5px;
+}
+.oshi-list-item-search-category::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: -10px;
+    width: 1px;
+    height: 18px;
+    border-right: 1px solid rgb(204, 204, 204);
+}
+.oshi-list-item-search-goods{
+    cursor: pointer;
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: black;
+
 }
 
 .oshi-list-item-bottom {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
+    padding: 5px;
+    gap: 10px;
 }
 
 .oshi-list-item-goods-type {
@@ -130,9 +225,29 @@
     margin: 0;
     width: 150px; /* 원하는 크기로 조정 가능 */
     z-index: 1000;
+    
+}
+
+.dropdown-search {
+    min-height: 100%;
+    min-width: 100%;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.dropdown-menu ul {
+    padding-left: 0; /* ul 기본 패딩 제거 */
+    max-height: 100px; /* 최대 높이 설정 (항목 3개 정도의 높이) */
+    overflow-y: auto; /* 세로 스크롤 생성 */
 }
 
 .dropdown-menu li {
+    
+    list-style: none;
     padding: 8px 12px;
     cursor: pointer;
     font-size: 14px;
@@ -143,9 +258,63 @@
     background-color: #f0f0f0;
 }
 
+
 .oshi-list-item-goods-sort {
     font-size: 14px;
     color: #999;
     display: flex;
-    gap: 10px;
+    
+}
+.oshi-list-item-goods-recent {
+    cursor: pointer;
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: rgb(247, 47, 51);
+}
+
+.oshi-list-item-goods-recent::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: -10px;
+    width: 1px;
+    height: 18px;
+    border-right: 1px solid rgb(204, 204, 204);
+}
+.oshi-list-item-goods-newest{
+    cursor: pointer;
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: rgb(204, 204, 204);
+
+}
+.oshi-list-item-goods-newest::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: -10px;
+    width: 1px;
+    height: 18px;
+    border-right: 1px solid rgb(204, 204, 204);
+
+}
+.oshi-list-item-goods-favorite{
+    cursor: pointer;
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: rgb(204, 204, 204);
+
+}
+.oshi-list-item-goods-favorite::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: -10px;
+    width: 1px;
+    height: 18px;
+    border-right: 1px solid rgb(204, 204, 204);
+
 }
