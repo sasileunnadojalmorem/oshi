@@ -11,3 +11,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.App {
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬, 필요시 추가 */
+  flex-wrap: wrap; /* 아이템들이 여러 줄로 넘어갈 수 있도록 설정 */
+  padding: 20px; /* 적절한 패딩을 추가 */
+  min-height: 100vh; /* 컨테이너가 화면 전체 높이를 차지하도록 설정 */
+  box-sizing: border-box; /* 패딩이 포함된 박스 크기 계산 */
+}
+.CategoryItemList {
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  flex-wrap: wrap; /* 여러 줄로 넘어갈 수 있게 설정 */
+  gap: 16px; /* 각 항목 간의 간격 */
+  width: 100%; /* 가로 전체를 차지하도록 설정 */
+  max-width: 1200px; /* 최대 너비 설정, 필요시 조정 */
+  margin: 0 auto; /* 중앙에 정렬 */
+  padding: 20px; /* 패딩 추가, 필요시 조정 */
+  box-sizing: border-box; /* 패딩이 포함된 박스 크기 계산 */
+}

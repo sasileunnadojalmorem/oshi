@@ -76,9 +76,12 @@
 }
 
 .oshi-list-item-oshi {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
+    text-align: left;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    display: block;
+    color: violet;
 }
 
 .ohsi-list-item-category,

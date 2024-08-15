@@ -1,0 +1,69 @@
+/* CategoryPasing의 컨테이너 스타일 */
+.page-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+  }
+  
+  /* 이전 버튼 스타일 */
+  .page-button-prev,
+  .page-button-next {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* 비활성화 상태 (disabled) */
+  .page-button-prev.disabled,
+  .page-button-next.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: #e0e0e0;
+    color: #999;
+    display: none;
+  }
+  
+  /* 활성화 상태 (active) */
+  .page-button-prev.active,
+  .page-button-next.active {
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .page-button-prev.active:hover,
+  .page-button-next.active:hover {
+    background-color: #0056b3;
+  }
+  
+  /* 페이지 번호 스타일 */
+  .page-item {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* 활성화된 페이지 번호 스타일 */
+  .page-item.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .page-item:hover {
+    background-color: #e9ecef;
+  }
+  
