@@ -6,10 +6,9 @@ import UserItem from "./User.interface";
 import Goodstypeitem from "./Goodstype.interface";
 import PagenatedGoods from "./PagenatedGoodsItems.interface";
 import pagenatedCategory from "./PagenatedCategoryitems.interface";
-import CategoryItem from "components/CategoryListitem/categoryItem";
 
 export type {
-    CategoryItem,
+    
     Goodstypeitem,
     Category,
     Goodsitem,

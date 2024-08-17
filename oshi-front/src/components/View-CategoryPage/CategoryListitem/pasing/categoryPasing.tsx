@@ -1,7 +1,7 @@
 import React from 'react';
 import { pagenatedCategory } from 'types/interface';
 import PageItem from './page-item';
-import '../pasing/style.css';
+import './style.css';
 interface Props {
   categoryitem: pagenatedCategory;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';  // App 관련 스타일 파일
-import CategoryItemList from './components/CategoryListitem';  // CategoryItemList 컴포넌트 가져오기
-import OshiListItem from 'components/OshiListItem';
+import CategoryItemList from './components/View-CategoryPage/CategoryListitem/CategoryView';  // CategoryItemList 컴포넌트 가져오기
+import OshiListItem from 'components/View-CategoryPage';
 import { goodsmock,oshimock,categorymock } from 'mocks';
 function App() {
   return (

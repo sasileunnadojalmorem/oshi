@@ -35,7 +35,7 @@ export default function Dropdown({ goodsTypes }: DropdownProps) {
           <input
             type='text'
             className='dropdown-search'
-            placeholder='검색...'
+              placeholder='검색...'
             value={searchTerm}
             onChange={handleSearchChange}
           />

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../pasing/style.css';
+import './style.css';
 interface PageItemProps {
   pageNumber: number;
   isActive: boolean;
