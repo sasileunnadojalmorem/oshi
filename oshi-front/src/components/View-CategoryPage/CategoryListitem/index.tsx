@@ -1,8 +1,8 @@
 import React from 'react';
 import './style.css';
-import CategoryItem from './categoryItem';
+import CategoryItem from './CategoryView/categoryItem';
 import { pagenatedmock } from 'mocks';
-import CategoryPasing from '../pasing/categoryPasing';
+import CategoryPasing from './pasing/categoryPasing';
 export default function CategoryItemList() {
   return (
     <div className='category-item-list'>

@@ -52,6 +52,7 @@
 }
 
 .goods-type {
+    color:purple;
     position: relative;
     max-width: 200px;
     word-wrap: break-word; /* 단어를 자동으로 줄바꿈 */
