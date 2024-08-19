@@ -14,7 +14,7 @@ export default function CategoryItemList() {
           />
         ))}
       </div>
-      <CategoryPasing categoryitem={pagenatedmock}></CategoryPasing>
+      <CategoryPasing pageitem={pagenatedmock}></CategoryPasing>
 
     </div>
   );

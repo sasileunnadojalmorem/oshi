@@ -4,7 +4,7 @@ const goodsmock: Goodsitem[] = [
     {
         goodsId: 1,
         goodsName: "아이유 포스터",
-        goodsImage: "https://example.com/iu-poster.jpg",
+        goodsImage: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSoYbbtK5Lg__VZyBeun21VoEJmsOWcz2yczGdB7vw5RSkb39gL",
         description: "아이유의 2024 시즌 포스터",
         viewCount: 1000,
         favoriteCount: 250,

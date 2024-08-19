@@ -3,5 +3,5 @@ import Goodsitem from "./goodsitem/Goods.interface";
 
 export default interface PageinatedGoods{
     Goods: Goodsitem[];
-    pagination: goodspageinfo;
+    Pageinfo: goodspageinfo;
 }

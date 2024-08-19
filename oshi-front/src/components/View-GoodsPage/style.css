@@ -1,0 +1,18 @@
+/* Flexbox로 줄 나누기 */
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    
+    padding: 20px; /* 패딩 조정 *
+    width: 100%; /* 전체 너비 설정 */
+    max-width: 1440px; /* 최대 너비 설정 */
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.1),  /* 첫 번째 그림자 */
+        0 8px 16px rgba(0, 0, 0, 0.1), /* 두 번째 그림자 */
+        0 16px 24px rgba(0, 0, 0, 0.1); /* 세 번째 그림자 */
+  }
+  

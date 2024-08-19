@@ -1,12 +1,12 @@
 import React from 'react';
-import { pagenatedCategory } from 'types/interface';
-import PageItem from './page-item';
+import { PagenatedGoods } from 'types/interface';
+import PageItem from 'components/View-CategoryPage/CategoryListitem/pasing/page-item'
 import './style.css';
 interface Props {
-  pageitem: pagenatedCategory;
+  pageitem: PagenatedGoods;
 }
 
-export default function CategoryPasing({ pageitem }: Props) {
+export default function GoodsPasing({ pageitem }: Props) {
   const { Pageinfo } = pageitem;
   const { currentPage, totalPages } = Pageinfo;
 
