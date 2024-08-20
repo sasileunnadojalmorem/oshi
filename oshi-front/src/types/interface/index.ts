@@ -6,7 +6,7 @@ import UserItem from "./User.interface";
 import Goodstypeitem from "./Goodstype.interface";
 import PagenatedGoods from "./PagenatedGoodsItems.interface";
 import pagenatedCategory from "./PagenatedCategoryitems.interface";
-
+import Categoryitem from "./categoryitem/Category.interface";
 export type {
     
     Goodstypeitem,
@@ -17,5 +17,6 @@ export type {
     UserItem,
     PagenatedGoods,
     pagenatedCategory,
+    Categoryitem
     
 }

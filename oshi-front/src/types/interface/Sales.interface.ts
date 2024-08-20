@@ -4,7 +4,7 @@ export default interface Salesitem {
     oshiImage: string | null;
     categoryid: number;
     categoryname: string;
-    categorytype: 'OFFICIAL' | 'NONOFFICIAL';
+    categorytype: '공식' | '비공식';
     goodsid: number;
     goodsname: string;
     goodsImage: string | null;

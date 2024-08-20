@@ -19,7 +19,7 @@ export default function GoodsItemList({ goodsitem }: Props) {
               style={{
                 backgroundImage: `url(${goods.goodsImage ? goods.goodsImage : defaultimg})`,
               }}
-            ></div>
+            ></div> 
           </div>
           <div className="goods-item-middle">
             <div className="goods-type">{goods.goodsType}</div>

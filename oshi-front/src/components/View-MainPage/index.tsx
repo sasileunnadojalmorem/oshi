@@ -21,7 +21,7 @@ export default function View_MainPage() {
                 oshiName: value.oshiName
               }}
             />
-          ))}
+          ))}       
           {/* middleAddBox 컴포넌트 추가 */}
           <MiddleAddBox></MiddleAddBox>
         </div>

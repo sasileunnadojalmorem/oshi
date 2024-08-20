@@ -7,6 +7,15 @@
   justify-content: center;
   cursor: pointer;
 }
+.icon-box{
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+}
 
 
 .icon-button:hover{
@@ -31,4 +40,8 @@
 
 .expand-light-off-icon{
   background-image: url(assets/Eye.png);
+}
+
+.oshi-logo{
+  background-image: url(assets/default\ image.jpg);
 }
