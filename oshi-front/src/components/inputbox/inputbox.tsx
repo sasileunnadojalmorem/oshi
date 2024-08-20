@@ -1,22 +1,38 @@
-import React, { forwardRef} from 'react';
+import React, { ChangeEvent, forwardRef, Dispatch, SetStateAction } from 'react';
 import './style.css';
 
-interface Props  { 
-  // 추가적인 prop을 필요로 한다면 여기에 정의
+interface Props { 
+  label: string;
+  type: 'text' | 'password';
+  error: boolean;
+  placeholder: string;
+  value: string;
+  setvalue: Dispatch<SetStateAction<string>>;
 }
 
 const Inputbox = forwardRef<HTMLInputElement, Props>((props, ref) => {
+
+  const { label, type, error, placeholder, value, setvalue } = props;
+
+  // 이벤트 핸들러: 인풋 값 변경 이벤트 처리 함수
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setvalue(event.target.value);  // 입력된 값으로 상태 업데이트
+  }
+
   return (
     <div className='inputbox'>
-      <div className="inputbox-label">{'비밀번호*'}</div>
-      <div className="inputbox-container">
+      <div className="inputbox-label">{label}</div>
+      <div className={error ? 'inputbox-container-error' : 'inputbox-container'}>
         <input 
+          type={type} 
           className='input' 
-          ref={ref} 
-          {...props} // props를 전달하여 사용자가 넘긴 속성들도 포함되도록 처리
+          placeholder={placeholder} 
+          value={value} 
+          onChange={onChangeHandler}  // onChange 이벤트 핸들러 추가
+          ref={ref}  // forwardRef로 받은 ref를 input에 연결
         />
-        <div className='input-icon'>
-          <div className=''></div>
+        <div className='icon-button'>
+          <div className='icon eye-light-off-icon'></div>
         </div>
       </div>
       <div className="inputbox-message">{'비밀번호는 8자리 이상 입력해주세요'}</div>

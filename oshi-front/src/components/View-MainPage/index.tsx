@@ -4,6 +4,7 @@ import { oshimock } from 'mocks';
 import MiddleOshiBox from './middle/middleOshiBox';
 import project_description from 'assets/project-header.png';
 import MiddleAddBox from './middle/middleAddBox';
+import OshiListView from 'components/OshiListView/oshilistview';
 export default function View_MainPage() {
   return (
     <div className='mainpage'>
@@ -13,7 +14,7 @@ export default function View_MainPage() {
       <div className='middle'>
         <div className="middle-box">
           {oshimock.map((value, index) => (
-            <MiddleOshiBox
+            <OshiListView
               key={value.oshiId}
               Oshiinfo={{
                 oshiId: value.oshiId,
@@ -23,7 +24,6 @@ export default function View_MainPage() {
             />
           ))}       
           {/* middleAddBox 컴포넌트 추가 */}
-          <MiddleAddBox></MiddleAddBox>
         </div>
         <div className='bottom'></div>
       </div>
