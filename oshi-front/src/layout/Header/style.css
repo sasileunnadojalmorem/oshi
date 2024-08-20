@@ -1,0 +1,51 @@
+.footer{
+    background-color:darkgray;
+    padding: 40px 0 50px 0;
+    display: flex;
+    justify-content: center;
+}
+.footer-top{
+    min-width: 1200px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center ;
+}
+.footer-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;    
+}   
+.footer-link-box{
+    display: flex;
+    align-self: center;
+    gap:20px;   
+    
+}
+.footer-logo-box{
+    display: flex;
+    flex-direction: row;
+    gap:15px;
+}
+
+.text{
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    align-items: center ;
+    text-align:center ;
+}
+.copy-light{
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    align-items: center ;
+    text-align:center ;
+
+}
+
+.footer-bottom{
+    width: 100%; /* 중앙 정렬 유지 */
+    display: flex;
+}

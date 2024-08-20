@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
-export default function index() {
+export default function Salesadd() {
   return (
-    <div>index</div>
+    <div>굿즈 판매하기</div>
   )
 }
