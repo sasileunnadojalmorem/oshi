@@ -16,12 +16,14 @@ import Salesupdate from 'views/sale/update';
 import Container from 'layout/container';
 import { ADD_PATH, AUTH_PATH, CATEGORY_PATH, GOODS_DETAIL_PATH, GOODS_PATH, GOODS_UPDATE_PATH, MAIN_PATH, OSHI_PATH, OSHI_SHOW_PATH, SALE_PATH, SALES_DETAIL_PATH, SALES_UPDATE_PATH, USER_PATH } from 'constant';
 import View_MainPage from 'components/View-MainPage';
+import View_Myoshi from 'components/OshiListView';
+import Header from 'layout/Header';
 function App() {
 
   return (
     <Router>
       <Routes>
-      <Route path={MAIN_PATH()} element={<View_MainPage/>}/>
+      <Route path={MAIN_PATH()} element={<Header/>}/>
 
       </Routes>
       {/* Container 컴포넌트를 사용하여 헤더, 푸터와 함께 페이지 렌더 */}

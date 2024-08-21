@@ -49,7 +49,7 @@ interface Props {
           </div>
         </div>
         <div className='oshi-list-item-bottom'>
-          <Dropdown goodsTypes={goodsTypes} />
+          <Dropdown Types={goodsTypes} />
           <div className='oshi-list-item-goods-sort'>
             <div className='oshi-list-item-goods-recent'>{'최신순'}</div>
             <div className='oshi-list-item-goods-newest'>{'발매순'}</div>
