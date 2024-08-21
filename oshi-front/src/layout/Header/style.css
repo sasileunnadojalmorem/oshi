@@ -65,7 +65,7 @@
     border-radius: 8px;
     padding: 5px 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 300px;
 }
 
 .header-search-input {
@@ -82,3 +82,30 @@
 }
 
 
+.log-in-button-box{
+/* Frame 27 */
+
+/* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px ;
+    gap: 10px;
+
+    width: 70px;
+    height: 30px;
+    /* black 100 */
+    background: #000000;
+    border-radius: 46px;
+    cursor: pointer;
+
+}
+.log-in-button-text{
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 19.6px;
+    text-align: center;
+
+}
