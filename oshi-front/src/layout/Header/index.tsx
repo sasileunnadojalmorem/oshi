@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
-import { MAIN_PATH } from 'constant';
+import { AUTH_PATH, MAIN_PATH, USER_PATH } from 'constant';
 import View_Myoshi from 'components/OshiListView';
 import Dropdown from 'components/View-CategoryPage/dropdown';
 import { Goodstypeitem } from 'types/interface';
-
+import { Cookies,useCookies } from 'react-cookie';
+import User from 'views/User';
 export default function Header() {
   const navigate = useNavigate();
+  //  state : cookie 상태 //
+  const [cookie,setCookie] = useCookies();
+  //  state: log-in상태
+  const [islogin,setLogin] = useState<boolean>(false);
   
-  // * 네비게이션 핸들러 함수입니다.
+  
+  // function: 네비게이션 핸들러 함수입니다.
   const onoshilogclickhandler = () => {
     navigate(MAIN_PATH());
-  };
+  };  
 
   // # Types 예시 데이터 (실제 데이터로 교체해야 함)
   const Types: Goodstypeitem = {
@@ -31,8 +37,26 @@ export default function Header() {
 
   const LoginMypageButton = () =>{
 
+    // event handler 마이페이지 클릭 이벤트 처리 함수
+    const onMyPageButtonClickHandler = () => {
+      navigate(USER_PATH('')); 
+    };
+    // event handler 로그아웃 클릭 이벤트 처리 함수
+    const onLogOutButtonClickHandler = () =>{
+      setLogin(false);
+    };
+    // event handler 로그인 클릭 이벤트 처리 함수
+    const onLogInButtonClickHandler = () => {
+      navigate(AUTH_PATH());
+    }
+    // render 로그인 상태 컴포넌트 랜더
+    return <div className='header-user-box'>
+                <div className='button-box' onClick={onMyPageButtonClickHandler}><div className='button-text'>{'마이 페이지'}</div></div>
+                <div className='log-out-button-box button-box' onClick={onLogOutButtonClickHandler}><div className='button-text'>{'로그 아웃'}</div></div>
+            </div>
     // render 로그인 컴포넌트 랜더
-    return <div className='log-in-button-box'><div className='log-in-button-text'>{'로그인'}</div></div>
+    return <div className='log-in-button-box' onClick={onLogInButtonClickHandler}><div className='button-text'>{'로그인'}</div></div>
+
 
   }
 
@@ -104,7 +128,7 @@ export default function Header() {
           </div>
         </div>
         <div className='header-bottom'>
-          <div className='header-user-box'><LoginMypageButton/></div>
+          <LoginMypageButton/>
         </div>
       </div>
     </div>

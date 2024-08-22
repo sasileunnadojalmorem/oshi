@@ -30,9 +30,17 @@
 .header-bottom {
     width: 100%;
     display: flex;
-    justify-content: center; /* 중앙 정렬 유지 */
+    justify-content: center;
+    align-items: center;
 }
+.header-user-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
 
+}
 .header-logo-box {
     display: flex;
     gap: 10px; /* 로고와 텍스트 간격 조정 */
@@ -82,7 +90,7 @@
 }
 
 
-.log-in-button-box{
+.log-in-button-box,.button-box{
 /* Frame 27 */
 
 /* Auto layout */
@@ -101,7 +109,7 @@
     cursor: pointer;
 
 }
-.log-in-button-text{
+.button-text{
     color: white;
     font-size: 14px;
     font-weight: 500;
@@ -109,3 +117,4 @@
     text-align: center;
 
 }
+
