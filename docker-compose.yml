@@ -1,0 +1,34 @@
+services:
+  frontend:
+    build: ./oshi-front
+    ports:
+      - "3000:80"
+    networks:
+      - mynetwork
+
+  backend:
+    build: ./ohsi-back
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/oshi
+      - SPRING_DATASOURCE_USERNAME=jasmin
+      - SPRING_DATASOURCE_PASSWORD=d4583558
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: d4583558
+      MYSQL_DATABASE: oshi
+    ports:
+      - "3307:3306"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
