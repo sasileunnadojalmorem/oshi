@@ -20,8 +20,8 @@ import View_Myoshi from 'components/OshiListView';
 import Header from 'layout/Header';
 function App() {
 
-  return (
-    <Router>
+    return (
+      <Router>
       <Routes>
       <Route path={MAIN_PATH()} element={<Header/>}/>
 

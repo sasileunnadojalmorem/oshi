@@ -1,5 +1,5 @@
-import ResponseDto from "./response.dto";
+import ResponseDto from "./Response.dto";
 
 export type{
-    ResponseDto,
-}
+    ResponseDto
+};

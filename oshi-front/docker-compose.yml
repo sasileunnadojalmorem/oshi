@@ -1,13 +1,11 @@
-# 또는 다른 유효한 버전 번호
+version: '3'  # 또는 다른 유효한 버전 번호
 services:
   frontend:
-    build: ./
+    image: deao3558/oshi-frontend:latest  # Docker Hub에 있는 이미지를 사용
     ports:
       - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
-      
     environment:
       - NODE_ENV=development
-   

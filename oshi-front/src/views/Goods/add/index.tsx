@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
-export default function index() {
+export default function Goodsadd() {
   return (
-    <div>index</div>
+    <div>굿즈 추가</div>
   )
 }
