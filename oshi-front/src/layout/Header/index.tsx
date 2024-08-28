@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import './style.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AUTH_PATH, MAIN_PATH, USER_PATH } from 'constant';
 import View_Myoshi from 'components/OshiListView';
 import Dropdown from 'components/View-CategoryPage/dropdown';
 import { Goodstypeitem } from 'types/interface';
 import { Cookies,useCookies } from 'react-cookie';
 import User from 'views/User';
+import { useLoginUserStore } from 'stores';
 export default function Header() {
   const navigate = useNavigate();
   //  state : cookie 상태 //
   const [cookie,setCookie] = useCookies();
+
+  //state : 로그인 유저 상태
+  const {loginUser,setLoginUser,resetloginuser} = useLoginUserStore();
   //  state: log-in상태
   const [islogin,setLogin] = useState<boolean>(false);
   
@@ -37,25 +41,42 @@ export default function Header() {
 
   const LoginMypageButton = () =>{
 
+    // state user email path variable 상태
+    const { userEmail }  = useParams();
+
     // event handler 마이페이지 클릭 이벤트 처리 함수
     const onMyPageButtonClickHandler = () => {
-      navigate(USER_PATH('')); 
+      if(!loginUser) return;
+      const {userEmail} = loginUser;
+      navigate(USER_PATH(userEmail)); 
     };
     // event handler 로그아웃 클릭 이벤트 처리 함수
     const onLogOutButtonClickHandler = () =>{
-      setLogin(false);
+      resetloginuser();
+      navigate(MAIN_PATH());
+    
     };
     // event handler 로그인 클릭 이벤트 처리 함수
     const onLogInButtonClickHandler = () => {
       navigate(AUTH_PATH());
     }
-    // render 로그인 상태 컴포넌트 랜더
+    // render 로그인 상태 로그아웃 컴포넌트 랜더
+    if (islogin && loginUser?.userEmail === userEmail)
     return <div className='header-user-box'>
                 <div className='button-box' onClick={onMyPageButtonClickHandler}><div className='button-text'>{'마이 페이지'}</div></div>
                 <div className='log-out-button-box button-box' onClick={onLogOutButtonClickHandler}><div className='button-text'>{'로그 아웃'}</div></div>
             </div>
-    // render 로그인 컴포넌트 랜더
+    // render 로그인 상태 마이페이지 컴포넌트 렌더
+    if(islogin)
+      return <div className='header-user-box'>
+    <div className='button-box' onClick={onMyPageButtonClickHandler}><div className='button-text'>{'마이 페이지'}</div></div>
+    </div>
+
+    // render 로그인 버튼 컴포넌트 랜더
+    
+    if(!islogin)
     return <div className='log-in-button-box' onClick={onLogInButtonClickHandler}><div className='button-text'>{'로그인'}</div></div>
+    return null;
 
 
   }

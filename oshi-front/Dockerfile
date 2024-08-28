@@ -1,27 +1,23 @@
-# Node.js 이미지를 기반으로 설정
-FROM node:14 as build
+# Node.js 이미지를 기반으로 하는 도커 이미지 생성
+FROM node:14
 
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# 의존성 설치를 위해 package.json과 package-lock.json 복사
+# 의존성 설치를 위해 package.json과 package-lock.json을 복사
 COPY package*.json ./
 
 # 의존성 설치
 RUN npm install
 
-# 소스 코드 복사
+# 프로젝트 소스를 컨테이너에 복사
 COPY . .
 
-# 애플리케이션 빌드
+# 앱 빌드
 RUN npm run build
 
-# Nginx를 사용하여 정적 파일 제공
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+# 앱을 3000 포트에서 실행
+EXPOSE 3000
 
-# Nginx 포트 설정
-EXPOSE 80
-
-# Nginx 실행
-CMD ["nginx", "-g", "daemon off;"]
+# 앱 실행
+CMD ["npm", "start"]

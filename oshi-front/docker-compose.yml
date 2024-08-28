@@ -1,0 +1,13 @@
+# 또는 다른 유효한 버전 번호
+services:
+  frontend:
+    build: ./
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      
+    environment:
+      - NODE_ENV=development
+   
