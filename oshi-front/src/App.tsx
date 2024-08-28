@@ -24,7 +24,7 @@ function App() {
     return (
       <Router>
       <Routes>
-      <Route path={MAIN_PATH( )} element={<footer/>}/>
+      <Route path={MAIN_PATH( )} element={<Header/>}/>
 
       </Routes>
       {/* Container 컴포넌트를 사용하여 헤더, 푸터와 함께 페이지 렌더 */}
