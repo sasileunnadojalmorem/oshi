@@ -18,12 +18,13 @@ import { ADD_PATH, AUTH_PATH, CATEGORY_PATH, GOODS_DETAIL_PATH, GOODS_PATH, GOOD
 import View_MainPage from 'components/View-MainPage';
 import View_Myoshi from 'components/OshiListView';
 import Header from 'layout/Header';
+import Footer from 'layout/Footer';
 function App() {
 
     return (
       <Router>
       <Routes>
-      <Route path={MAIN_PATH()} element={<Header/>}/>
+      <Route path={MAIN_PATH( )} element={<footer/>}/>
 
       </Routes>
       {/* Container 컴포넌트를 사용하여 헤더, 푸터와 함께 페이지 렌더 */}
