@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
-export default function index() {
+export default function User() {
   return (
-    <div>index</div>
+    <div>이용자 정보</div>
   )
 }
