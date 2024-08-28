@@ -7,7 +7,6 @@ WORKDIR /app
 # 의존성 설치를 위해 package.json과 package-lock.json을 복사
 COPY package*.json ./
 
-RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
 # 의존성 설치
 RUN npm install
