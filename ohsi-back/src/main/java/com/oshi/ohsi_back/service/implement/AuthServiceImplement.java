@@ -1,16 +1,17 @@
 package com.oshi.ohsi_back.service.implement;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oshi.ohsi_back.dto.request.auth.SignInRequestDto;
 import com.oshi.ohsi_back.dto.request.auth.SignUpRequestDto;
 import com.oshi.ohsi_back.dto.response.ResponseDto;
 import com.oshi.ohsi_back.dto.response.auth.SignUpResponseDto;
+import com.oshi.ohsi_back.dto.response.auth.SigninResponseDto;
 import com.oshi.ohsi_back.entity.UserEntity;
+import com.oshi.ohsi_back.provider.jwtProvide;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.AuthService;
 
@@ -23,6 +24,7 @@ public class AuthServiceImplement implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final jwtProvide jwtProvider;
 
     @Override
     public ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto) {
@@ -51,5 +53,33 @@ public class AuthServiceImplement implements AuthService {
         }
 
         return SignUpResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super SigninResponseDto> signIn(SignInRequestDto dto) {
+
+        String token = null;
+        try {   
+
+            String email = dto.getEmail();
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if( userEntity == null ) return SigninResponseDto.SIGN_IN_FAILED();
+
+            String password = dto.getPassword();
+            String encodedPassword = userEntity.getPassword();
+            boolean isMatch = passwordEncoder.matches(password, encodedPassword);
+            if( !isMatch) return SigninResponseDto.SIGN_IN_FAILED();
+
+            
+            token = jwtProvider.create(email);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  ResponseDto.databaseError();
+
+        }
+
+        return SigninResponseDto.success(token);
     }
 }

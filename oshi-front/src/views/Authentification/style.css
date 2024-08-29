@@ -1,0 +1,78 @@
+.auth-wrapper{
+    background-color: antiquewhite;
+    padding: 100px 0 100px;
+    min-width: 1440px;
+    height: calc(100vh-64px-100px-150px);
+    min-height: 960px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-container{
+
+    width: 1200px;
+    height: 100%;
+
+    background: #D9D9D9;
+    border-radius: 79px;
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    column-gap: 78px;
+}   
+
+.auth-jumbotron-box{
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+    align-items: center;
+    /* Rectangle 25 */
+
+
+
+
+}
+
+.auth-jumbtoron-content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.auth-jumbtoron-logo{
+    width: 50px;
+    height: 50px;
+    background-image: url(assets/Eye.png);
+    background-position: 50%50%;
+    background-repeat:no-repeat ;
+}
+
+
+.auth-jumbtoron-text-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.auth-jumbotron-text{
+    /* PROJECT */
+
+    
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 64px;
+    line-height: 64px;
+    /* identical to box height, or 100% */
+
+    color: #AD49C6;
+
+
+}

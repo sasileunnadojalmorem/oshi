@@ -1,5 +1,6 @@
 package com.oshi.ohsi_back.dto.request.auth;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -12,10 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignInRequestDto {
-    @NotBlank
+    @NotBlank@Email
     private String email;
     @NotBlank
     private String password;
+ 
     
 
     

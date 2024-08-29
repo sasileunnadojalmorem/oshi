@@ -33,7 +33,7 @@ public class jwtProvide {
         // .setIssuedAt()은 JWT가 발행된 시간을 설정합니다.
         // .setExpiration()은 JWT의 만료 시간을 설정합니다.
         String jwt = Jwts.builder()
-            .signWith(SignatureAlgorithm.ES256, secretkey)
+            .signWith(SignatureAlgorithm.HS256, secretkey)
             .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration(expiredDate)

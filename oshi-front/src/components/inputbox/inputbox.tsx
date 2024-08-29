@@ -1,4 +1,4 @@
-import React, { ChangeEvent, forwardRef, Dispatch, SetStateAction } from 'react';
+import React, { ChangeEvent, forwardRef, Dispatch, SetStateAction, KeyboardEvent } from 'react';
 import './style.css';
 
 interface Props { 
@@ -8,11 +8,17 @@ interface Props {
   placeholder: string;
   value: string;
   setvalue: Dispatch<SetStateAction<string>>;
+
+  icon?: 'eye-light-off-icon' | 'eye-light-on-icon';  
+  onButtonClick?: () => void; 
+
+  message?: string;  // 에러 메시지 
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void; // onKeyDown 이벤트 핸들러 
 }
 
 const Inputbox = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
-  const { label, type, error, placeholder, value, setvalue } = props;
+  const { label, type, error, placeholder, value, setvalue, icon, onButtonClick, message, onKeyDown } = props;
 
   // 이벤트 핸들러: 인풋 값 변경 이벤트 처리 함수
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,13 +35,16 @@ const Inputbox = forwardRef<HTMLInputElement, Props>((props, ref) => {
           placeholder={placeholder} 
           value={value} 
           onChange={onChangeHandler}  // onChange 이벤트 핸들러 추가
+          onKeyDown={onKeyDown}  // onKeyDown 이벤트 핸들러 추가
           ref={ref}  // forwardRef로 받은 ref를 input에 연결
         />
-        <div className='icon-button'>
-          <div className='icon eye-light-off-icon'></div>
-        </div>
+        {icon && (
+          <div className='icon-button' onClick={onButtonClick}>
+            <div className={`icon ${icon}`}></div>
+          </div>
+        )}
       </div>
-      <div className="inputbox-message">{'비밀번호는 8자리 이상 입력해주세요'}</div>
+      <div className="inputbox-message">{message || ''}</div>
     </div>
   );
 });
