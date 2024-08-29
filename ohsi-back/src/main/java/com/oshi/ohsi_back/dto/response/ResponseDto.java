@@ -21,4 +21,9 @@ public class ResponseDto {
         ResponseDto responseBody = new ResponseDto(Responsecode.DATABASE_ERROR, Responsemessage.DATABASE_ERROR);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
     }
+
+    public static ResponseEntity<ResponseDto> validateFailed() {
+        ResponseDto responseBody = new ResponseDto(Responsecode.VALIDATION_FAILED, Responsemessage.VALIDATION_FAILED);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
 }

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, forwardRef, Dispatch, SetStateAction, KeyboardEvent } from 'react';
+import React, { ChangeEvent, forwardRef,  KeyboardEvent } from 'react';
 import './style.css';
 
 interface Props { 
@@ -7,8 +7,7 @@ interface Props {
   error: boolean;
   placeholder: string;
   value: string;
-  setvalue: Dispatch<SetStateAction<string>>;
-
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   icon?: 'eye-light-off-icon' | 'eye-light-on-icon';  
   onButtonClick?: () => void; 
 
@@ -18,12 +17,9 @@ interface Props {
 
 const Inputbox = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
-  const { label, type, error, placeholder, value, setvalue, icon, onButtonClick, message, onKeyDown } = props;
+  const { label, type, error, placeholder, value, onChange, icon, onButtonClick, message, onKeyDown } = props;
 
-  // 이벤트 핸들러: 인풋 값 변경 이벤트 처리 함수
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setvalue(event.target.value);  // 입력된 값으로 상태 업데이트
-  }
+
 
   return (
     <div className='inputbox'>
@@ -32,9 +28,9 @@ const Inputbox = forwardRef<HTMLInputElement, Props>((props, ref) => {
         <input 
           type={type} 
           className='input' 
-          placeholder={placeholder} 
+          placeholder={placeholder}     
           value={value} 
-          onChange={onChangeHandler}  // onChange 이벤트 핸들러 추가
+          onChange={onChange}  // onChange 이벤트 핸들러 추가
           onKeyDown={onKeyDown}  // onKeyDown 이벤트 핸들러 추가
           ref={ref}  // forwardRef로 받은 ref를 input에 연결
         />

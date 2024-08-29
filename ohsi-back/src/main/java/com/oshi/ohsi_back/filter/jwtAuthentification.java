@@ -59,7 +59,6 @@ public class jwtAuthentification extends OncePerRequestFilter {
                     SecurityContextHolder.setContext(securityContext);
                     
                 } catch (Exception e) {
-                    // TODO: handle exception
                     e.printStackTrace();
 
                 }
