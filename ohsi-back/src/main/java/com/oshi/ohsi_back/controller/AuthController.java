@@ -23,6 +23,7 @@ public class AuthController {
     
     private final AuthService authService;
 
+    
     @PostMapping("/sign-up")
     public ResponseEntity<? super SignUpResponseDto> signUp(
         @RequestBody @Valid SignUpRequestDto requestBody

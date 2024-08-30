@@ -15,7 +15,7 @@ import com.oshi.ohsi_back.service.Fileservice;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/api/user/file")
 @RequiredArgsConstructor
 public class Filecontrollor {
 
