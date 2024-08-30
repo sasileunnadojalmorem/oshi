@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.oshi.ohsi_back.common.ImageType;
 import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
+import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
 
 import lombok.*;
 
@@ -32,10 +33,18 @@ public class ImageEntity {
     @Column(name = "reference_id", nullable = false)
     private int reference_id;
 
-   
+    public ImageEntity(oshiRequestDto dto,Integer id)
+    {
+        this.type = ImageType.OSHI;
+        this.reference_id = id;
+        this.url = dto.getProfileImageUrl();    
+
+
+   }
 
     public ImageEntity(ImageRequestDto dto){
         this.type = dto.getType();
         this.reference_id = dto.getReferenceId();
     }
+
 }

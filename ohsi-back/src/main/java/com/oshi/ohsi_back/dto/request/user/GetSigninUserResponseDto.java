@@ -17,7 +17,7 @@ public class GetSigninUserResponseDto extends ResponseDto {
     private int userId;
     private String email;
     private String username;
-    private int profileImage;
+    private String profileImageUrl;
 
 
     //
@@ -27,7 +27,7 @@ public class GetSigninUserResponseDto extends ResponseDto {
         this.email = userEntity.getEmail();
         this.userId = userEntity.getUserid();
         this.username = userEntity.getUsername();
-        this.profileImage = userEntity.getProfileImage();
+        this.profileImageUrl = userEntity.getProfileImageUrl();
         
     }
 

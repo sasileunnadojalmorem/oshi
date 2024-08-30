@@ -6,4 +6,5 @@ import com.oshi.ohsi_back.entity.OshiEntity;
 
 @Repository
 public interface OshiRepository extends JpaRepository<OshiEntity, Integer> {
+    
 }

@@ -17,7 +17,7 @@ public class ImageRequestDto {
 
     @NotNull
     private ImageType type;
-
+    
     @NotNull
     private int referenceId;
 

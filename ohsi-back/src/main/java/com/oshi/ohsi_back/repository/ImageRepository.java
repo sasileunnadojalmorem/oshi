@@ -6,4 +6,6 @@ import com.oshi.ohsi_back.entity.ImageEntity;
 
 @Repository
 public interface ImageRepository extends JpaRepository<ImageEntity, Integer> {
+    
+
 }

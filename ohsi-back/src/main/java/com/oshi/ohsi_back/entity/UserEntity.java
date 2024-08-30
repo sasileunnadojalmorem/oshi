@@ -27,7 +27,7 @@ public class UserEntity {
     private String username;
 
     @Column(nullable = true ,name = "profile_image_id")
-    private int profileImage;
+    private String profileImageUrl;
     
     
     // SignUpRequestDto를 사용하는 생성자
