@@ -22,6 +22,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/oshi
       - SPRING_DATASOURCE_USERNAME=jasmin
       - SPRING_DATASOURCE_PASSWORD=d4583558
+      - file.path=/app/fileImage/  # 도커 컨테이너 내에서 사용할 파일 경로
+      - file.url=http://localhost:8080/file/
     depends_on:
       - db
     networks:
