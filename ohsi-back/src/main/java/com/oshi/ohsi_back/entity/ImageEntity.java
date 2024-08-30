@@ -1,7 +1,13 @@
 package com.oshi.ohsi_back.entity;
 
 import javax.persistence.*;
+
+import com.oshi.ohsi_back.common.ImageType;
+import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
+
 import lombok.*;
+
+
 
 @Entity
 @Table(name = "images")
@@ -26,7 +32,10 @@ public class ImageEntity {
     @Column(name = "reference_id", nullable = false)
     private int reference_id;
 
-    public enum ImageType {
-        GOODS, OSHI, USER, SALES
+   
+
+    public ImageEntity(ImageRequestDto dto){
+        this.type = dto.getType();
+        this.reference_id = dto.getReferenceId();
     }
 }

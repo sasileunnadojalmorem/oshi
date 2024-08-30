@@ -29,7 +29,7 @@ public class UserEntity {
     @Column(nullable = true ,name = "profile_image_id")
     private int profileImage;
     
-
+    
     // SignUpRequestDto를 사용하는 생성자
     public UserEntity(SignUpRequestDto dto) {
 
