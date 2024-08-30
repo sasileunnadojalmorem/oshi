@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './style.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AUTH_PATH, MAIN_PATH, USER_PATH } from 'constant';
 import View_Myoshi from 'components/OshiListView';
 import Dropdown from 'components/View-CategoryPage/dropdown';
 import { Goodstypeitem } from 'types/interface';
-import { Cookies,useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import User from 'views/User';
 import { useLoginUserStore } from 'stores';
 export default function Header() {
@@ -16,7 +16,13 @@ export default function Header() {
   //state : 로그인 유저 상태
   const {loginUser,setLoginUser,resetloginuser} = useLoginUserStore();
   //  state: log-in상태
+
   const [islogin,setLogin] = useState<boolean>(false);
+  
+  // effect :   로그인 유저 상태 변경시 실행되는 이펙트 
+  useEffect(() => {
+    setLogin(loginUser !== null);
+  }, [loginUser]);
   
   
   // function: 네비게이션 핸들러 함수입니다.
@@ -53,6 +59,7 @@ export default function Header() {
     // event handler 로그아웃 클릭 이벤트 처리 함수
     const onLogOutButtonClickHandler = () =>{
       resetloginuser();
+      setCookie('accessToken', '', { expires: new Date() });
       navigate(MAIN_PATH());
     
     };

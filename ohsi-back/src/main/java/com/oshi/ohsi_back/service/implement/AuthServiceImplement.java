@@ -11,7 +11,7 @@ import com.oshi.ohsi_back.dto.response.ResponseDto;
 import com.oshi.ohsi_back.dto.response.auth.SignUpResponseDto;
 import com.oshi.ohsi_back.dto.response.auth.SigninResponseDto;
 import com.oshi.ohsi_back.entity.UserEntity;
-import com.oshi.ohsi_back.provider.jwtProvide;
+import com.oshi.ohsi_back.provider.jwtProvider;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.AuthService;
 
@@ -24,7 +24,7 @@ public class AuthServiceImplement implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final jwtProvide jwtProvider;
+    private final jwtProvider jwtProvider;
 
     @Override
     public ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto) {

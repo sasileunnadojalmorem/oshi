@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.oshi.ohsi_back.provider.jwtProvide;
+import com.oshi.ohsi_back.provider.jwtProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +30,7 @@ public class jwtAuthentification extends OncePerRequestFilter {
 
     // jwtProvide 클래스의 인스턴스를 주입받아 사용합니다. 
     // 이 클래스는 JWT를 생성하고 검증하는 기능을 제공합니다.
-    private final jwtProvide jwtProvide;
+    private final jwtProvider jwtProvide;
 
     // 이 메서드는 각 HTTP 요청에 대해 한 번씩 호출되며, 요청을 필터링하고, 필터 체인을 통해 다음 필터로 요청을 전달합니다.
     @Override
