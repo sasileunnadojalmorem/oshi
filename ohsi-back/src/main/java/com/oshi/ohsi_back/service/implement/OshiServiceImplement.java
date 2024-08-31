@@ -29,19 +29,18 @@ public class OshiServiceImplement implements OshiService{
         try {
 
             boolean existUser = userRepository.existsByEmail(email);
+            boolean existName = oshiRepository.existsByname(dto.getName());
+            if(existName) return OshiResponseDto.duplicationName();
             if(!existUser) return OshiResponseDto.notExistUser();
             oshiEntity = new OshiEntity(dto);
             oshiRepository.save(oshiEntity);
-            ImageEntity imageEntity = new ImageEntity(dto,oshiEntity.getOshi_id());
-            imageRepository.save(imageEntity);
-    
+            return OshiResponseDto.success(oshiEntity);
 
             
         } catch (Exception e) {
             e.printStackTrace();
             return OshiResponseDto.databaseError();
         }
-        return  OshiResponseDto.success(oshiEntity);
         
        
     }   

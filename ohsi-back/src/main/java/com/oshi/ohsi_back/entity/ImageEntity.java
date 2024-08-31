@@ -4,11 +4,8 @@ import javax.persistence.*;
 
 import com.oshi.ohsi_back.common.ImageType;
 import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
-import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
 
 import lombok.*;
-
-
 
 @Entity
 @Table(name = "images")
@@ -33,18 +30,22 @@ public class ImageEntity {
     @Column(name = "reference_id", nullable = false)
     private int reference_id;
 
-    public ImageEntity(oshiRequestDto dto,Integer id)
-    {
-        this.type = ImageType.OSHI;
-        this.reference_id = id;
-        this.url = dto.getProfileImageUrl();    
-
-
-   }
-
-    public ImageEntity(ImageRequestDto dto){
-        this.type = dto.getType();
+    public ImageEntity(ImageRequestDto dto) {
         this.reference_id = dto.getReferenceId();
-    }
+        this.url = dto.getUrl();
 
+        // dto.getType()이 문자열로 전달되는 경우 이를 ImageType enum으로 변환
+        if ("OSHI".equals(dto.getType())) {
+            this.type = ImageType.OSHI;
+        } else if ("GOODS".equals(dto.getType())) {
+            this.type = ImageType.GOODS;
+        } else if ("USER".equals(dto.getType())) {
+            this.type = ImageType.USER;
+        } else if ("SALES".equals(dto.getType())) {
+            this.type = ImageType.SALES;
+        } else {
+            // 예외 처리 또는 기본값 설정
+            throw new IllegalArgumentException("Invalid type: " + dto.getType());
+        }
+    }
 }

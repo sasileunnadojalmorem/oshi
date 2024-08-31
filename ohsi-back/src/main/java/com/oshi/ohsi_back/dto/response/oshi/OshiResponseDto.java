@@ -38,5 +38,9 @@ public class OshiResponseDto extends ResponseDto {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsebody);
 
     }
+    public static ResponseEntity<ResponseDto> duplicationName() {
+        ResponseDto result = new ResponseDto(Responsecode.DUPLICATE_NAME,Responsemessage.DUPLICATE_NAME);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+    }
     
 }

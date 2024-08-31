@@ -5,12 +5,17 @@ import { ResponseDto } from "./response";
 import { GetSignInResponseDto } from "./response/user";
 import OshiAddRequestDto from "./request/oshi/Oshiadd.request.dto";
 import OshiAddResponseDto from "./response/oshi/OshiAdd.Response.Dto";
+
+import { SaveImageResponseDto, UrlResponseDto } from "./response/image";
+import { SaveImageRequsetDto } from "./request/image";
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
 const SIGN_IN_URL = `${API_DOMAIN}/user/auth/sign-in`;
 const SIGN_UP_URL = `${API_DOMAIN}/user/auth/sign-up`;
 const GET_SIGN_IN_USER =  `${API_DOMAIN}/user`;
-const OSHI_ADD_URL = `${API_DOMAIN}/oshi/`;
+const OSHI_ADD_URL = `${API_DOMAIN}/oshi/add`;
+const SAVE_IMAGE_URL = `${API_DOMAIN}/user/file/saveImage`;
+const IMAGE_UPLOAD = `${API_DOMAIN}/user/file/upload`;
 const authorization  = (accessToken:string) =>{
     return {
         headers: {
@@ -89,5 +94,38 @@ export const OshiAddRequset = async (accessToken: string, requestBody:  OshiAddR
         })
         return result;
 }
-  
+
+
+  export const upload = async (accessToken: string, file: FormData) =>{
+    const result = await axios.post(IMAGE_UPLOAD,file,{headers: {
+        'Content-Type': 'multipart/form-data',
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+      }})
+        .then(response =>{
+                const responseBody : UrlResponseDto = response.data;
+                return responseBody;
+            })
+        .catch(error =>{
+            if(!error.response.data) return null;
+            const responseBody : ResponseDto  = error.response.data;
+            return responseBody;
+        })
+        return result;
+}
+
+export const SaveImage = async (accessToken: string,requestBody : SaveImageRequsetDto ) =>
+{
+    const result  = await axios.post(SAVE_IMAGE_URL, requestBody, authorization(accessToken))
+        .then(response =>{
+            const responseBody : SaveImageResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error =>{
+            if(!error.response) return null;
+            const responseBody : ResponseDto  = error.response.data;
+            return responseBody;
+        })
+
+        return result;
+}
     

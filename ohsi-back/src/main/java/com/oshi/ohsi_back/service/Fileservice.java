@@ -6,11 +6,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
 import com.oshi.ohsi_back.dto.response.image.ImageResponseDto;
+import com.oshi.ohsi_back.dto.response.image.UrlResponseDto;
 
 public interface Fileservice {
 
-    String upload(MultipartFile file);
-    ResponseEntity<?super ImageResponseDto> saveImage(ImageRequestDto dto, MultipartFile file);
+    ResponseEntity<? super UrlResponseDto > upload(MultipartFile file,String email);
+    ResponseEntity<? super ImageResponseDto> saveImage(ImageRequestDto dto, String email);
     Resource getImage(String fileName);
 
     

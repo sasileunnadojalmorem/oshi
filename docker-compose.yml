@@ -17,8 +17,6 @@ services:
       - "8080:4000"
     volumes:
       - ./ohsi-back:/app  # 소스 코드가 변경될 때마다 반영
-      - /app/build  # 빌드 디렉토리GitHub를 마운트하여 변경된 내용을 반영
-      - /Users/jeonjaemin/Documents/GitHub/oshi/oshi-front/src/assets:/app/fileImage  # 호스트의 fileImage 디렉토리를 컨테이너 내의 /app/fileImage 디렉토리로 마운트
 
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/oshi

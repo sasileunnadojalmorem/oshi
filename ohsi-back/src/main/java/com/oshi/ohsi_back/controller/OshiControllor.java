@@ -22,7 +22,7 @@ public class OshiControllor {
 
     private final OshiService oshiService;
 
-    @PostMapping("")
+    @PostMapping("add")
     public ResponseEntity<? super OshiResponseDto> postOshi(
         @RequestBody@Valid oshiRequestDto requestbody,
         @AuthenticationPrincipal String email

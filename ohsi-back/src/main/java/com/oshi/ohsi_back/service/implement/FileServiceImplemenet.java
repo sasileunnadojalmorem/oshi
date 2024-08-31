@@ -12,8 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
 import com.oshi.ohsi_back.dto.response.image.ImageResponseDto;
+import com.oshi.ohsi_back.dto.response.image.UrlResponseDto;
 import com.oshi.ohsi_back.entity.ImageEntity;
 import com.oshi.ohsi_back.repository.ImageRepository;
+import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.Fileservice;
 
 import lombok.RequiredArgsConstructor;
@@ -29,11 +31,12 @@ public class FileServiceImplemenet implements Fileservice {
     private String fileUrl;
     
     private final ImageRepository imageRepository;
-
+    private final UserRepository userRepository;
     @Override
-    public String upload(MultipartFile file) {
+    public ResponseEntity<? super UrlResponseDto> upload(MultipartFile file,String email) {
         if (file.isEmpty()) return null;
-
+        boolean existUser = userRepository.existsByEmail(email);
+        if(!existUser) return null;
         String originalFileName = file.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String uuid = UUID.randomUUID().toString();
@@ -47,7 +50,7 @@ public class FileServiceImplemenet implements Fileservice {
             return null;    
         }
 
-        return fileUrl + saveFileName;
+        return UrlResponseDto.success(saveFilePath);
     }
 
     @Override
@@ -61,17 +64,12 @@ public class FileServiceImplemenet implements Fileservice {
     }
 
     @Override
-    public ResponseEntity<? super ImageResponseDto> saveImage(ImageRequestDto dto, MultipartFile file) {
-        String uploadedFileUrl = upload(file); // 로컬 변수 이름을 변경
-        if (uploadedFileUrl == null) {
-            return ImageResponseDto.databaseError(); // 업로드 오류 처리
-        }
+    public ResponseEntity<? super ImageResponseDto> saveImage(ImageRequestDto dto,String email) {
 
         try {
             ImageEntity imageEntity = new ImageEntity(dto);
-            imageEntity.setUrl(uploadedFileUrl);  // 업로드된 파일 URL을 엔티티에 설정
             imageRepository.save(imageEntity);
-            return ImageResponseDto.success(); // 성공적으로 업로드된 파일 URL 반환
+            return ImageResponseDto.success(imageEntity); // 성공적으로 업로드된 파일 URL 반환
         } catch (Exception e) {
             e.printStackTrace();
             return ImageResponseDto.databaseError();

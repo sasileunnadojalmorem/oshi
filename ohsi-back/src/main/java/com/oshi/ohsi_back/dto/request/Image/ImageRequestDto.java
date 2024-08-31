@@ -16,10 +16,13 @@ import lombok.Setter;
 public class ImageRequestDto {
 
     @NotNull
-    private ImageType type;
+    private String type;
     
     @NotNull
     private int referenceId;
+
+    @NotNull
+    private String url;
 
     
 }
