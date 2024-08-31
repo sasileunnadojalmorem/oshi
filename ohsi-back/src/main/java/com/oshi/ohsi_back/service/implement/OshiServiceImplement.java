@@ -25,12 +25,12 @@ public class OshiServiceImplement implements OshiService{
 
     @Override
     public ResponseEntity<? super OshiResponseDto> postoshi(oshiRequestDto dto, String email) {
-       
+       OshiEntity oshiEntity = null;
         try {
 
             boolean existUser = userRepository.existsByEmail(email);
             if(!existUser) return OshiResponseDto.notExistUser();
-            OshiEntity oshiEntity = new OshiEntity(dto);
+            oshiEntity = new OshiEntity(dto);
             oshiRepository.save(oshiEntity);
             ImageEntity imageEntity = new ImageEntity(dto,oshiEntity.getOshi_id());
             imageRepository.save(imageEntity);
@@ -41,7 +41,7 @@ public class OshiServiceImplement implements OshiService{
             e.printStackTrace();
             return OshiResponseDto.databaseError();
         }
-        return OshiResponseDto.success();
+        return  OshiResponseDto.success(oshiEntity);
         
        
     }   

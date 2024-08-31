@@ -2,13 +2,15 @@ import axios from "axios";
 import { SignInRequestDto,SignUpRequestDto } from "./request/auth";
 import { SignInResponseDto,SignUpResponseDto } from "./response/auth";
 import { ResponseDto } from "./response";
-import { error } from "console";
-import { GetSignInResponseDto } from "./user";
+import { GetSignInResponseDto } from "./response/user";
+import OshiAddRequestDto from "./request/oshi/Oshiadd.request.dto";
+import OshiAddResponseDto from "./response/oshi/OshiAdd.Response.Dto";
 const DOMAIN = "http://localhost:8080";
 const API_DOMAIN = `${DOMAIN}/api`;
 const SIGN_IN_URL = `${API_DOMAIN}/user/auth/sign-in`;
 const SIGN_UP_URL = `${API_DOMAIN}/user/auth/sign-up`;
 const GET_SIGN_IN_USER =  `${API_DOMAIN}/user`;
+const OSHI_ADD_URL = `${API_DOMAIN}/oshi/`;
 const authorization  = (accessToken:string) =>{
     return {
         headers: {
@@ -16,7 +18,6 @@ const authorization  = (accessToken:string) =>{
         }
     }
    
-    
 
 }
 
@@ -60,7 +61,7 @@ export const getSignInUserRequest = async (accessToken: string) => {
 
     const result = await axios.get(GET_SIGN_IN_USER, authorization(accessToken))
         .then(response =>{
-            const responseBody : GetSignInResponseDto =response.data;
+            const responseBody : GetSignInResponseDto = response.data;
             return responseBody;
         })
         .catch(error =>{ 
@@ -74,3 +75,19 @@ export const getSignInUserRequest = async (accessToken: string) => {
         return result;
 
 }
+
+export const OshiAddRequset = async (accessToken: string, requestBody:  OshiAddRequestDto) =>{
+    const result = await axios.post(OSHI_ADD_URL, requestBody, authorization(accessToken))
+        .then(response =>{
+                const responseBody : OshiAddResponseDto = response.data;
+                return responseBody;
+            })
+        .catch(error =>{
+            if(!error.response.data) return null;
+            const responseBody : ResponseDto  = error.response.data;
+            return responseBody;
+        })
+        return result;
+}
+  
+    

@@ -3,6 +3,4 @@ import { UserItem } from "types/interface";
 
 
 export default interface GetSignInResponseDto extends ResponseDto ,UserItem {
-
-    
 }

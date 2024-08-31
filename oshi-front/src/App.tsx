@@ -22,7 +22,7 @@ import Footer from 'layout/Footer';
 import { useCookies } from 'react-cookie';
 import { useLoginUserStore } from 'stores';
 import { getSignInUserRequest} from 'apis';
-import { GetSignInResponseDto } from 'apis/user';
+import { GetSignInResponseDto } from 'apis/response/user';
 import { ResponseDto } from 'apis/response';
 import { UserItem } from 'types/interface';
 import { log } from 'console';

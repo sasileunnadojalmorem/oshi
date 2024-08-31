@@ -1,0 +1,134 @@
+.oshi-add-wrapper {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 108px 154px;
+    gap: 10px;
+    width: 100%;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.oshi-add-container {
+    width: 100%;
+    display: flex;
+    padding: 50px 50px;
+    justify-content: center;
+}
+
+.oshi-add-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 43px 84px;
+    gap: 20px;
+    background: linear-gradient(135deg, #e57373, #f06292);
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.oshi-add-box:hover {
+    transform: translateY(-5px);
+}
+
+.oshi-add {
+    width: 100%;
+}
+
+.oshi-add-top {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.oshi-add-top-text {
+    font-family: 'TTLaundryGothicB', sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.oshi-add-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.oshi-add-bottom-imagebox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 140px;
+    background: #ffffff;
+    border-radius: 15px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.oshi-add-bottom-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: calc(100% - 160px); /* Image box width plus some gap */
+}
+
+.oshi-add-bottom-box-top,
+.oshi-add-bottom-inputbox-middle {
+    display: flex;
+}
+
+.oshi-add-bottom-inputbox-top-input,
+.oshi-add-bottom-inputbox-middle-input {
+    width: 100%;
+    padding: 12px;
+    background: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.oshi-add-bottom-inputbox-top-input:focus,
+.oshi-add-bottom-inputbox-middle-input:focus {
+    border-color: #495057;
+    outline: none;
+}
+
+.oshi-add-bottom-inputbox-bottom {
+    display: flex;
+    gap: 10px;
+}
+
+.oshi-add-bottom-inputbox-bottom-imagebutton,
+.oshi-add-bottom-inputbox-bottom-writebutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background: #000000;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.oshi-add-bottom-inputbox-bottom-imagebutton:hover,
+.oshi-add-bottom-inputbox-bottom-writebutton:hover {
+    background: #343a40;
+    transform: translateY(-3px);
+}
+
+.oshi-add-bottom-inputbox-bottom-writebutton {
+    width: 100px;
+}
