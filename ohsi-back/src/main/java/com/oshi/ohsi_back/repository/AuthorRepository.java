@@ -6,4 +6,6 @@ import com.oshi.ohsi_back.entity.AuthorEntity;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<AuthorEntity, Integer> {
+    boolean existsByname(String name);
+    boolean existsById(int id);
 }

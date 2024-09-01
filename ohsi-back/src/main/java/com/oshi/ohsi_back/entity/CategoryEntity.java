@@ -1,6 +1,9 @@
 package com.oshi.ohsi_back.entity;
 
 import javax.persistence.*;
+
+import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
+
 import lombok.*;
 
 @Entity
@@ -30,10 +33,22 @@ public class CategoryEntity {
     private String description;
 
     @Column(name = "author_id")
-    private int author_id;
+    private Integer author_id;
 
     public enum CategoryType {
         OFFICIAL, NONOFFICIAL
     }
+
+    public CategoryEntity(AddCategoryRequsetDto dto){
+        this.oshi_id = dto.getOshiid();
+        this.name = dto.getName();
+        this.description = dto.getDescription() != null ? dto.getDescription() : ""; // 방어적 코드
+        if ("NONOFFICIAL".equals(dto.getType())) {
+            this.type = CategoryType.NONOFFICIAL;
+            this.author_id = dto.getAuthorid();
+        } else {
+            this.type = CategoryType.OFFICIAL;
+            this.author_id = null;
+        }
+    }
 }
-    

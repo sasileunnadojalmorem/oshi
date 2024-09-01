@@ -2,7 +2,6 @@ package com.oshi.ohsi_back.dto.request.Image;
 
 import javax.validation.constraints.NotNull;
 
-import com.oshi.ohsi_back.common.ImageType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
 import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
-import com.oshi.ohsi_back.entity.ImageEntity;
 import com.oshi.ohsi_back.entity.OshiEntity;
-import com.oshi.ohsi_back.repository.ImageRepository;
 import com.oshi.ohsi_back.repository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.OshiService;
@@ -20,7 +18,6 @@ public class OshiServiceImplement implements OshiService{
     
     private final UserRepository userRepository;
     private final OshiRepository oshiRepository;
-    private final ImageRepository imageRepository;
 
 
     @Override

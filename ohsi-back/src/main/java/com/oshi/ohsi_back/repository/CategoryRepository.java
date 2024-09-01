@@ -6,4 +6,5 @@ import com.oshi.ohsi_back.entity.CategoryEntity;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
+    boolean existsByname(String name);
 }
