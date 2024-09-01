@@ -1,6 +1,9 @@
 package com.oshi.ohsi_back.entity;
 
 import javax.persistence.*;
+
+import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
+import com.oshi.ohsi_back.repository.UserRepository;
 import lombok.*;
 
 @Entity
@@ -34,12 +37,26 @@ public class BaseGoodsEntity {
     @Column(name = "favorite_count", nullable = false)
     private int favorite_count;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type_id", nullable = false)
     private int type;
 
     @Column(name = "writer_id", nullable = false)
     private int writer_id;
 
     @Column(name = "image_id")
-    private int image_id;
+    private Integer image_id;
+
+    public BaseGoodsEntity(AddGoodsRequestDto dto, int userid) {
+        this.oshi_id = dto.getOshi_id();
+        this.category_id = dto.getCategory_id();
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.view_count = 0;
+        this.favorite_count = 0;
+        this.type = dto.getType();
+        this.image_id = dto.getImage_id();
+        this.writer_id = userid;
+        
+        
+    }
 }

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Authentication() {
   // State: 로그인/회원가입 여부
-  const [view, setView] = useState<'sign-in' | 'sign-up'>('sign-up');
+  const [view, setView] = useState<'sign-in' | 'sign-up'>('sign-in');
   // State: 쿠키 상태
   const [cookie, setCookie] = useCookies();
   // function: navigate 함수

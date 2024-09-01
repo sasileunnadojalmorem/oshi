@@ -25,6 +25,8 @@ public class CategoryServiceImplement  implements CategoryService{
        try {
         boolean existsUser = userRepository.existsByEmail(email);
         if(!existsUser) return AddCategoryResponseDto.notExistUser();
+        boolean existsname = categoryRepository.existsByname(dto.getName());
+        if(existsname) return AddCategoryResponseDto.duplicationName();
         String type = dto.getType();
         if(type == "NONOFFICIAL") 
         {

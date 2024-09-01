@@ -6,4 +6,5 @@ import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 
 @Repository
 public interface BaseGoodsRepository extends JpaRepository<BaseGoodsEntity, Integer> {
+    boolean existsByName(String goodsName);
 }
