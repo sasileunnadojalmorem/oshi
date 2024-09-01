@@ -9,7 +9,7 @@ body, html {
 
 .mainpage {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 20px;
     gap: 50px;
 }
@@ -33,21 +33,20 @@ body, html {
     background-size: cover;
     background-position: center;
 }
-.middle{
-    display: flex;
-    flex-direction: column;
-}
+
 /* 중간 영역 */
-.middle-box {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개의 열을 생성 */
-    align-items:start;
-    background-color:#f4f4f4;
+.ohsi-main-middle-box {
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-    
+    background-color: #f4f4f4;
+    justify-content: flex-start;
 }
 
-/* MiddleOshiBox 컴포넌트의 스타일 */
+.middle-oshi-box {
+    flex: 1 1 calc(25% - 20px); /* 한 줄에 4개의 아이템을 보여주기 위해 설정 */
+    box-sizing: border-box;
+}
 
 /* 하단 영역 */
 .bottom {

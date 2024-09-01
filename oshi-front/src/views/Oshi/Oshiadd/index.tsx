@@ -130,8 +130,9 @@ export default function Oshiadd() {
       OshiAddRequset(cookies.accessToken, reqesutbody)
       .then( async oshi => {
           const response = await OshiAddResponse(oshi);
-          const { id } = response as OshiAddResponseDto;
-          const responsebody:SaveImageRequsetDto = {url:imageUrl, type:'OSHI', refrenceId:id};
+          const { oshiid } =  response as OshiAddResponseDto;
+          const responsebody:SaveImageRequsetDto = {url:imageUrl, type:'OSHI', referenceId:oshiid};
+          console.log(oshiid);
           await SaveImage(cookies.accessToken, responsebody);
        })
      

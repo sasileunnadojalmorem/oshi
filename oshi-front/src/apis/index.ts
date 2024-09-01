@@ -117,6 +117,7 @@ export const SaveImage = async (accessToken: string,requestBody : SaveImageRequs
 {
     const result  = await axios.post(SAVE_IMAGE_URL, requestBody, authorization(accessToken))
         .then(response =>{
+            console.log(requestBody);
             const responseBody : SaveImageResponseDto = response.data;
             return responseBody;
         })

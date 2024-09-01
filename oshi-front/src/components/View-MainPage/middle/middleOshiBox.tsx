@@ -10,11 +10,11 @@ export default function MiddleOshiBox({ Oshiinfo }: Props) {
   const { oshiId, oshiName, oshiImage } = Oshiinfo;
   
   return (
-    <div className='main-middle'>
-      <div className='oshi-box'>
-        <div className='image-box'>
-          <div className='oshi-image' style={{ backgroundImage: `url(${oshiImage})` }}></div>
-          <div className='oshi-name'>{oshiName}</div> 
+    <div className='main-middle-container'>
+      <div className='oshi-box-container'>
+        <div className='oshi-image-container'>
+          <div className='oshi-image-background' style={{ backgroundImage: `url(${oshiImage})` }}></div>
+          <div className='oshi-name-text'>{oshiName}</div> 
         </div>
       </div>
     </div>

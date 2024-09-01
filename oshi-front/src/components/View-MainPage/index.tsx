@@ -12,17 +12,8 @@ export default function View_MainPage() {
         <div className='header-image' style={{ backgroundImage: `url(${project_description})` }}></div>
       </div>
       <div className='middle'>
-        <div className="middle-box">
-          {oshimock.map((value, index) => (
-            <OshiListView
-              key={value.oshiId}
-              Oshiinfo={{
-                oshiId: value.oshiId,
-                oshiImage: value.oshiImage,
-                oshiName: value.oshiName
-              }}
-            />
-          ))}       
+        <div className="oshi-main-middle-box">
+              
           {/* middleAddBox 컴포넌트 추가 */}
         </div>
         <div className='bottom'></div>
