@@ -35,12 +35,12 @@ public class AddUserOshiResponseDto extends ResponseDto {
     // 이미 오시 정보가 존재할 때의 응답을 반환하는 메서드
     public static ResponseEntity<? super AddUserOshiResponseDto> alreadyExists() {
         AddUserOshiResponseDto responseEntity = new AddUserOshiResponseDto(1);
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(responseEntity);
+        return ResponseEntity.status(HttpStatus.OK).body(responseEntity);
     }
     
     // 오시 정보가 존재하지 않을 때의 응답을 반환하는 메서드
     public static ResponseEntity<? super AddUserOshiResponseDto> doesNotExist() {
         AddUserOshiResponseDto responseEntity = new AddUserOshiResponseDto(0);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseEntity);
+        return ResponseEntity.status(HttpStatus.OK).body(responseEntity);
     }
 }
