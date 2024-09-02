@@ -47,10 +47,9 @@ public class SaleEntity {
     private String description;
 
     @Column(name = "image_id")
-    private int image_id;
+    private Integer image_id;
 
     public SaleEntity(AddSaleRequestDto dto,int id){
-        this.user_id = dto.getUser_id();
         this.oshi_id = dto.getOshi_id();
         this.category_id = dto.getCategory_id();
         this.goods_id = dto.getGoods_id();
@@ -58,5 +57,10 @@ public class SaleEntity {
         this.salestatus = Salestatus.SALE;
         this.description = dto.getDescription();
         this.user_id = id;
+        Integer image_id = dto.getImage_id();
+        if(image_id != null) {
+            this.image_id = dto.getImage_id();
+        }
+        
     }
 }

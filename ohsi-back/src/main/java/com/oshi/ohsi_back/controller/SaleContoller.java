@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -24,7 +24,7 @@ public class SaleContoller {
     
     private final SaleService saleService;
 
-    @GetMapping("add")
+    @PostMapping("add")
     public ResponseEntity<? super AddSaleResponseDto> AddSale(
         @RequestBody@Valid AddSaleRequestDto requestbody ,
         @AuthenticationPrincipal String email

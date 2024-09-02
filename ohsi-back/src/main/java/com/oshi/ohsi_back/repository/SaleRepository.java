@@ -6,5 +6,4 @@ import com.oshi.ohsi_back.entity.SaleEntity;
 
 @Repository
 public interface SaleRepository extends JpaRepository<SaleEntity, Integer> {
-    boolean existsByname(String name);
 }

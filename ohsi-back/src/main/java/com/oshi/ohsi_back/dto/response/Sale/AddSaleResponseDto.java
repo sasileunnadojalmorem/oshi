@@ -14,11 +14,11 @@ import lombok.Getter;
 @Getter
 public class AddSaleResponseDto extends ResponseDto{
 
-    private int Goods_id;
+    private int Sales_id;
 
     private AddSaleResponseDto(SaleEntity saleEntity){
         super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
-        this.Goods_id = saleEntity.getGoods_id();
+        this.Sales_id = saleEntity.getSales_id();
     }
 
     public static ResponseEntity<AddSaleResponseDto> success(SaleEntity saleEntity){

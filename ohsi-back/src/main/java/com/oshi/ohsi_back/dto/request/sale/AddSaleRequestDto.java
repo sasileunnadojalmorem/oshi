@@ -2,12 +2,13 @@ package com.oshi.ohsi_back.dto.request.sale;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.lang.Nullable;
+
 import lombok.Getter;
 import java.math.BigDecimal;
 @Getter
 public class AddSaleRequestDto {
-    @NotNull
-    private int user_id;
+
     @NotNull
     private int oshi_id;
     @NotNull
@@ -18,5 +19,6 @@ public class AddSaleRequestDto {
     private BigDecimal price;
     @NotNull
     private String description;
-    private int image_id;
+    @Nullable
+    private Integer image_id;
 }
