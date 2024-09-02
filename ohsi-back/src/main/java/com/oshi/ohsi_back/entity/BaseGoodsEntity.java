@@ -3,7 +3,6 @@ package com.oshi.ohsi_back.entity;
 import javax.persistence.*;
 
 import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
-import com.oshi.ohsi_back.repository.UserRepository;
 import lombok.*;
 
 @Entity
