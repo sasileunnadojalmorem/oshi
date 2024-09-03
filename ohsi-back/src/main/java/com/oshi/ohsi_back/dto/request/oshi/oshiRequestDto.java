@@ -17,5 +17,5 @@ public class oshiRequestDto {
     @NotNull
     private String description;
     @NotNull
-    private String profileImageUrl;
+    private int imageId;
 }

@@ -11,8 +11,12 @@ import lombok.Getter;
 
 @Getter
 public class ImageResponseDto extends ResponseDto{
+
+    private int imageId;
     private ImageResponseDto(ImageEntity imageEntity){
         super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
+        this.imageId = imageEntity.getId();  // id
+
        
     }
     public static ResponseEntity<ImageResponseDto> success(ImageEntity imageEntity) {

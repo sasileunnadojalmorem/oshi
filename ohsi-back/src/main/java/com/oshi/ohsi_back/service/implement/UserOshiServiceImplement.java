@@ -86,7 +86,7 @@ public class UserOshiServiceImplement implements UserOshiService {
             }
 
             int userid = userEntity.getUserid();
-            List<UserOshiEntity> userOshiList = userOshiRepository.findByUser_Id(userid);
+            List<UserOshiEntity> userOshiList = userOshiRepository.findByUserId(userid);
 
             if (userOshiList == null || userOshiList.isEmpty()) {
                 return GetUserOshiResponseDto.success(Collections.emptyList());

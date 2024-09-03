@@ -14,5 +14,6 @@ public interface UserOshiRepository extends JpaRepository<UserOshiEntity, Intege
     UserOshiEntity findByUser_idAndOshi_id(@Param("userId") int userId, @Param("oshiId") int oshiId);
 
     @Query("SELECT u FROM UserOshiEntity u WHERE u.user_id = :userId")  // 수정된 부분
-    List<UserOshiEntity> findByUser_Id(@Param("userId") int userId);
+    List<UserOshiEntity> findByUserId(@Param("userId") int userId);
+
 }

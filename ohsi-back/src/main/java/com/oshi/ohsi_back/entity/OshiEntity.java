@@ -25,13 +25,13 @@ public class OshiEntity {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "image_url")
-    private String profileImageUrl;
+    @Column(name = "image_id")
+    private int image_id;
 
     public OshiEntity(oshiRequestDto dto){
         this.description = dto.getDescription();
         this.name = dto.getName();
-        this.profileImageUrl = dto.getProfileImageUrl();
+        this.image_id = dto.getImageId();
 
     }
 }

@@ -12,18 +12,11 @@ import lombok.Getter;
 
 @Getter
 public class OshiResponseDto extends ResponseDto {
-    private int oshiid;
-    private String oshiname;
-    private String description;
-    private String oshiimageurl;
 
 
     public OshiResponseDto(OshiEntity oshiEntity) {
         super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
-        this.oshiid = oshiEntity.getOshi_id();
-        this.oshiname = oshiEntity.getName();
-        this.description = oshiEntity.getDescription();
-        this.oshiimageurl = oshiEntity.getProfileImageUrl();
+
 
     }
 

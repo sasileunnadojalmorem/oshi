@@ -2,6 +2,7 @@ package com.oshi.ohsi_back.dto.request.Image;
 
 import javax.validation.constraints.NotNull;
 
+import com.oshi.ohsi_back.common.ImageType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,14 +16,9 @@ import lombok.Setter;
 public class ImageRequestDto {
 
     @NotNull
-    private String type;
+    private ImageType type;
     
     @NotNull
     private int referenceId;
 
-    @NotNull
-    private String url;
-
-    
 }
-

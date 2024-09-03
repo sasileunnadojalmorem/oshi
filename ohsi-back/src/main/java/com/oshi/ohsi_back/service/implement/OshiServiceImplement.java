@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
 import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
 import com.oshi.ohsi_back.entity.OshiEntity;
+import com.oshi.ohsi_back.repository.ImageRepository;
 import com.oshi.ohsi_back.repository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.OshiService;
@@ -18,7 +19,7 @@ public class OshiServiceImplement implements OshiService{
     
     private final UserRepository userRepository;
     private final OshiRepository oshiRepository;
-
+    private final ImageRepository imageRepository;
 
     @Override
     public ResponseEntity<? super OshiResponseDto> postoshi(oshiRequestDto dto, String email) {
@@ -29,6 +30,8 @@ public class OshiServiceImplement implements OshiService{
             boolean existName = oshiRepository.existsByname(dto.getName());
             if(existName) return OshiResponseDto.duplicationName();
             if(!existUser) return OshiResponseDto.notExistUser();
+            boolean existsImage = imageRepository.existsById(dto.getImageId());
+            if(!existsImage) return OshiResponseDto.databaseError();
             oshiEntity = new OshiEntity(dto);
             oshiRepository.save(oshiEntity);
             return OshiResponseDto.success(oshiEntity);
@@ -41,11 +44,5 @@ public class OshiServiceImplement implements OshiService{
         
        
     }   
-
-       
-
-
-    
-    
 }
 

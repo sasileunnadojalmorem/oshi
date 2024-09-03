@@ -7,5 +7,6 @@ import com.oshi.ohsi_back.entity.ImageEntity;
 @Repository
 public interface ImageRepository extends JpaRepository<ImageEntity, Integer> {
     
-
+    ImageEntity findById(int id);
+    boolean existsById(int id);
 }

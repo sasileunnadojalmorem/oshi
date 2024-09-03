@@ -28,24 +28,16 @@ public class ImageEntity {
     private ImageType type;
 
     @Column(name = "reference_id", nullable = false)
-    private int reference_id;
+    private int referenceId;
 
-    public ImageEntity(ImageRequestDto dto) {
-        this.reference_id = dto.getReferenceId();
-        this.url = dto.getUrl();
+    public ImageEntity(ImageRequestDto dto, String url) {
+        this.referenceId = dto.getReferenceId();
+        this.url = url;
 
-        // dto.getType()이 문자열로 전달되는 경우 이를 ImageType enum으로 변환
-        if ("OSHI".equals(dto.getType())) {
-            this.type = ImageType.OSHI;
-        } else if ("GOODS".equals(dto.getType())) {
-            this.type = ImageType.GOODS;
-        } else if ("USER".equals(dto.getType())) {
-            this.type = ImageType.USER;
-        } else if ("SALES".equals(dto.getType())) {
-            this.type = ImageType.SALES;
-        } else {
-            // 예외 처리 또는 기본값 설정
-            throw new IllegalArgumentException("Invalid type: " + dto.getType());
+        try {
+            this.type = dto.getType();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid type: " + dto.getType(), e);
         }
     }
 }
