@@ -6,6 +6,7 @@ import com.oshi.ohsi_back.dto.request.auth.SignUpRequestDto;
 
 import lombok.*;
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "user")

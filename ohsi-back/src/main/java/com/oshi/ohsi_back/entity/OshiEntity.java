@@ -17,7 +17,7 @@ public class OshiEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "oshi_id")
-    private int oshi_id;
+    private int oshiId;  // 필드명 카멜 케이스로 수정
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
@@ -26,12 +26,11 @@ public class OshiEntity {
     private String name;
 
     @Column(name = "image_id")
-    private int image_id;
+    private int imageId;  // 필드명 카멜 케이스로 수정
 
     public OshiEntity(oshiRequestDto dto){
         this.description = dto.getDescription();
         this.name = dto.getName();
-        this.image_id = dto.getImageId();
-
+        this.imageId = dto.getImageId();  // 필드명 수정
     }
 }
