@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
+import com.oshi.ohsi_back.dto.request.category.GetCategoryInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryRequseDto;
 import com.oshi.ohsi_back.dto.response.category.AddCategoryResponseDto;
+import com.oshi.ohsi_back.dto.response.category.GetCategoryInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryResponseDto;
 import com.oshi.ohsi_back.service.CategoryService;
 
@@ -40,4 +42,13 @@ public class CategoryContoller {
         ResponseEntity<? super GetCategoryResponseDto> response = categoryService.getcategorybyoshiid(requestbody);
         return response;
     }
+
+    @GetMapping("/")
+    public ResponseEntity<? super GetCategoryInfoResponseDto> getCategoryByOshiInfo(
+            @Valid @RequestBody GetCategoryInfoRequsetDto requestbody
+        ) {
+        ResponseEntity<? super GetCategoryInfoResponseDto> response = categoryService.getCategotyInfo(requestbody);
+        return response;
+    }
+
 }

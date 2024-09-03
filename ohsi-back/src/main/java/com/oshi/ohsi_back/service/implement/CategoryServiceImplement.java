@@ -7,8 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
+import com.oshi.ohsi_back.dto.request.category.GetCategoryInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryRequseDto;
 import com.oshi.ohsi_back.dto.response.category.AddCategoryResponseDto;
+import com.oshi.ohsi_back.dto.response.category.GetCategoryInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryResponseDto;
 import com.oshi.ohsi_back.entity.CategoryEntity;
 import com.oshi.ohsi_back.repository.AuthorRepository;
@@ -80,6 +82,21 @@ public class CategoryServiceImplement  implements CategoryService {
         } catch (Exception e) {
             e.printStackTrace();
             return GetCategoryResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super GetCategoryInfoResponseDto> getCategotyInfo(GetCategoryInfoRequsetDto dto) {
+        try {
+
+            CategoryEntity categoryEntity = categoryRepository.findByCategoryId(dto.getCategoryId());
+            if(categoryEntity == null) return GetCategoryInfoResponseDto.validateFailed();
+            return GetCategoryInfoResponseDto.success(categoryEntity);
+
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return GetCategoryInfoResponseDto.databaseError();
         }
     }
 }

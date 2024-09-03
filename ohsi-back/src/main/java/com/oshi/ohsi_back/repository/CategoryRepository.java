@@ -9,6 +9,6 @@ import com.oshi.ohsi_back.entity.CategoryEntity;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
     boolean existsByName(String name);
-
+    CategoryEntity findByCategoryId(int categoryId);
     Page<CategoryEntity> findByOshiId(int oshiId, Pageable pageable);
 }

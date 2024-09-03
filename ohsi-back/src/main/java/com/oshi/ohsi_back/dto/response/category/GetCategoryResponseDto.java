@@ -9,7 +9,6 @@ import com.oshi.ohsi_back.entity.CategoryEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
