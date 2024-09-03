@@ -1,6 +1,5 @@
 package com.oshi.ohsi_back.dto.request.category;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 
@@ -19,7 +18,6 @@ public class AddCategoryRequsetDto {
     private int oshiid;
     @NotNull
     private  String name;
-    @NotBlank
     private  String description;
     @NotNull
     private String type;

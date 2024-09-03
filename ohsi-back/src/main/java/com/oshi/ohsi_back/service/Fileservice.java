@@ -1,6 +1,5 @@
 package com.oshi.ohsi_back.service;
 
-import org.hibernate.type.ImageType;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;

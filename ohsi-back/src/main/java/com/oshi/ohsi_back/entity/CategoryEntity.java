@@ -17,10 +17,10 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private int category_id;
+    private int categoryId;
 
     @Column(name = "oshi_id", nullable = false)
-    private int oshi_id;
+    private int oshiId;
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
@@ -40,7 +40,7 @@ public class CategoryEntity {
     }
 
     public CategoryEntity(AddCategoryRequsetDto dto){
-        this.oshi_id = dto.getOshiid();
+        this.oshiId = dto.getOshiid();
         this.name = dto.getName();
         this.description = dto.getDescription() != null ? dto.getDescription() : ""; // 방어적 코드
         if ("NONOFFICIAL".equals(dto.getType())) {

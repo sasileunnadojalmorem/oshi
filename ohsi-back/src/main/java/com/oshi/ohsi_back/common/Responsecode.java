@@ -15,7 +15,6 @@ public interface Responsecode {
    String DUPLICATE_OSHI = "DO";
    String DUPLICATE_CATEGORY = "DC";
    String DUPLICATE_GOODS = "DG";
- 
    String NOT_EXISTED_USER ="NU";
    String NOT_EXISTED_BOARD = "NB";
 
