@@ -6,13 +6,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
+import com.fasterxml.jackson.databind.JsonSerializable.Base;
 import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
 import com.oshi.ohsi_back.dto.request.goods.GetGoodsInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.goods.GetGoodsRequestDto;
+import com.oshi.ohsi_back.dto.request.goods.SearchGoodsRequestDto;
 import com.oshi.ohsi_back.dto.response.goods.AddGoodsResponseDto;
 import com.oshi.ohsi_back.dto.response.goods.GetGoodsInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.goods.GetGoodsResponseDto;
+import com.oshi.ohsi_back.dto.response.goods.SearchGoodsResponseDto;
 import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
 import com.oshi.ohsi_back.repository.BaseGoodsRepository;
@@ -97,5 +101,18 @@ public class GoodsServiceImplement implements GoodsService{
         e.printStackTrace();
         return GetGoodsInfoResponseDto.databaseError();    // DB 에러
        }
+    }
+
+    @Override
+    public ResponseEntity<? super SearchGoodsResponseDto> Searchgoods(SearchGoodsRequestDto dto) {
+        try {
+
+            List<BaseGoodsEntity> baseGoodsEntities = baseGoodsRepository.searchGoodsList(dto.getKeyword(),10);
+            return SearchGoodsResponseDto.success(baseGoodsEntities);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return SearchGoodsResponseDto.databaseError();
+
+        }
     }
 }

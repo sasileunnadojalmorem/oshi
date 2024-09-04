@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.oshi.ohsi_back.dto.request.goods.SearchOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.GetOshiRequestDto;
+import com.oshi.ohsi_back.dto.request.oshi.SearchOhsiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
 import com.oshi.ohsi_back.dto.response.oshi.GetOshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
@@ -75,10 +75,10 @@ public class OshiServiceImplement implements OshiService{
     }
 
     @Override
-    public ResponseEntity<? super SearchOshiResponseDto> searchOshi(SearchOshiRequestDto dto) {
+    public ResponseEntity<? super SearchOshiResponseDto> searchOshi(SearchOhsiRequestDto dto) {
         List<OshiEntity> oshiEntities = null;
         try {
-           oshiEntities = oshiRepository.searchOshiList(dto.getKeyword()); 
+           oshiEntities = oshiRepository.searchOshiList(dto.getKeyword(),10); 
            return SearchOshiResponseDto.success(oshiEntities);        
         } catch (Exception e) {
             e.printStackTrace();

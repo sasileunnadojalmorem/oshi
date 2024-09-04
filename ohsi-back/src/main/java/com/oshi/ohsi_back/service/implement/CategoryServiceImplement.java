@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryRequseDto;
+import com.oshi.ohsi_back.dto.request.category.SearchCategoryRequestDto;
 import com.oshi.ohsi_back.dto.response.category.AddCategoryResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryResponseDto;
+import com.oshi.ohsi_back.dto.response.category.SearchCategoryResoponseDto;
 import com.oshi.ohsi_back.entity.CategoryEntity;
 import com.oshi.ohsi_back.repository.AuthorRepository;
 import com.oshi.ohsi_back.repository.CategoryRepository;
@@ -19,6 +21,7 @@ import com.oshi.ohsi_back.repository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor    
@@ -97,6 +100,18 @@ public class CategoryServiceImplement  implements CategoryService {
         } catch (Exception e) {
             e.printStackTrace();
             return GetCategoryInfoResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super SearchCategoryResoponseDto> searchCategory(SearchCategoryRequestDto dto) {
+        try {
+            List<CategoryEntity> categoList = categoryRepository.searchCategory(dto.getKeyword(),10);
+            return SearchCategoryResoponseDto.success(categoList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return SearchCategoryResoponseDto.databaseError();
+
         }
     }
 }

@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryRequseDto;
+import com.oshi.ohsi_back.dto.request.category.SearchCategoryRequestDto;
 import com.oshi.ohsi_back.dto.response.category.AddCategoryResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryResponseDto;
+import com.oshi.ohsi_back.dto.response.category.SearchCategoryResoponseDto;
 import com.oshi.ohsi_back.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -50,5 +52,14 @@ public class CategoryContoller {
         ResponseEntity<? super GetCategoryInfoResponseDto> response = categoryService.getCategotyInfo(requestbody);
         return response;
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<? super SearchCategoryResoponseDto> searchCategoryByOshiId(
+            @Valid @RequestBody SearchCategoryRequestDto requestbody
+        ) {
+        ResponseEntity<? super SearchCategoryResoponseDto> response = categoryService.searchCategory(requestbody);
+        return response;
+        
+        }
 
 }

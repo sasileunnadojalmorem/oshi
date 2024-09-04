@@ -39,7 +39,7 @@ public class WebSecurityConfig {
             .antMatchers(HttpMethod.GET, 
                          "/api/user/{useremail}", 
                          "/api/search", 
-                         "/api/oshis", 
+                         "/api/oshi", 
                          "/api/oshis/{oshiId}", 
                          "/api/oshis/{oshiId}/categories", 
                          "/api/oshis/{oshiId}/categories/{categoryId}", 

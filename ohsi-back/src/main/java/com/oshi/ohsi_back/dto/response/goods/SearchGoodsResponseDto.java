@@ -9,20 +9,20 @@ import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import java.util.List;
 @Getter
 @Setter
 public class SearchGoodsResponseDto extends ResponseDto  {
     
 
-    private BaseGoodsEntity baseGoodsEntity;
+    private List<BaseGoodsEntity> baseGoodsEntity;
 
-    private SearchGoodsResponseDto(BaseGoodsEntity baseGoodsEntity){
+    private SearchGoodsResponseDto(List<BaseGoodsEntity> baseGoodsEntity){
         super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
         this.baseGoodsEntity = baseGoodsEntity;
     }
 
-    public static ResponseEntity<? super SearchGoodsResponseDto> success(BaseGoodsEntity baseGoodsEntity){
+    public static ResponseEntity<? super SearchGoodsResponseDto> success(List<BaseGoodsEntity> baseGoodsEntity) {
         SearchGoodsResponseDto responseDto = new SearchGoodsResponseDto(baseGoodsEntity);
         return ResponseEntity.status(200).body(responseDto);
     }
