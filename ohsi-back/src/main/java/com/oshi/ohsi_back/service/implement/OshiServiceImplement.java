@@ -1,12 +1,16 @@
 package com.oshi.ohsi_back.service.implement;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.oshi.ohsi_back.dto.request.goods.SearchOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.GetOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
 import com.oshi.ohsi_back.dto.response.oshi.GetOshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
+import com.oshi.ohsi_back.dto.response.oshi.SearchOshiResponseDto;
 import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.repository.ImageRepository;
 import com.oshi.ohsi_back.repository.OshiRepository;
@@ -67,6 +71,18 @@ public class OshiServiceImplement implements OshiService{
         } catch (Exception e) {
             e.printStackTrace();
             return GetOshiResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super SearchOshiResponseDto> searchOshi(SearchOshiRequestDto dto) {
+        List<OshiEntity> oshiEntities = null;
+        try {
+           oshiEntities = oshiRepository.searchOshiList(dto.getKeyword()); 
+           return SearchOshiResponseDto.success(oshiEntities);        
+        } catch (Exception e) {
+            e.printStackTrace();
+            return SearchOshiResponseDto.databaseError();
         }
     }
 }

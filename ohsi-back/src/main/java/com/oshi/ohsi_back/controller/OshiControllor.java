@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
+import com.oshi.ohsi_back.dto.response.oshi.SearchOshiResponseDto;
+import com.oshi.ohsi_back.dto.response.category.SearchCategoryResoponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.GetOshiResponseDto;
 import com.oshi.ohsi_back.service.OshiService;
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
+import com.oshi.ohsi_back.dto.request.category.SearchCategoryRequestDto;
+import com.oshi.ohsi_back.dto.request.goods.SearchOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.GetOshiRequestDto;
+import com.oshi.ohsi_back.dto.request.oshi.SearchOhsiRequsetDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +44,15 @@ public class OshiControllor {
         @RequestBody@Valid GetOshiRequestDto requestbody
     ){
         ResponseEntity<? super GetOshiResponseDto> response = oshiService.getoshi(requestbody);
+        return response;
+    }
+    
+    @GetMapping("/search")
+    public ResponseEntity<? super SearchOshiResponseDto> searchOshi(
+        @RequestBody@Valid SearchOshiRequestDto dto
+    ){
+
+        ResponseEntity<? super SearchCategoryResoponseDto> response = oshiService.searchOshi(dto);
         return response;
     }
 }
