@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
+import com.oshi.ohsi_back.dto.request.goods.GetGoodsInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.goods.GetGoodsRequestDto;
 import com.oshi.ohsi_back.dto.response.goods.AddGoodsResponseDto;
+import com.oshi.ohsi_back.dto.response.goods.GetGoodsInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.goods.GetGoodsResponseDto;
 import com.oshi.ohsi_back.service.GoodsService;
 
@@ -38,5 +40,12 @@ public class GoodsController {
     {
         ResponseEntity<? super GetGoodsResponseDto> response = goodsService.GetGoods(dto);
         return response;  // Return the response entity with the map and HTTP status
+    }
+    @GetMapping("/info")
+    public ResponseEntity<? super GetGoodsInfoResponseDto> getGoodsInfo(
+        @RequestBody@Valid GetGoodsInfoRequsetDto dto)
+    {
+        ResponseEntity<? super GetGoodsInfoResponseDto> response = goodsService.GetGoodsInfo(dto);
+        return response;
     }
 }

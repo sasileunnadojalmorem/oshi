@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
+import com.oshi.ohsi_back.dto.request.goods.GetGoodsInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.goods.GetGoodsRequestDto;
 import com.oshi.ohsi_back.dto.response.goods.AddGoodsResponseDto;
+import com.oshi.ohsi_back.dto.response.goods.GetGoodsInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.goods.GetGoodsResponseDto;
 import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
@@ -80,5 +82,20 @@ public class GoodsServiceImplement implements GoodsService{
             e.printStackTrace();
             return GetGoodsResponseDto.databaseError();
         }
+    }
+
+    @Override
+    public ResponseEntity<? super GetGoodsInfoResponseDto> GetGoodsInfo(GetGoodsInfoRequsetDto dto) {
+       try {
+        boolean existsGoods = baseGoodsRepository.existsByGoodsId(dto.getGoodsId());
+        if(!existsGoods) return GetGoodsInfoResponseDto.notExistBoard();
+        BaseGoodsEntity baseGoodsEntity = baseGoodsRepository.findByGoodsId(dto.getGoodsId());
+        return GetGoodsInfoResponseDto.success(baseGoodsEntity);
+       
+    
+    } catch (Exception e) {
+        e.printStackTrace();
+        return GetGoodsInfoResponseDto.databaseError();    // DB 에러
+       }
     }
 }

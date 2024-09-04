@@ -9,6 +9,8 @@ import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 @Repository
 public interface BaseGoodsRepository extends JpaRepository<BaseGoodsEntity, Integer> {
     boolean existsByName(String goodsName);
+    boolean existsByGoodsId(int goodsId);
+    BaseGoodsEntity findByGoodsId(int goodsId);
     Page<BaseGoodsEntity> findByCategoryId(int categoryId, Pageable pageable);
     Page<BaseGoodsEntity> findByOshiId(int oshiId,Pageable pageable);
 }
