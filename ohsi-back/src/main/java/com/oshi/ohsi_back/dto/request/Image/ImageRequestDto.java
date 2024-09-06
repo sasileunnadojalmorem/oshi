@@ -2,7 +2,7 @@ package com.oshi.ohsi_back.dto.request.Image;
 
 import java.io.File;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 

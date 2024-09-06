@@ -1,6 +1,6 @@
 package com.oshi.ohsi_back.dto.request.category;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.oshi.ohsi_back.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
 import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
 

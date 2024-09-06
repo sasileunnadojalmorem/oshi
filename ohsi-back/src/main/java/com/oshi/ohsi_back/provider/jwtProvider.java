@@ -17,6 +17,20 @@ public class jwtProvider {
     @Value("${secret-key}")
     private String secretKey;
 
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String getEmailFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return claims.getSubject();  // 토큰에서 subject를 이메일로 간주
+    }
     public String create(String email) {
         Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
 

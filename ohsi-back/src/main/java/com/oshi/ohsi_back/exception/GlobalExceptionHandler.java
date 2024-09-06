@@ -16,7 +16,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -24,7 +23,6 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleCustomException(
         CustomException e, HttpServletRequest request
     ) {
-        log.error("CustomException: {}, URL: {}", e.getMessage(), request.getRequestURI());
         return ErrorResponse.toResponseEntity(e.getErrorCode(), e.getRuntimeValue());
     }
 
@@ -44,7 +42,6 @@ public class GlobalExceptionHandler {
             );
             errors.add(error);
         }
-        log.error("ValidationException: {} URL: {}", e.getMessage(), request.getRequestURI());
         return ResponseEntity.badRequest().body(errors);
     }
 
@@ -52,7 +49,6 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleException(
         Exception e, HttpServletRequest request
     ) {
-        log.error("Exception: {}, URL: {}", e.getMessage(), request.getRequestURI());
         return ErrorResponse.toResponseEntity(ErrorCode.DATABASE_ERROR, e.getMessage());
     }
 }

@@ -1,5 +1,4 @@
     package com.oshi.ohsi_back.controller;
-    import javax.validation.Valid;
 
 import org.springframework.core.io.Resource;
     import org.springframework.http.MediaType;
@@ -10,12 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
     import org.springframework.web.bind.annotation.PostMapping;
     import org.springframework.web.bind.annotation.RequestMapping;
-    import org.springframework.web.bind.annotation.RequestParam;
     import org.springframework.web.bind.annotation.RestController;
-    import org.springframework.web.multipart.MultipartFile;
 
-    import com.fasterxml.jackson.core.JsonProcessingException;
-    import com.fasterxml.jackson.databind.ObjectMapper;
     import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
     import com.oshi.ohsi_back.dto.response.image.ImageResponseDto;
     import com.oshi.ohsi_back.service.Fileservice;
