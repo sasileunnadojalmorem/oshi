@@ -1,5 +1,9 @@
 package com.oshi.ohsi_back.dto.request.user;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -14,10 +18,13 @@ import lombok.Getter;
 @Getter
 public class GetSigninUserResponseDto extends ResponseDto {
 
+    @NotNull
     private int userId;
+    @NotNull@Email
     private String email;
+    @NotBlank
     private String username;
-    private int profileImageId;
+    private Integer profileImageId;
 
 
     //

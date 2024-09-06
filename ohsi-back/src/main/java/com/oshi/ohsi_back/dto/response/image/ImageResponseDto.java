@@ -1,5 +1,6 @@
 package com.oshi.ohsi_back.dto.response.image;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.oshi.ohsi_back.common.Responsecode;
@@ -22,5 +23,11 @@ public class ImageResponseDto extends ResponseDto{
     public static ResponseEntity<ImageResponseDto> success(ImageEntity imageEntity) {
         ImageResponseDto responseBody = new ImageResponseDto(imageEntity);
         return ResponseEntity.status(200).body(responseBody);
+    }
+
+    
+    public static ResponseEntity<ResponseDto> notExistUser(){
+        ResponseDto responsebody = new ResponseDto(Responsecode.NOT_EXISTED_USER,Responsemessage.NOT_EXISTED_BOARD);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsebody);
     }
 }

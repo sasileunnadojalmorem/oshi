@@ -14,7 +14,7 @@ services:
   backend:
     build: ./ohsi-back
     ports:
-      - "8080:4000"
+      - "8079:4000"
     volumes:
       - ./ohsi-back:/app  # 소스 코드가 변경될 때마다 반영
 

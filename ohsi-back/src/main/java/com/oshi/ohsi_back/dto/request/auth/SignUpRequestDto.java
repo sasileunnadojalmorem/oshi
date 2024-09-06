@@ -25,7 +25,7 @@ public class SignUpRequestDto  {
     @NotBlank
     private String username;
 
-    private int profileImageId;
+    private Integer profileImageId;
 
    
 

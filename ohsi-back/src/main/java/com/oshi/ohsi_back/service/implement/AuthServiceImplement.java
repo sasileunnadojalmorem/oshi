@@ -15,6 +15,7 @@ import com.oshi.ohsi_back.provider.jwtProvider;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.AuthService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,7 +28,7 @@ public class AuthServiceImplement implements AuthService {
     private final jwtProvider jwtProvider;
 
     @Override
-    public ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto) {
+    public ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto,HttpServletRequest http) {
         try {
             String email = dto.getEmail();
             boolean isEmailExist = userRepository.existsByEmail(email);

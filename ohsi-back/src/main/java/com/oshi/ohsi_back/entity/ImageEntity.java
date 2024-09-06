@@ -7,7 +7,7 @@ import com.oshi.ohsi_back.common.ImageType;
 import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
 
 @Entity
-@Table(name = "images")
+@Table(name = "image")
 @Getter
 @Setter
 @NoArgsConstructor

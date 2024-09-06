@@ -1,10 +1,13 @@
     package com.oshi.ohsi_back.controller;
-    import org.springframework.core.io.Resource;
+    import javax.validation.Valid;
+
+import org.springframework.core.io.Resource;
     import org.springframework.http.MediaType;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.core.annotation.AuthenticationPrincipal;
     import org.springframework.web.bind.annotation.GetMapping;
-    import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
     import org.springframework.web.bind.annotation.PostMapping;
     import org.springframework.web.bind.annotation.RequestMapping;
     import org.springframework.web.bind.annotation.RequestParam;
@@ -20,28 +23,18 @@
     import lombok.RequiredArgsConstructor;
 
     @RestController
-@RequestMapping("/api/user/file")
-@RequiredArgsConstructor
+    @RequestMapping("/api/user/file")
+    @RequiredArgsConstructor
 public class Filecontrollor {
 
     private final Fileservice fileservice;
 
    @PostMapping("/uploadAndSaveImage")
         public ResponseEntity<? super ImageResponseDto> uploadAndSaveImage(
-        @RequestParam("file") MultipartFile file,
-        @RequestParam("dto") String dtoString,
-        @AuthenticationPrincipal String email) {
+        @AuthenticationPrincipal String email,
+        @ModelAttribute  ImageRequestDto dto) {    
     
-    // JSON 문자열을 DTO 객체로 변환
-    ObjectMapper objectMapper = new ObjectMapper();
-    ImageRequestDto dto;
-    try {
-        dto = objectMapper.readValue(dtoString, ImageRequestDto.class);
-    } catch (JsonProcessingException e) {
-        return ResponseEntity.badRequest().build();
-    }
-    
-    ResponseEntity<? super ImageResponseDto> response = fileservice.uploadAndSaveImage(file, dto, email);
+    ResponseEntity<? super ImageResponseDto> response = fileservice.uploadAndSaveImage(dto.getFile(), dto, email);
     return response;
 }
     @GetMapping(value = "{fileName}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})

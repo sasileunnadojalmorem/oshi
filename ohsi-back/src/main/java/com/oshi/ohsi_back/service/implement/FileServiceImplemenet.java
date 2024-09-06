@@ -36,10 +36,10 @@ public class FileServiceImplemenet implements Fileservice {
     public ResponseEntity<? super ImageResponseDto> uploadAndSaveImage(MultipartFile file, ImageRequestDto dto, String email) {
         // 사용자 존재 여부 확인
         boolean existUser = userRepository.existsByEmail(email);
-        if (!existUser) return ImageResponseDto.databaseError();  // 또는 다른 적절한 응답
+        if (!existUser) return ImageResponseDto.notExistUser();  // 또는 다른 적절한 응답
 
         // 파일이 비어있는지 확인
-        if (file.isEmpty()) return ImageResponseDto.databaseError();  // 또는 다른 적절한 응답
+        if (file.isEmpty()) return ImageResponseDto.notExistUser();  // 또는 다른 적절한 응답
 
         // 파일 이름 생성
         String originalFileName = file.getOriginalFilename();

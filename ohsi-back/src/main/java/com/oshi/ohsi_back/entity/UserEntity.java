@@ -40,15 +40,16 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserOshiEntity> userOshis;
 
-    // DTO를 사용한 생성자
     public UserEntity(SignUpRequestDto dto) {
         this.email = dto.getEmail();
         this.password = dto.getPassword();
         this.username = dto.getUsername();
         
-        // ImageEntity 객체 생성 후 ID만 설정
-        ImageEntity image = new ImageEntity();
-        image.setId(dto.getProfileImageId());
-        this.profileImage = image;
+        // dto에서 profileImageId가 존재할 경우에만 ImageEntity 객체 생성
+        if (dto.getProfileImageId() != null) {
+            ImageEntity image = new ImageEntity();
+            image.setId(dto.getProfileImageId());
+            this.profileImage = image;
+        }
     }
 }
