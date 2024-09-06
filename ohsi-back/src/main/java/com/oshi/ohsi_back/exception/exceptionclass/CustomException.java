@@ -2,10 +2,10 @@ package com.oshi.ohsi_back.exception.exceptionclass;
 
 import com.oshi.ohsi_back.properties.ErrorCode;
 
-public class CustomException extends  RuntimeException {
+public class CustomException extends RuntimeException {
     
     private final ErrorCode errorCode;
-    private final String runtimevalue;
+    private final String runtimeValue;
 
     public CustomException(ErrorCode errorCode) {
         this(errorCode, "runtimeValue가 존재 하지 않습니다.");
@@ -13,7 +13,19 @@ public class CustomException extends  RuntimeException {
 
     public CustomException(ErrorCode errorCode, String runtimeValue) {
         this.errorCode = errorCode;
-        this.runtimevalue = runtimeValue;
+        this.runtimeValue = runtimeValue;
     }
 
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
+
+    public String getRuntimeValue() {
+        return runtimeValue;
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("Error Code: %s, Runtime Value: %s", errorCode, runtimeValue);
+    }
 }
