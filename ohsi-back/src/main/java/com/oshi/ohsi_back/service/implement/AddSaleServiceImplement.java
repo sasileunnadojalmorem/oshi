@@ -15,7 +15,7 @@ import com.oshi.ohsi_back.repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
-public class AddServiceImplement implements SaleService {
+public class AddSaleServiceImplement implements SaleService {
     
     private final UserRepository userRepository;
     private final SaleRepository saleRepository;
@@ -25,12 +25,10 @@ public class AddServiceImplement implements SaleService {
         try {
             UserEntity userEntity = userRepository.findByEmail(email);
             if(userEntity == null) return AddSaleResponseDto.notExistUser();
-            int id = userEntity.getUserid();
-            SaleEntity saleEntity = new  SaleEntity(dto,id);
+            SaleEntity saleEntity = new SaleEntity(dto,userEntity);
             saleRepository.save(saleEntity);
             return AddSaleResponseDto.success(saleEntity);
 
-            
         } catch (Exception e) {
             e.printStackTrace();
             return AddSaleResponseDto.databaseError();

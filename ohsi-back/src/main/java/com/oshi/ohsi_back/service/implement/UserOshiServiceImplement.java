@@ -35,7 +35,7 @@ public class UserOshiServiceImplement implements UserOshiService {
             return AddUserOshiResponseDto.notExistUser();
         }
 
-        int userid = userEntity.getUserid();
+        int userid = userEntity.getUserId();
         int oshi_id = dto.getOshi_id();
         UserOshiEntity checkuserOshiEntity = userOshiRepository.findByUser_idAndOshi_id(userid, oshi_id);
 
@@ -84,9 +84,9 @@ public class UserOshiServiceImplement implements UserOshiService {
             if (userEntity == null) {
                 return GetUserOshiResponseDto.notExistUser();
             }
-
-            int userid = userEntity.getUserid();
-            List<UserOshiEntity> userOshiList = userOshiRepository.findByUserId(userid);
+            int userid = userRepository.findByEmail(email).getUserId();
+            
+            List<UserOshiEntity> userOshiList = userOshiRepository.findByUser(userid);
 
             if (userOshiList == null || userOshiList.isEmpty()) {
                 return GetUserOshiResponseDto.success(Collections.emptyList());
@@ -94,7 +94,7 @@ public class UserOshiServiceImplement implements UserOshiService {
 
             List<OshiEntity> oshiList = new ArrayList<>();
             for (UserOshiEntity userOshi : userOshiList) {
-                int oshiId = userOshi.getOshi_id();
+                int oshiId = userOshi.getOshi().getOshiId();
                 Optional<OshiEntity> optionalOshiEntity = oshiRepository.findById(oshiId);
     
                 if (optionalOshiEntity.isPresent()) {

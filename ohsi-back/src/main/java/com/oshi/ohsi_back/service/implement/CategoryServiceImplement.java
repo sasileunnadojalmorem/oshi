@@ -76,7 +76,7 @@ public class CategoryServiceImplement  implements CategoryService {
                                 : Sort.by("categoryId").ascending();
 
             Pageable pageable = PageRequest.of(dto.getPagenum(), page_size, sortOrder);
-            Page<CategoryEntity> categoryEntityList = categoryRepository.findByOshiId(oshi_id, pageable);
+            Page<CategoryEntity> categoryEntityList = categoryRepository.findByOshi_OshiId(oshi_id, pageable);
 
             
 

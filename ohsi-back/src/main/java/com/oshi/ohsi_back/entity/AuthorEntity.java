@@ -2,6 +2,7 @@ package com.oshi.ohsi_back.entity;
 
 import javax.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Table(name = "author")
@@ -13,9 +14,12 @@ public class AuthorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<CategoryEntity> categories;
 }

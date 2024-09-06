@@ -22,5 +22,7 @@ public class AddCategoryRequsetDto {
     @NotNull
     private String type;
     private Integer authorid;
+    private Integer imageid;
+    
     
 }

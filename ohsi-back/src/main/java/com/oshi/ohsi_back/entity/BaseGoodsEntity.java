@@ -1,9 +1,8 @@
 package com.oshi.ohsi_back.entity;
 
 import javax.persistence.*;
-
-import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
 import lombok.*;
+import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
 
 @Entity
 @Table(name = "base_goods")
@@ -15,14 +14,8 @@ public class BaseGoodsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "goods_id")
+    @Column(name = "goods_id", updatable = false, nullable = false)
     private int goodsId;
-
-    @Column(name = "oshi_id", nullable = false)
-    private int oshiId;
-
-    @Column(name = "category_id", nullable = false)
-    private int categoryId;
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
@@ -31,30 +24,50 @@ public class BaseGoodsEntity {
     private String description;
 
     @Column(name = "view_count", nullable = false)
-    private int viewCount;
+    private int viewCount = 0;
 
     @Column(name = "favorite_count", nullable = false)
-    private int favoriteCount;
+    private int favoriteCount = 0;
 
-    @Column(name = "type_id", nullable = false)
-    private int typeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oshi_id", nullable = false)
+    private OshiEntity oshi;
 
-    @Column(name = "writer_id", nullable = false)
-    private int writerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private CategoryEntity category;
 
-    @Column(name = "image_id")
-    private Integer imageId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id", nullable = false)
+    private GoodsTypeEntity type;
 
-    // DTO를 사용한 생성자 (DTO의 필드명은 언더바 유지)
-    public BaseGoodsEntity(AddGoodsRequestDto dto, int userId) {
-        this.oshiId = dto.getOshi_id(); // DTO의 언더바 유지
-        this.categoryId = dto.getCategory_id(); // DTO의 언더바 유지
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_id", nullable = false)
+    private UserEntity writer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private ImageEntity image;
+
+    // DTO를 사용한 생성자
+    public BaseGoodsEntity(AddGoodsRequestDto dto, UserEntity writer) {
         this.name = dto.getName();
         this.description = dto.getDescription();
-        this.viewCount = 0; // 기본값 0
-        this.favoriteCount = 0; // 기본값 0
-        this.typeId = dto.getType();
-        this.imageId = dto.getImage_id(); // DTO의 언더바 유지
-        this.writerId = userId; // 이 필드는 서비스 로직에서 받아온 사용자 ID로 설정
+        this.writer = writer;
+
+        // 연관된 엔터티들의 ID만 설정
+        this.oshi = new OshiEntity();
+        this.oshi.setOshiId(dto.getOshi_id());
+
+        this.category = new CategoryEntity();
+        this.category.setCategoryId(dto.getCategory_id());
+
+        this.type = new GoodsTypeEntity();
+        this.type.setId(dto.getType());
+
+        if(dto.getImage_id() != null) {
+            this.image = new ImageEntity();
+            this.image.setId(dto.getImage_id());
+        }
     }
 }

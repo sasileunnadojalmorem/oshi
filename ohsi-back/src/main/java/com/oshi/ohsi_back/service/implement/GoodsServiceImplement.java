@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonSerializable.Base;
 import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
 import com.oshi.ohsi_back.dto.request.goods.GetGoodsInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.goods.GetGoodsRequestDto;
@@ -41,11 +40,10 @@ public class GoodsServiceImplement implements GoodsService{
         try {
             UserEntity userEntity = userRepository.findByEmail(email);
             if(userEntity == null) return AddGoodsResponseDto.notExistUser();
-            int id = userEntity.getUserid();
             boolean existsGoods = baseGoodsRepository.existsByName(dto.getName());
             if(existsGoods) return AddGoodsResponseDto.duplicationName();
             
-            BaseGoodsEntity baseGoodsEntity = new BaseGoodsEntity(dto, id);
+            BaseGoodsEntity baseGoodsEntity = new BaseGoodsEntity(dto, userEntity);
             baseGoodsRepository.save(baseGoodsEntity); // BaseGoodsEntity 객체를 저장
             return AddGoodsResponseDto.success();
         } catch (Exception e) {
@@ -71,11 +69,11 @@ public class GoodsServiceImplement implements GoodsService{
             if ("OSHI".equals(dto.getMethod())) {
                 boolean existsOshi = oshiRepository.existsById(id);
                 if (!existsOshi) return GetGoodsResponseDto.notExistBoard();
-                page = baseGoodsRepository.findByOshiId(id, pageable); // findByOshiId 사용
+                page = baseGoodsRepository.findByOshi_OshiId(id, pageable); // findByOshiId 사용
             } else if ("CATEGORY".equals(dto.getMethod())) {
                 boolean existsCategory = categoryRepository.existsById(id);
                 if (!existsCategory) return GetGoodsResponseDto.notExistBoard();
-                page = baseGoodsRepository.findByCategoryId(id, pageable); // findByCategoryId 사용
+                page = baseGoodsRepository.findByCategory_CategoryId(id, pageable); // findByCategoryId 사용
             } else {
                 return GetGoodsResponseDto.databaseError();
                  // 유효하지 않은 method 처리

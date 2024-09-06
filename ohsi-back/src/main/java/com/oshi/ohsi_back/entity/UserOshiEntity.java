@@ -1,15 +1,7 @@
 package com.oshi.ohsi_back.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import javax.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "user_oshis")
@@ -21,18 +13,23 @@ public class UserOshiEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
 
-    @Column(name = "user_id", nullable = false)
-    private int user_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
-    @Column(name = "oshi_id", nullable = false)
-    private int oshi_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oshi_id", nullable = false)
+    private OshiEntity oshi;
 
-    // 생성자를 public으로 수정
+    // DTO 기반 생성자
     public UserOshiEntity(int user_id, int oshi_id) {
-        this.user_id = user_id;
-        this.oshi_id = oshi_id;
+        this.user = new UserEntity();
+        this.user.setUserId(user_id);
+
+        this.oshi = new OshiEntity();
+        this.oshi.setOshiId(oshi_id);
     }
 }
