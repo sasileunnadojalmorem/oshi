@@ -1,4 +1,4 @@
-package com.oshi.ohsi_back.exception;
+package com.oshi.ohsi_back.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
