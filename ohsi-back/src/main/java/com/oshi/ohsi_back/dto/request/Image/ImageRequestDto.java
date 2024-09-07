@@ -1,7 +1,5 @@
 package com.oshi.ohsi_back.dto.request.Image;
 
-import java.io.File;
-
 import jakarta.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -19,14 +17,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ImageRequestDto {
 
-    @NotNull
-    private ImageType type;
+   
     
-    @NotNull
-    private int referenceId;
-    
-    @NotNull
+    @NotNull(message = "file is required")
     private MultipartFile file;
+
+    private String url;
 
     
 }

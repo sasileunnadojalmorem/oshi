@@ -27,7 +27,7 @@ public class OshiEntity {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     @JsonIgnore
     private ImageEntity image;
 
@@ -38,12 +38,15 @@ public class OshiEntity {
     private List<CategoryEntity> categories;
 
     // DTO를 사용한 생성자
-    public OshiEntity(oshiRequestDto dto) {
+    public OshiEntity(oshiRequestDto dto,ImageEntity imageEntity) {
         this.description = dto.getDescription();
         this.name = dto.getName();
-
         // ImageEntity 객체 생성 후 ID만 설정
-        this.image = new ImageEntity();
-        this.image.setId(dto.getImageId());
+        
+        if(imageEntity!= null)   {
+            this.image = new ImageEntity();
+            this.image.setId(imageEntity.getId());
+        }
+      
     }
 }

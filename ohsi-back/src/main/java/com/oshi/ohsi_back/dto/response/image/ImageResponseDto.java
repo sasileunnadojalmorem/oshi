@@ -14,10 +14,11 @@ import lombok.Getter;
 public class ImageResponseDto extends ResponseDto{
 
     private int imageId;
+    private ImageEntity imageEntity;
     private ImageResponseDto(ImageEntity imageEntity){
         super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
         this.imageId = imageEntity.getId();  // id
-
+        this.imageEntity = imageEntity;
        
     }
     public static ResponseEntity<ImageResponseDto> success(ImageEntity imageEntity) {

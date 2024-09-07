@@ -24,14 +24,7 @@ public class Filecontrollor {
 
     private final Fileservice fileservice;
 
-   @PostMapping("/uploadAndSaveImage")
-        public ResponseEntity<? super ImageResponseDto> uploadAndSaveImage(
-        @AuthenticationPrincipal String email,
-        @ModelAttribute  ImageRequestDto dto) {    
-    
-    ResponseEntity<? super ImageResponseDto> response = fileservice.uploadAndSaveImage(dto.getFile(), dto, email);
-    return response;
-}
+
     @GetMapping(value = "{fileName}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public Resource getImage(
             @PathVariable("fileName") String fileName) {

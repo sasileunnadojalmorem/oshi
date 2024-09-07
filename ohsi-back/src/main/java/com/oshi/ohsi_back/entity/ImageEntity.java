@@ -22,12 +22,7 @@ public class ImageEntity {
     @Column(name = "url", nullable = false)
     private String url;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private ImageType type;
-
-    @Column(name = "reference_id", nullable = false)
-    private int referenceId;
+  
 
     @OneToMany(mappedBy = "profileImage", fetch = FetchType.LAZY)
     private List<UserEntity> users;
@@ -42,9 +37,8 @@ public class ImageEntity {
     private List<OshiEntity> oshis;
 
     // DTO를 사용한 생성자
-    public ImageEntity(ImageRequestDto dto, String url) {
-        this.referenceId = dto.getReferenceId();
+    public ImageEntity(String url) {
         this.url = url;
-        this.type = dto.getType();
+        
     }
 }

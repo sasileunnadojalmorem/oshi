@@ -1,5 +1,7 @@
 package com.oshi.ohsi_back.dto.request.oshi;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,8 +16,6 @@ public class oshiRequestDto {
     
     @NotBlank
     private String name;
-    @NotNull
     private String description;
-    @NotNull
-    private int imageId;
+    private MultipartFile file;
 }

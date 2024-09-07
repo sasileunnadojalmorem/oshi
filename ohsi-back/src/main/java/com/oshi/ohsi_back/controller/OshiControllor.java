@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.oshi.ohsi_back.dto.response.oshi.SearchOshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.GetOshiResponseDto;
 import com.oshi.ohsi_back.service.OshiService;
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
+import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.GetOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.SearchOhsiRequestDto;
 
@@ -28,7 +30,7 @@ public class OshiControllor {
 
     @PostMapping("add")
     public ResponseEntity<? super OshiResponseDto> postOshi(
-        @RequestBody@Valid oshiRequestDto requestbody,
+        @ModelAttribute oshiRequestDto requestbody,
         @AuthenticationPrincipal String email
     ){
         ResponseEntity<? super OshiResponseDto> response = oshiService.postoshi(requestbody, email);
