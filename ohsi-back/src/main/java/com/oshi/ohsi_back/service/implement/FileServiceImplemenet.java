@@ -6,16 +6,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
-import com.oshi.ohsi_back.dto.response.image.ImageResponseDto;
-import com.oshi.ohsi_back.entity.ImageEntity;
-import com.oshi.ohsi_back.repository.ImageRepository;
-import com.oshi.ohsi_back.repository.UserRepository;
+
 import com.oshi.ohsi_back.service.Fileservice;
 
 import lombok.RequiredArgsConstructor;

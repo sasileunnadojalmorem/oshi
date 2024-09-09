@@ -44,24 +44,17 @@ public class CategoryEntity {
     private List<BaseGoodsEntity> goods;
 
     // DTO를 사용한 생성자
-    public CategoryEntity(AddCategoryRequsetDto dto) {
+    public CategoryEntity(AddCategoryRequsetDto dto,OshiEntity oshiEntity) {
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.type = dto.getType().equals("OFFICIAL") ? CategoryType.OFFICIAL : CategoryType.NONOFFICIAL;
-
+        this.oshi = oshiEntity;
         // 연관된 엔터티들의 ID만 설정
-        this.oshi = new OshiEntity();
-        this.oshi.setOshiId(dto.getOshiid());
-
         if(dto.getAuthorid() != null) {
             this.author = new AuthorEntity();
             this.author.setId(dto.getAuthorid());
         }
 
-        if(dto.getImageid() != null) {
-            this.image = new ImageEntity();
-            this.image.setId(dto.getImageid());
-        }
     }
 
     public enum CategoryType {

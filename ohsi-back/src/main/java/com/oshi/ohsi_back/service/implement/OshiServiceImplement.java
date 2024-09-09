@@ -5,11 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.GetOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.SearchOhsiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;

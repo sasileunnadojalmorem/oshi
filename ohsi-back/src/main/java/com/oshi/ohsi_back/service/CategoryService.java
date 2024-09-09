@@ -1,5 +1,6 @@
 package com.oshi.ohsi_back.service;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 
 import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
@@ -17,4 +18,5 @@ public interface CategoryService {
     public ResponseEntity<? super GetCategoryResponseDto> getcategorybyoshiid(GetCategoryRequseDto dto);
     public ResponseEntity<? super GetCategoryInfoResponseDto> getCategotyInfo(GetCategoryInfoRequsetDto dto);
     public ResponseEntity<? super SearchCategoryResoponseDto> searchCategory(SearchCategoryRequestDto dto);
+    
 }

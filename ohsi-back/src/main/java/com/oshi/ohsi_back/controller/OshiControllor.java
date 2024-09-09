@@ -15,7 +15,6 @@ import com.oshi.ohsi_back.dto.response.oshi.SearchOshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.GetOshiResponseDto;
 import com.oshi.ohsi_back.service.OshiService;
 import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
-import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.GetOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.SearchOhsiRequestDto;
 

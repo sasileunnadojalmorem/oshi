@@ -6,6 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryRequseDto;
@@ -15,47 +18,74 @@ import com.oshi.ohsi_back.dto.response.category.GetCategoryInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryResponseDto;
 import com.oshi.ohsi_back.dto.response.category.SearchCategoryResoponseDto;
 import com.oshi.ohsi_back.entity.CategoryEntity;
+import com.oshi.ohsi_back.entity.ImageEntity;
+import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.repository.AuthorRepository;
 import com.oshi.ohsi_back.repository.CategoryRepository;
+import com.oshi.ohsi_back.repository.ImageRepository;
 import com.oshi.ohsi_back.repository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.service.CategoryService;
-import lombok.RequiredArgsConstructor;
-import java.util.List;
+import com.oshi.ohsi_back.service.Fileservice;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+@Slf4j
 @Service
 @RequiredArgsConstructor    
 public class CategoryServiceImplement  implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
-    private final AuthorRepository authorRepository;
     private final OshiRepository oshiRepository;
+    private final ImageRepository imageRepository;
+    private final Fileservice fileservice;
 
 
-    @Override
-    public ResponseEntity<?super AddCategoryResponseDto> AddCategory(AddCategoryRequsetDto dto, String email) {
+    public ResponseEntity<? super AddCategoryResponseDto> AddCategory(AddCategoryRequsetDto dto, String email) {
+        CategoryEntity categoryEntity = null;
+        ImageEntity imageEntity = null;
+        String imageUrl = null;
+        MultipartFile file = dto.getFile();
+    
         try {
+            // 사용자 및 카테고리 이름 중복 확인
             boolean existsUser = userRepository.existsByEmail(email);
-            if (!existsUser) return AddCategoryResponseDto.notExistUser();
-
             boolean existsName = categoryRepository.existsByName(dto.getName());
+            if (!existsUser) return AddCategoryResponseDto.notExistUser();
             if (existsName) return AddCategoryResponseDto.duplicationName();
-
-            String type = dto.getType();
-            if ("NONOFFICIAL".equals(type)) {
-                boolean existAuthor = authorRepository.existsById(dto.getAuthorid());
-                if (!existAuthor) return AddCategoryResponseDto.notExistUser();
+    
+            OshiEntity oshiEntity = oshiRepository.findByOshiId(dto.getOshiId());
+            if (oshiEntity == null) {
+                // 상세 로그를 추가하여 어떤 이유로 오류가 발생하는지 확인
+                log.error("OshiEntity with oshi_id {} not found", dto.getOshiId());
+                return AddCategoryResponseDto.validateFailed();
             }
-            if("OFFICIAL".equals(type)) {
-                if(dto.getAuthorid() != null){
-                    return AddCategoryResponseDto.databaseError();
-                } 
+    
+            // 카테고리 생성 및 이미지 처리
+            categoryEntity = new CategoryEntity(dto, oshiEntity);
+    
+            if (file != null && !file.isEmpty()) {
+                imageEntity = new ImageEntity();
+                imageEntity.setUrl("temporary-url");
+                imageRepository.save(imageEntity);
+    
+                imageUrl = fileservice.SaveImage(file);
+                if (imageUrl == null) {
+                    throw new RuntimeException("Image saving failed");
+                }
+    
+                imageEntity.setUrl(imageUrl);
+                imageRepository.save(imageEntity);
+                categoryEntity.setImage(imageEntity);
             }
-
-            CategoryEntity categoryEntity = new CategoryEntity(dto);
+    
+            // 카테고리 저장
             categoryRepository.save(categoryEntity);
+    
             return AddCategoryResponseDto.success(categoryEntity);
-
+    
         } catch (Exception e) {
             e.printStackTrace();
             return AddCategoryResponseDto.databaseError();
