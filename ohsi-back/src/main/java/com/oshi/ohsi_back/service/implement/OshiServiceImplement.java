@@ -33,8 +33,8 @@ public class OshiServiceImplement implements OshiService {
     private final Fileservice fileService;
 
     @Override
-@Transactional(rollbackFor = Exception.class)
-public ResponseEntity<? super OshiResponseDto> postoshi(oshiRequestDto oshiDto, String email) {
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<? super OshiResponseDto> postoshi(oshiRequestDto oshiDto, String email) {
     OshiEntity oshiEntity = null;
     ImageEntity imageEntity = null;
     String imageUrl = null;

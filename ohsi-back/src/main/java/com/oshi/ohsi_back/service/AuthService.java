@@ -13,5 +13,4 @@ public interface AuthService {
     ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto,HttpServletRequest http);
     ResponseEntity<? super SigninResponseDto> signIn(SignInRequestDto dto);
     
-
 }   

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,8 @@ public class GoodsController {
 
     @PostMapping("/add")
     public ResponseEntity<? super AddGoodsResponseDto > addGoods(
-        @RequestBody@Valid AddGoodsRequestDto dto, @AuthenticationPrincipal String email) 
+        @ModelAttribute AddGoodsRequestDto dto,
+        @AuthenticationPrincipal String email) 
     {   
         ResponseEntity<?super AddGoodsResponseDto> response = goodsService.AddGoods(dto, email);
         return response;  // Return the response entity with the map and HTTP status

@@ -13,4 +13,5 @@ public interface OshiService {
     ResponseEntity<? super OshiResponseDto> postoshi(oshiRequestDto oshidto,String email );
     ResponseEntity<? super GetOshiResponseDto> getoshi(GetOshiRequestDto dto);
     ResponseEntity<? super SearchOshiResponseDto> searchOshi(SearchOhsiRequestDto dto);
+
 }

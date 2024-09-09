@@ -24,14 +24,13 @@ public class AddCategoryRequsetDto {
 
     private  String description;
     
-        @NotBlank
+    @NotBlank
     private String type;
 
     private MultipartFile file;
 
     private Integer authorid;
 
-    private Integer imageid;
     
     
 }

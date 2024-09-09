@@ -17,4 +17,5 @@ public interface GoodsService {
     ResponseEntity<? super GetGoodsResponseDto> GetGoods(GetGoodsRequestDto dto);
     ResponseEntity<? super GetGoodsInfoResponseDto> GetGoodsInfo(GetGoodsInfoRequsetDto dto);
     ResponseEntity<? super SearchGoodsResponseDto> Searchgoods(SearchGoodsRequestDto dto);
+
 }

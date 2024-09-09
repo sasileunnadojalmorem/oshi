@@ -20,7 +20,6 @@ import com.oshi.ohsi_back.dto.response.category.SearchCategoryResoponseDto;
 import com.oshi.ohsi_back.entity.CategoryEntity;
 import com.oshi.ohsi_back.entity.ImageEntity;
 import com.oshi.ohsi_back.entity.OshiEntity;
-import com.oshi.ohsi_back.repository.AuthorRepository;
 import com.oshi.ohsi_back.repository.CategoryRepository;
 import com.oshi.ohsi_back.repository.ImageRepository;
 import com.oshi.ohsi_back.repository.OshiRepository;
@@ -42,12 +41,14 @@ public class CategoryServiceImplement  implements CategoryService {
     private final ImageRepository imageRepository;
     private final Fileservice fileservice;
 
-
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<? super AddCategoryResponseDto> AddCategory(AddCategoryRequsetDto dto, String email) {
         CategoryEntity categoryEntity = null;
         ImageEntity imageEntity = null;
         String imageUrl = null;
         MultipartFile file = dto.getFile();
+        OshiEntity oshiEntity =  null;
     
         try {
             // 사용자 및 카테고리 이름 중복 확인
@@ -55,11 +56,10 @@ public class CategoryServiceImplement  implements CategoryService {
             boolean existsName = categoryRepository.existsByName(dto.getName());
             if (!existsUser) return AddCategoryResponseDto.notExistUser();
             if (existsName) return AddCategoryResponseDto.duplicationName();
-    
-            OshiEntity oshiEntity = oshiRepository.findByOshiId(dto.getOshiId());
+            
+            oshiEntity = oshiRepository.findByOshiId(dto.getOshiId());
             if (oshiEntity == null) {
                 // 상세 로그를 추가하여 어떤 이유로 오류가 발생하는지 확인
-                log.error("OshiEntity with oshi_id {} not found", dto.getOshiId());
                 return AddCategoryResponseDto.validateFailed();
             }
     

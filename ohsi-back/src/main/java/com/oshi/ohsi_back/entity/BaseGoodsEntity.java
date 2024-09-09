@@ -50,24 +50,18 @@ public class BaseGoodsEntity {
     private ImageEntity image;
 
     // DTO를 사용한 생성자
-    public BaseGoodsEntity(AddGoodsRequestDto dto, UserEntity writer) {
+    public BaseGoodsEntity(AddGoodsRequestDto dto, UserEntity writer, OshiEntity oshiEntity, CategoryEntity categoryEntity) {
         this.name = dto.getName();
         this.description = dto.getDescription();
-        this.writer = writer;
-
-        // 연관된 엔터티들의 ID만 설정
-        this.oshi = new OshiEntity();
-        this.oshi.setOshiId(dto.getOshi_id());
-
-        this.category = new CategoryEntity();
-        this.category.setCategoryId(dto.getCategory_id());
-
+        this.writer = writer; // 작성자 엔터티
+    
+        // 연관된 엔터티들의 객체를 직접 할당
+        this.oshi = oshiEntity;  // OshiEntity 객체 설정
+        this.category = categoryEntity;  // CategoryEntity 객체 설정
+    
+        // GoodsTypeEntity 설정 (dto로부터 타입 ID를 받아서 설정)
         this.type = new GoodsTypeEntity();
         this.type.setId(dto.getType());
 
-        if(dto.getImage_id() != null) {
-            this.image = new ImageEntity();
-            this.image.setId(dto.getImage_id());
-        }
     }
 }
