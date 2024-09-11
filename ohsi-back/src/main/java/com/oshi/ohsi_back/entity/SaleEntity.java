@@ -49,28 +49,15 @@ public class SaleEntity {
     private String description;
 
     // DTO를 사용한 생성자
-    public SaleEntity(AddSaleRequestDto dto, UserEntity user) {
+    public SaleEntity(AddSaleRequestDto dto, UserEntity user,OshiEntity oshiEntity,CategoryEntity categoryEntity, BaseGoodsEntity baseGoodsEntity) {
         this.price = dto.getPrice();
         this.status = SaleStatus.SALE; // 기본값 설정
         this.description = dto.getDescription();
         this.user = user;
-
-        // 연관된 엔터티들의 ID만 설정
-        this.oshi = new OshiEntity();
-        this.oshi.setOshiId(dto.getOshi_id());
-
-        this.category = new CategoryEntity();
-        this.category.setCategoryId(dto.getCategory_id());
-
-        this.goods = new BaseGoodsEntity();
-        this.goods.setGoodsId(dto.getGoods_id());
-
-        if(dto.getImage_id() != null) {
-            this.image = new ImageEntity();
-            this.image.setId(dto.getImage_id());
-        }
+        this.oshi = oshiEntity;
+        this.category = categoryEntity;
+        this.goods = baseGoodsEntity;
     }
-
     public enum SaleStatus {
         NONSALE, RESERVE, SALE
     }

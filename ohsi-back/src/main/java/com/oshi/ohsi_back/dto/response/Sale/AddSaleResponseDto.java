@@ -21,7 +21,7 @@ public class AddSaleResponseDto extends ResponseDto{
         this.Sales_id = saleEntity.getSalesId();
     }
 
-    public static ResponseEntity<AddSaleResponseDto> success(SaleEntity saleEntity){
+    public static ResponseEntity<? super AddSaleResponseDto> success(SaleEntity saleEntity){
         AddSaleResponseDto responsebody = new AddSaleResponseDto(saleEntity);
         return ResponseEntity.status(HttpStatus.OK).body(responsebody);
     }

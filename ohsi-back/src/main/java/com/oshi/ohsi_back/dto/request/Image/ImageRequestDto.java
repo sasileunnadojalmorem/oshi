@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oshi.ohsi_back.common.ImageType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
