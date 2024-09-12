@@ -126,14 +126,66 @@ public class SaleServiceImplement implements SaleService {
 }
 
     @Override
-    public Void deleteSale(DeleteSaleRequestDto dto, UserEntity user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteSale'");
+    @Transactional(rollbackFor = Exception.class)  // ��기 전용 ������션
+    public void deleteSale(DeleteSaleRequestDto dto, String email) {
+            UserEntity user = userRepository.findByEmail(email);
+            if (user == null) {
+                throw new SaleException(ErrorCode.NOT_EXISTED_USER);
+            }
+            SaleEntity saleEntity = saleRepository.findBySalesId(dto.getSaleId())
+            .orElseThrow(()-> new SaleException(ErrorCode.NOT_EXISTED_SALES));
+            if( saleEntity.getUser().getUserId() == user.getUserId()) saleRepository.deleteById(dto.getSaleId());
+            return; 
     }
     @Override
-    public SaleResponseDto updateSale(UpdateSaleRequestDto dto, UserEntity user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateSale'");
+    @Transactional(rollbackFor = Exception.class)
+    public void updateSale(UpdateSaleRequestDto dto, String email) {
+    MultipartFile file = dto.getFile();
+    String imageUrl;
+    ImageEntity imageEntity = null; // 초기화
+    try {
+        // 사용자와 판매 정보 조회
+        UserEntity user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new SaleException(ErrorCode.NOT_EXISTED_USER);
+        }
+        SaleEntity saleEntity = saleRepository.findBySalesId(dto.getSaleId())
+                .orElseThrow(() -> new SaleException(ErrorCode.NOT_EXISTED_SALES));
+
+        // 권한 확인 (사용자가 판매자와 일치하는지 확인)
+        if (!saleEntity.getUser().equals(user)) {
+            throw new SaleException(ErrorCode.NOT_EXISTED_USER, "User is not authorized to update this sale");
+        }
+
+        // 이미지 파일이 있을 때만 처리
+        if (file != null && !file.isEmpty()) {
+            // 파일 저장
+            imageUrl = fileservice.SaveImage(file);
+            if (imageUrl == null) {
+                throw new SaleException(ErrorCode.VALIDATION_FAILED, "Image saving failed");
+            }
+
+            // 새로운 이미지 엔터티 생성
+            imageEntity = new ImageEntity();
+            imageEntity.setUrl(imageUrl);
+            imageRepository.save(imageEntity);
+            
+            // 판매 엔터티에 이미지 연결
+            saleEntity.setImage(imageEntity);
+        }
+
+        // 판매 엔터티 업데이트
+        saleEntity.updateSale(dto);
+
+        // 변경사항 저장
+        saleRepository.save(saleEntity);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        // 예외 처리 및 로깅
+        throw new SaleException(ErrorCode.DATABASE_ERROR);  // 적절한 예외 던지기
+    }
+ 
     }
   
   

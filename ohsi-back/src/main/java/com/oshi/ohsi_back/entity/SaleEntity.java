@@ -61,11 +61,11 @@ public class SaleEntity {
         this.goods = baseGoodsEntity;
     }
 
-    public SaleEntity(UpdateSaleRequestDto dto){
-        this.price = dto.getPrice();   
-        this.status = dto.getState();
+    public void updateSale(UpdateSaleRequestDto dto) {
+        this.price = dto.getPrice();           // 가격 업데이트
+        this.status = dto.getState();          // 상태 업데이트
+        this.description = dto.getDescription(); // 설명 업데이트
         
-
     }
     
 }

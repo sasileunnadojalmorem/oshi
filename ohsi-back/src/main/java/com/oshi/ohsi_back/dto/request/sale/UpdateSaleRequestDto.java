@@ -2,6 +2,8 @@ package com.oshi.ohsi_back.dto.request.sale;
 
 import java.math.BigDecimal;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.oshi.ohsi_back.enums.SaleStatusEnum;
 
 import jakarta.validation.constraints.NotNull;
@@ -23,4 +25,7 @@ public class UpdateSaleRequestDto {
     private String description;
     @NotNull
     private SaleStatusEnum state;
+    
+    private MultipartFile file;
+
 }
