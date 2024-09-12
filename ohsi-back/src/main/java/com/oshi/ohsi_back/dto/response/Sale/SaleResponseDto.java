@@ -21,6 +21,7 @@ public class SaleResponseDto {
     private BigDecimal price; // 금액의 정밀도를 유지하기 위해 BigDecimal 사용
     private String status;
     private int imageId;
+    private String description;
     private String imageUrl;
 
     public SaleResponseDto(SaleEntity saleEntity) {
@@ -35,9 +36,29 @@ public class SaleResponseDto {
         this.goodsName = saleEntity.getGoods().getName();
         this.price = saleEntity.getPrice(); // 그대로 BigDecimal로 사용
         this.status = saleEntity.getStatus().name();
+        this.description = saleEntity.getDescription();
 
         // 이미지가 있는 경우에만 ID와 URL 설정
         this.imageId = saleEntity.getImage() == null ? 0 : saleEntity.getImage().getId();
         this.imageUrl = saleEntity.getImage() == null ? null : saleEntity.getImage().getUrl();
     }
+    public SaleResponseDto(int salesId, int writerId, String writerName,
+    int oshiId, String oshiName, int categoryId, String categoryName,
+    int goodsId, String goodsName, BigDecimal price, String status,
+    int imageId, String description, String imageUrl) {
+            this.salesId = salesId;
+            this.writerId = writerId;
+            this.writerName = writerName;
+            this.oshiId = oshiId;
+            this.oshiName = oshiName;
+            this.categoryId = categoryId;
+            this.categoryName = categoryName;
+            this.goodsId = goodsId;
+            this.goodsName = goodsName;
+            this.price = price;
+            this.status = status;
+            this.imageId = imageId;
+            this.description = description;
+            this.imageUrl = imageUrl;
+        }
 }

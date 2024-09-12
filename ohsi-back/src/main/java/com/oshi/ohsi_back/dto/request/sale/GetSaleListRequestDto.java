@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetSaleRequestDto {
+public class GetSaleListRequestDto {
 
     private String method;
     private int typeId;

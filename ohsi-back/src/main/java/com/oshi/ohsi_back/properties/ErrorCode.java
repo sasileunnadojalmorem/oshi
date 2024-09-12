@@ -16,7 +16,7 @@ public enum ErrorCode {
     DUPLICATE_GOODS(HttpStatus.BAD_REQUEST, "DG", "This Goods Already Existed"),
     NOT_EXISTED_USER(HttpStatus.BAD_REQUEST, "NU", "This User Not Existed"),
     NOT_EXISTED_BOARD(HttpStatus.BAD_REQUEST, "NB", "This Board Not Existed"),
-    
+    NOT_EXISTED_SALES(HttpStatus.BAD_REQUEST, "NO","this sales Not Existed"),
     // HTTP STATUS 401
     SIGN_IN_FAILED(HttpStatus.UNAUTHORIZED, "SF", "Sign In Failed"),
     AUTHORIZATION_FAIL(HttpStatus.UNAUTHORIZED, "AF", "Authorization Failed"),

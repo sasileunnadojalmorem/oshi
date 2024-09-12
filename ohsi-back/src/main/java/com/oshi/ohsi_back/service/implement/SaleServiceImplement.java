@@ -1,9 +1,10 @@
 package com.oshi.ohsi_back.service.implement;
 
+
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oshi.ohsi_back.dto.request.sale.AddSaleRequestDto;
 import com.oshi.ohsi_back.dto.request.sale.GetSaleInfoRequestDto;
-import com.oshi.ohsi_back.dto.request.sale.GetSaleRequestDto;
+import com.oshi.ohsi_back.dto.request.sale.GetSaleListRequestDto;
 import com.oshi.ohsi_back.dto.response.Sale.AddSaleResponseDto;
 import com.oshi.ohsi_back.dto.response.Sale.GetSaleInfoResponseDto;
-import com.oshi.ohsi_back.dto.response.Sale.GetSaleResponseDto;
+import com.oshi.ohsi_back.dto.response.Sale.GetSaleListResponseDto;
 import com.oshi.ohsi_back.dto.response.Sale.SaleResponseDto;
 import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 import com.oshi.ohsi_back.entity.CategoryEntity;
@@ -22,15 +23,16 @@ import com.oshi.ohsi_back.entity.ImageEntity;
 import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.entity.SaleEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
+import com.oshi.ohsi_back.exception.SaleException;
+import com.oshi.ohsi_back.properties.ErrorCode;
 import com.oshi.ohsi_back.service.Fileservice;
 import com.oshi.ohsi_back.service.SaleService;
 import com.oshi.ohsi_back.repository.UserRepository;
+import com.oshi.ohsi_back.repository.SaleRepository.SaleRepository;
 import com.oshi.ohsi_back.repository.BaseGoodsRepository;
 import com.oshi.ohsi_back.repository.CategoryRepository;
 import com.oshi.ohsi_back.repository.ImageRepository;
 import com.oshi.ohsi_back.repository.OshiRepository;
-import com.oshi.ohsi_back.repository.SaleRepository;
-
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,19 +87,36 @@ public class SaleServiceImplement implements SaleService {
     @Override
     public GetSaleInfoResponseDto getSaleInfo(GetSaleInfoRequestDto dto) {
         int id = dto.getSaleId();
-
         try {
-            SaleEntity saleEntity = saleRepository.findBySalesId(id);
-
+            SaleEntity saleEntity = saleRepository.findBySalesId(id)
+                .orElseThrow(() -> new SaleException(ErrorCode.NOT_EXISTED_SALES));  // SaleEntity가 없으면 예외 발생
+    
             // SaleEntity를 받아서 DTO로 변환
             return GetSaleInfoResponseDto.createFromSaleEntity(saleEntity);
-
+    
         } catch (Exception e) {
             e.printStackTrace();
-            // 예외 처리 추가 (null 반환 또는 적절한 예외 처리)
+            // 예외 발생 시 null 반환 또는 적절한 예외 처리
             return null;
         }
     }
+    @Override
+public GetSaleListResponseDto getSaleList(GetSaleListRequestDto dto) {
+    int pageSize = 10;
+    try {
+        Pageable pageable = PageRequest.of(dto.getPagenum(), pageSize);
+        Page<SaleResponseDto> response = saleRepository.getSaleList(pageable, dto);
+        // Page<SaleResponseDto>를 받아서 DTO로 변환
+        return GetSaleListResponseDto.builder()
+           .saleEntities(response.getContent())   // 리스트를 가져옴
+           .totalPages(response.getTotalPages())  // 전체 페이지 수
+           .totalCount((int)response.getTotalElements())  // 전체 요소 수
+           .build();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;  // 예외 발생 시 null 반환 또는 적절한 에러 처리
+    }
+}
   
   
 
