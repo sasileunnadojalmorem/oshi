@@ -36,7 +36,7 @@ public class QSaleEntity extends EntityPathBase<SaleEntity> {
 
     public final NumberPath<Integer> salesId = createNumber("salesId", Integer.class);
 
-    public final EnumPath<SaleEntity.SaleStatus> status = createEnum("status", SaleEntity.SaleStatus.class);
+    public final EnumPath<com.oshi.ohsi_back.enums.SaleStatusEnum> status = createEnum("status", com.oshi.ohsi_back.enums.SaleStatusEnum.class);
 
     public final QUserEntity user;
 

@@ -2,6 +2,9 @@ package com.oshi.ohsi_back.service.implement;
 
 
 
+import java.util.Optional;
+
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oshi.ohsi_back.dto.request.sale.AddSaleRequestDto;
+import com.oshi.ohsi_back.dto.request.sale.DeleteSaleRequestDto;
 import com.oshi.ohsi_back.dto.request.sale.GetSaleInfoRequestDto;
 import com.oshi.ohsi_back.dto.request.sale.GetSaleListRequestDto;
+import com.oshi.ohsi_back.dto.request.sale.UpdateSaleRequestDto;
 import com.oshi.ohsi_back.dto.response.Sale.AddSaleResponseDto;
 import com.oshi.ohsi_back.dto.response.Sale.GetSaleInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.Sale.GetSaleListResponseDto;
@@ -85,6 +90,7 @@ public class SaleServiceImplement implements SaleService {
         }
     }
     @Override
+    @Transactional(readOnly = true)  // ��기 전용 ������션
     public GetSaleInfoResponseDto getSaleInfo(GetSaleInfoRequestDto dto) {
         int id = dto.getSaleId();
         try {
@@ -101,7 +107,8 @@ public class SaleServiceImplement implements SaleService {
         }
     }
     @Override
-public GetSaleListResponseDto getSaleList(GetSaleListRequestDto dto) {
+    @Transactional(readOnly = true)
+    public GetSaleListResponseDto getSaleList(GetSaleListRequestDto dto) {
     int pageSize = 10;
     try {
         Pageable pageable = PageRequest.of(dto.getPagenum(), pageSize);
@@ -117,6 +124,17 @@ public GetSaleListResponseDto getSaleList(GetSaleListRequestDto dto) {
         return null;  // 예외 발생 시 null 반환 또는 적절한 에러 처리
     }
 }
+
+    @Override
+    public Void deleteSale(DeleteSaleRequestDto dto, UserEntity user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteSale'");
+    }
+    @Override
+    public SaleResponseDto updateSale(UpdateSaleRequestDto dto, UserEntity user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateSale'");
+    }
   
   
 
