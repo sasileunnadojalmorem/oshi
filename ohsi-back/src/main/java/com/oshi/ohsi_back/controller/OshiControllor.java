@@ -14,7 +14,7 @@ import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.SearchOshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.GetOshiResponseDto;
 import com.oshi.ohsi_back.service.OshiService;
-import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
+import com.oshi.ohsi_back.dto.request.oshi.OshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.GetOshiRequestDto;
 import com.oshi.ohsi_back.dto.request.oshi.SearchOhsiRequestDto;
 
@@ -29,7 +29,7 @@ public class OshiControllor {
 
     @PostMapping("add")
     public ResponseEntity<? super OshiResponseDto> postOshi(
-        @ModelAttribute oshiRequestDto requestbody,
+        @ModelAttribute OshiRequestDto requestbody,
         @AuthenticationPrincipal String email
     ){
         ResponseEntity<? super OshiResponseDto> response = oshiService.postoshi(requestbody, email);

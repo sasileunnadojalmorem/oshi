@@ -5,7 +5,7 @@ import lombok.*;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.oshi.ohsi_back.dto.request.oshi.oshiRequestDto;
+import com.oshi.ohsi_back.dto.request.oshi.OshiRequestDto;
 
 @Entity
 @Table(name = "oshi")
@@ -38,15 +38,9 @@ public class OshiEntity {
     private List<CategoryEntity> categories;
 
     // DTO를 사용한 생성자
-    public OshiEntity(oshiRequestDto dto,ImageEntity imageEntity) {
+    public OshiEntity(OshiRequestDto dto) {
         this.description = dto.getDescription();
         this.name = dto.getName();
-        // ImageEntity 객체 생성 후 ID만 설정
-        
-        if(imageEntity!= null)   {
-            this.image = new ImageEntity();
-            this.image.setId(imageEntity.getId());
-        }
-      
+        // ImageEntity 객체 생성 후 ID만 설정 
     }
 }

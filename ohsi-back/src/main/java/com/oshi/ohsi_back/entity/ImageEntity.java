@@ -2,9 +2,7 @@ package com.oshi.ohsi_back.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
 import com.oshi.ohsi_back.common.ImageType;
-import com.oshi.ohsi_back.dto.request.Image.ImageRequestDto;
 
 @Entity
 @Table(name = "image")
@@ -22,23 +20,17 @@ public class ImageEntity {
     @Column(name = "url", nullable = false)
     private String url;
 
-  
+    @Column(name = "related_id", nullable = false)
+    private int relatedId;
 
-    @OneToMany(mappedBy = "profileImage", fetch = FetchType.LAZY)
-    private List<UserEntity> users;
-
-    @OneToMany(mappedBy = "image", fetch = FetchType.LAZY)
-    private List<SaleEntity> sales;
-
-    @OneToMany(mappedBy = "image", fetch = FetchType.LAZY)
-    private List<CategoryEntity> categories;
-
-    @OneToMany(mappedBy = "image", fetch = FetchType.LAZY)
-    private List<OshiEntity> oshis;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "related_type", nullable = false)
+    private ImageType relatedType;
 
     // DTO를 사용한 생성자
-    public ImageEntity(String url) {
+    public ImageEntity(String url, int relatedId, ImageType relatedType) {
         this.url = url;
-        
+        this.relatedId = relatedId;
+        this.relatedType = relatedType;
     }
 }

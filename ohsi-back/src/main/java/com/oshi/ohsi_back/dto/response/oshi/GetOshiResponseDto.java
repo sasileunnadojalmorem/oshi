@@ -6,24 +6,23 @@ import org.springframework.http.ResponseEntity;
 import com.oshi.ohsi_back.common.Responsecode;
 import com.oshi.ohsi_back.common.Responsemessage;
 import com.oshi.ohsi_back.dto.response.ResponseDto;
-import com.oshi.ohsi_back.entity.OshiEntity;
 
 import lombok.Getter;
-import lombok.Setter;
+
 
 @Getter
-@Setter
+
 public class GetOshiResponseDto extends ResponseDto {
 
-    private OshiEntity oshiEntity = new OshiEntity();
+    private OshiResponseDto oshiResponseDto;
     
-    private GetOshiResponseDto(OshiEntity oshiEntity) {
+    private GetOshiResponseDto(OshiResponseDto dto) {
         super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
-        this.oshiEntity = oshiEntity;
+        this.oshiResponseDto = dto;
     }
 
-    public static ResponseEntity<? super GetOshiResponseDto> success(OshiEntity oshiEntity) {
-        GetOshiResponseDto responsebody = new GetOshiResponseDto(oshiEntity);
+    public static ResponseEntity<? super GetOshiResponseDto> success(OshiResponseDto dto) {
+        GetOshiResponseDto responsebody = new GetOshiResponseDto(dto);
         return ResponseEntity.status(HttpStatus.OK).body(responsebody);
     }
 }

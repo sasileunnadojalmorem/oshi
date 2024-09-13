@@ -27,8 +27,8 @@ import com.oshi.ohsi_back.entity.UserEntity;
 import com.oshi.ohsi_back.repository.BaseGoodsRepository;
 import com.oshi.ohsi_back.repository.CategoryRepository;
 import com.oshi.ohsi_back.repository.ImageRepository;
-import com.oshi.ohsi_back.repository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserRepository;
+import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.service.Fileservice;
 import com.oshi.ohsi_back.service.GoodsService;
 

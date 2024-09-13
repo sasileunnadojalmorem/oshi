@@ -2,9 +2,6 @@ package com.oshi.ohsi_back.service.implement;
 
 
 
-import java.util.Optional;
-
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,11 +30,11 @@ import com.oshi.ohsi_back.properties.ErrorCode;
 import com.oshi.ohsi_back.service.Fileservice;
 import com.oshi.ohsi_back.service.SaleService;
 import com.oshi.ohsi_back.repository.UserRepository;
+import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.repository.SaleRepository.SaleRepository;
 import com.oshi.ohsi_back.repository.BaseGoodsRepository;
 import com.oshi.ohsi_back.repository.CategoryRepository;
 import com.oshi.ohsi_back.repository.ImageRepository;
-import com.oshi.ohsi_back.repository.OshiRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

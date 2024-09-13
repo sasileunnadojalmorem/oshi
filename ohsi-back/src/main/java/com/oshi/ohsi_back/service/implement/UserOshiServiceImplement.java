@@ -15,7 +15,7 @@ import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
 import com.oshi.ohsi_back.entity.UserOshiEntity;
 import com.oshi.ohsi_back.repository.UserRepository;
-import com.oshi.ohsi_back.repository.OshiRepository;
+import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserOshiRepository;
 import com.oshi.ohsi_back.service.UserOshiService;
 

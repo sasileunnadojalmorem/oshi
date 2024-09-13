@@ -11,7 +11,6 @@ import com.oshi.ohsi_back.dto.request.sale.UpdateSaleRequestDto;
 import com.oshi.ohsi_back.dto.response.Sale.AddSaleResponseDto;
 import com.oshi.ohsi_back.dto.response.Sale.GetSaleInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.Sale.GetSaleListResponseDto;
-import com.oshi.ohsi_back.entity.UserEntity;
 import com.oshi.ohsi_back.service.SaleService;
 
 import jakarta.validation.Valid;

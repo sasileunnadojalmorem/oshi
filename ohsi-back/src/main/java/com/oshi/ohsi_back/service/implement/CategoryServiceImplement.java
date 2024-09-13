@@ -22,8 +22,8 @@ import com.oshi.ohsi_back.entity.ImageEntity;
 import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.repository.CategoryRepository;
 import com.oshi.ohsi_back.repository.ImageRepository;
-import com.oshi.ohsi_back.repository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserRepository;
+import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.service.CategoryService;
 import com.oshi.ohsi_back.service.Fileservice;
 
