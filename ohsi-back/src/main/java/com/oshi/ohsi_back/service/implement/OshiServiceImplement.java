@@ -1,7 +1,11 @@
 package com.oshi.ohsi_back.service.implement;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,7 +122,7 @@ public class OshiServiceImplement implements OshiService {
                 return GetOshiResponseDto.databaseError();
             }
             
-            OshiResponseDto oshi = oshiRepository.findImageUrlOshiEntity(dto.getOshiId());
+            OshiResponseDto oshi = oshiRepository.findImageUrlOshiEntity(dto.getOshiId(),null);
             if (oshi == null) {
                 System.out.println("OshiEntity returned null for ID: " + dto.getOshiId() + oshi);
                 return GetOshiResponseDto.databaseError();
@@ -133,15 +137,20 @@ public class OshiServiceImplement implements OshiService {
         }
     }
 
-    @Override
-    public ResponseEntity<? super SearchOshiResponseDto> searchOshi(SearchOhsiRequestDto dto) {
-        List<OshiEntity> oshiEntities = null;
-        try {
-           oshiEntities = oshiRepository.searchOshiList(dto.getKeyword(),10); 
-           return SearchOshiResponseDto.success(oshiEntities);        
-        } catch (Exception e) {
-            e.printStackTrace();
-            return SearchOshiResponseDto.databaseError();
-        }
+@Override
+public ResponseEntity<? super SearchOshiResponseDto> searchOshi(SearchOhsiRequestDto dto) {
+    Page<OshiResponseDto> oshiEntities = null;
+    Pageable pageable = PageRequest.of(0, 10); // limit 설정
+
+    try {
+        // 1. 검색 결과를 가져옴
+        oshiEntities = oshiRepository.searchOshiList(dto.getKeyword(), pageable);
+        // 2. OshiEntity 리스트를 OshiResponseDto 리스트로 변환
+        // 3. 성공 응답 반환
+        return SearchOshiResponseDto.success(oshiEntities);        
+    } catch (Exception e) {
+        e.printStackTrace();
+        return SearchOshiResponseDto.databaseError();
     }
+}
 }

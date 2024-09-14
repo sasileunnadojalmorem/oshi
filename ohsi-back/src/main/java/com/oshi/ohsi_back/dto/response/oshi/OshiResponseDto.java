@@ -12,12 +12,23 @@ public class OshiResponseDto {
     private int oshiId;
     private String description;
     private String name;
+    private Integer status;
 
     @Builder
-    public OshiResponseDto(String imageUrl, OshiEntity oshiEntity) {
+    public OshiResponseDto(String imageUrl, OshiEntity oshiEntity, Integer status) {
         this.oshiId = oshiEntity.getOshiId();
         this.name = oshiEntity.getName();
         this.description = oshiEntity.getDescription();
-        this.imageUrl = imageUrl;  // 이미지가 없으면 null로 처리
+        this.imageUrl = imageUrl;
+        this.status = status;
+    }
+
+    // Overloaded constructor without status (used when status is not needed)
+    public OshiResponseDto(OshiEntity oshiEntity) {
+        this.oshiId = oshiEntity.getOshiId();
+        this.name = oshiEntity.getName();
+        this.description = oshiEntity.getDescription();
+        this.imageUrl = null;
+        this.status = 0; // default value for status when not provided
     }
 }

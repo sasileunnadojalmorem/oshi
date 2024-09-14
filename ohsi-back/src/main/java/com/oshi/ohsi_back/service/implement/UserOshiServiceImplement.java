@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 import com.oshi.ohsi_back.dto.request.oshi.AddUserOshiRequsetDto;
 import com.oshi.ohsi_back.dto.response.oshi.AddUserOshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.GetUserOshiResponseDto;
+import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
 import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
 import com.oshi.ohsi_back.entity.UserOshiEntity;
+import com.oshi.ohsi_back.exception.exceptionclass.CustomException;
+import com.oshi.ohsi_back.properties.ErrorCode;
 import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.repository.UserOshiRepository;
@@ -78,36 +81,28 @@ public class UserOshiServiceImplement implements UserOshiService {
     }
 
     @Override
-    public ResponseEntity<? super GetUserOshiResponseDto> GetUserOshi(String email) {
-        try {
-            UserEntity userEntity = userRepository.findByEmail(email);
-            if (userEntity == null) {
-                return GetUserOshiResponseDto.notExistUser();
-            }
-            int userid = userRepository.findByEmail(email).getUserId();
-            
-            List<UserOshiEntity> userOshiList = userOshiRepository.findByUser(userid);
-
-            if (userOshiList == null || userOshiList.isEmpty()) {
-                return GetUserOshiResponseDto.success(Collections.emptyList());
-            }
-
-            List<OshiEntity> oshiList = new ArrayList<>();
-            for (UserOshiEntity userOshi : userOshiList) {
-                int oshiId = userOshi.getOshi().getOshiId();
-                Optional<OshiEntity> optionalOshiEntity = oshiRepository.findById(oshiId);
-    
-                if (optionalOshiEntity.isPresent()) {
-                    OshiEntity oshiEntity = optionalOshiEntity.get();
-                    oshiList.add(oshiEntity);
-                }
-            }
-
-            return GetUserOshiResponseDto.success(oshiList);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GetUserOshiResponseDto.databaseError();
+public ResponseEntity<? super GetUserOshiResponseDto> GetUserOshi(String email) {
+    try {
+        // 1. 유저를 이메일로 찾고 존재 여부 확인
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if (userEntity == null) {
+            throw new CustomException(ErrorCode.NOT_EXISTED_USER);
         }
+
+        int userId = userEntity.getUserId();
+
+        // 2. 커스텀 쿼리를 사용하여 유저의 오시 리스트와 관련된 데이터를 한 번에 가져옴
+        GetUserOshiResponseDto oshiResponseList = oshiRepository.findByUserId(userId);
+
+        // 3. 오시 리스트가 없는 경우 빈 리스트 반환
+        
+
+        // 4. 성공적으로 유저 오시 리스트 반환
+        return ResponseEntity.ok(oshiResponseList);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+            throw new CustomException(ErrorCode.DATABASE_ERROR);
     }
+}
 }
