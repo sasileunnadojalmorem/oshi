@@ -3,6 +3,7 @@ package com.oshi.ohsi_back.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import com.oshi.ohsi_back.dto.request.goods.AddGoodsRequestDto;
+import com.oshi.ohsi_back.dto.request.goods.UpdateGoodsRequestDto;
 
 @Entity
 @Table(name = "base_goods")
@@ -63,5 +64,11 @@ public class BaseGoodsEntity {
         this.type = new GoodsTypeEntity();
         this.type.setId(dto.getType());
 
+    }
+    public void updateGoods(UpdateGoodsRequestDto dto){
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.type = new GoodsTypeEntity();
+        this.type.setId(dto.getType()); 
     }
 }

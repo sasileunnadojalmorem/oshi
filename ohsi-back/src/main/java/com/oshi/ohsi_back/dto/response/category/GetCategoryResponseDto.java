@@ -18,14 +18,13 @@ import org.springframework.http.ResponseEntity;
 @Setter
 public class GetCategoryResponseDto extends ResponseDto {
 
-    private Page<CategoryEntity> categorylist ;
+    private Page<CategoryResponseDto> categorylist ;
 
-    private GetCategoryResponseDto (Page<CategoryEntity> categoryLists){
+    private GetCategoryResponseDto (Page<CategoryResponseDto> categoryLists){
         super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
         this.categorylist = categoryLists;
-        
     }
-    public static ResponseEntity<? super GetCategoryResponseDto> success(Page<CategoryEntity> categotylist){
+    public static ResponseEntity<? super GetCategoryResponseDto> success(Page<CategoryResponseDto> categotylist){
         GetCategoryResponseDto responsebody = new GetCategoryResponseDto(categotylist);
         return ResponseEntity.status(HttpStatus.OK).body(responsebody);
     }

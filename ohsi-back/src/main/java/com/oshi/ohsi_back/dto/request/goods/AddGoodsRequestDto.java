@@ -3,6 +3,8 @@ package com.oshi.ohsi_back.dto.request.goods;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +29,6 @@ public class AddGoodsRequestDto {
     @Nullable
     private String description;
     
-    MultipartFile file;
+    List<MultipartFile> file;
 
 }

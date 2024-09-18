@@ -27,7 +27,7 @@ public class ErrorResponse {
             .body(ErrorResponse.builder()
                 .statusCode(errorCode.getHttpStatus().value())    // 상태 코드 값 설정
                 .statusCodeName(errorCode.getHttpStatus().name()) // 상태 코드 이름 설정
-                .code(errorCode.name())                           // 에러 코드 설정
+                .code(errorCode.getCode())                           // 에러 코드 설정
                 .message(errorCode.getMessage())                  // 에러 메시지 설정
                 .runtimeValue(runtimeValue)                       // 런타임 값 설정
                 .build()

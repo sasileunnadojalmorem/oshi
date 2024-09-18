@@ -3,7 +3,7 @@ package com.oshi.ohsi_back.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
-import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
+import com.oshi.ohsi_back.dto.request.category.AddCategoryRequestDto;
 
 @Entity
 @Table(name = "category")
@@ -44,11 +44,12 @@ public class CategoryEntity {
     private List<BaseGoodsEntity> goods;
 
     // DTO를 사용한 생성자
-    public CategoryEntity(AddCategoryRequsetDto dto,OshiEntity oshiEntity) {
+    public CategoryEntity(AddCategoryRequestDto dto) {
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.type = dto.getType().equals("OFFICIAL") ? CategoryType.OFFICIAL : CategoryType.NONOFFICIAL;
-        this.oshi = oshiEntity;
+        this.oshi = new OshiEntity();
+        this.oshi.setOshiId(dto.getOshiId()); 
         // 연관된 엔터티들의 ID만 설정
         if(dto.getAuthorid() != null) {
             this.author = new AuthorEntity();

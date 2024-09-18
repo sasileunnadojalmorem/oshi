@@ -1,147 +1,83 @@
 package com.oshi.ohsi_back.service.implement;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.oshi.ohsi_back.dto.request.category.AddCategoryRequsetDto;
+import com.oshi.ohsi_back.dto.request.category.AddCategoryRequestDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryInfoRequsetDto;
 import com.oshi.ohsi_back.dto.request.category.GetCategoryRequseDto;
 import com.oshi.ohsi_back.dto.request.category.SearchCategoryRequestDto;
 import com.oshi.ohsi_back.dto.response.category.AddCategoryResponseDto;
+import com.oshi.ohsi_back.dto.response.category.CategoryResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.category.GetCategoryResponseDto;
 import com.oshi.ohsi_back.dto.response.category.SearchCategoryResoponseDto;
 import com.oshi.ohsi_back.entity.CategoryEntity;
-import com.oshi.ohsi_back.entity.ImageEntity;
-import com.oshi.ohsi_back.entity.OshiEntity;
+import com.oshi.ohsi_back.exception.exceptionclass.CustomException;
+import com.oshi.ohsi_back.properties.ErrorCode;
 import com.oshi.ohsi_back.repository.CategoryRepository;
-import com.oshi.ohsi_back.repository.ImageRepository;
-import com.oshi.ohsi_back.repository.UserRepository;
 import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.service.CategoryService;
-import com.oshi.ohsi_back.service.Fileservice;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-@Slf4j
+
 @Service
-@RequiredArgsConstructor    
-public class CategoryServiceImplement  implements CategoryService {
+@RequiredArgsConstructor
+public class CategoryServiceImplement implements CategoryService {
+
     private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
     private final OshiRepository oshiRepository;
-    private final ImageRepository imageRepository;
-    private final Fileservice fileservice;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<? super AddCategoryResponseDto> AddCategory(AddCategoryRequsetDto dto, String email) {
-        CategoryEntity categoryEntity = null;
-        ImageEntity imageEntity = null;
-        String imageUrl = null;
-        MultipartFile file = dto.getFile();
-        OshiEntity oshiEntity =  null;
-    
-        try {
-            // 사용자 및 카테고리 이름 중복 확인
-            boolean existsUser = userRepository.existsByEmail(email);
-            boolean existsName = categoryRepository.existsByName(dto.getName());
-            if (!existsUser) return AddCategoryResponseDto.notExistUser();
-            if (existsName) return AddCategoryResponseDto.duplicationName();
-            
-            oshiEntity = oshiRepository.findByOshiId(dto.getOshiId());
-            if (oshiEntity == null) {
-                // 상세 로그를 추가하여 어떤 이유로 오류가 발생하는지 확인
-                return AddCategoryResponseDto.validateFailed();
-            }
-    
-            // 카테고리 생성 및 이미지 처리
-            categoryEntity = new CategoryEntity(dto, oshiEntity);
-    
-            if (file != null && !file.isEmpty()) {
-                imageEntity = new ImageEntity();
-                imageEntity.setUrl("temporary-url");
-                imageRepository.save(imageEntity);
-    
-                imageUrl = fileservice.SaveImage(file);
-                if (imageUrl == null) {
-                    throw new RuntimeException("Image saving failed");
-                }
-    
-                imageEntity.setUrl(imageUrl);
-                imageRepository.save(imageEntity);
-                categoryEntity.setImage(imageEntity);
-            }
-    
-            // 카테고리 저장
-            categoryRepository.save(categoryEntity);
-    
-            return AddCategoryResponseDto.success(categoryEntity);
-    
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AddCategoryResponseDto.databaseError();
+    public CategoryResponseDto AddCategory(AddCategoryRequestDto dto, String email) {
+        // OshiEntity 확인
+        if (!oshiRepository.existsById(dto.getOshiId())) {
+            throw new CustomException(ErrorCode.NOT_EXISTED_BOARD);
         }
+
+        // 카테고리 이름 중복 확인
+        if (categoryRepository.existsByName(dto.getName())) {
+            throw new CustomException(ErrorCode.DUPLICATE_CATEGORY);
+        }
+
+        // CategoryEntity 생성 및 저장
+        CategoryEntity categoryEntity = new CategoryEntity(dto);
+        categoryRepository.save(categoryEntity);
+        CategoryResponseDto categoryResponseDto = new CategoryResponseDto(categoryEntity);
+        return CategoryResponseDto;
     }
 
     @Override
-    public ResponseEntity<? super GetCategoryResponseDto> getcategorybyoshiid(GetCategoryRequseDto dto) {
-        int oshi_id = dto.getOshiid();
-        int page_size = 30;
+    public GetCategoryInfoResponseDto getCategotyInfo(GetCategoryInfoRequsetDto dto) {
+        // 카테고리 정보 확인
+        CategoryEntity categoryEntity = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTED_BOARD));
 
-        try {
-            boolean existsOshi = oshiRepository.existsById(dto.getOshiid());
-            if (!existsOshi) return GetCategoryResponseDto.notExistBoard();
-
-            Sort sortOrder = "recent".equals(dto.getSortedBy()) 
-                                ? Sort.by("categoryId").descending()
-                                : Sort.by("categoryId").ascending();
-
-            Pageable pageable = PageRequest.of(dto.getPagenum(), page_size, sortOrder);
-            Page<CategoryEntity> categoryEntityList = categoryRepository.findByOshi_OshiId(oshi_id, pageable);
-
-            
-
-            return GetCategoryResponseDto.success(categoryEntityList);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GetCategoryResponseDto.databaseError();
-        }
+        return GetCategoryInfoResponseDto.success(categoryEntity);
     }
 
     @Override
-    public ResponseEntity<? super GetCategoryInfoResponseDto> getCategotyInfo(GetCategoryInfoRequsetDto dto) {
-        try {
-
-            CategoryEntity categoryEntity = categoryRepository.findByCategoryId(dto.getCategoryId());
-            if(categoryEntity == null) return GetCategoryInfoResponseDto.validateFailed();
-            return GetCategoryInfoResponseDto.success(categoryEntity);
-
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GetCategoryInfoResponseDto.databaseError();
+    public GetCategoryResponseDto getcategorybyoshiid(GetCategoryRequseDto dto) {
+        // 특정 OshiId에 대한 카테고리 목록 가져오기
+        List<CategoryEntity> categories = categoryRepository.findByOshiId(dto.getOshiid());
+        if (categories.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND);
         }
+
+        return GetCategoryResponseDto.success(categories);
     }
 
     @Override
-    public ResponseEntity<? super SearchCategoryResoponseDto> searchCategory(SearchCategoryRequestDto dto) {
-        try {
-            List<CategoryEntity> categoList = categoryRepository.searchCategory(dto.getKeyword(),10);
-            return SearchCategoryResoponseDto.success(categoList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return SearchCategoryResoponseDto.databaseError();
-
+    public SearchCategoryResoponseDto searchCategory(SearchCategoryRequestDto dto) {
+        // 카테고리 검색 처리 로직 (예시)
+        List<CategoryEntity> categories = categoryRepository.searchByKeyword(dto.getKeyword());
+        if (categories.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND);
         }
+
+        return SearchCategoryResoponseDto.success(categories);
     }
 }
