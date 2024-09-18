@@ -1,15 +1,15 @@
-import { useState, useRef } from 'react';
-import './style.css';
-import Inputbox from 'components/inputbox/inputbox';
-import { useCookies } from 'react-cookie';
-import { ResponseDto } from 'apis/response';
-import {  OshiResponseDto } from 'apis/response/oshi';
-import { OshiAddRequestDto } from 'apis/request/oshi';
-import { UrlResponseDto } from 'apis/response/image';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import Inputbox from 'components/inputbox/inputbox';
+import {  ResponseDto } from 'apis/response';
+import { OshiResponseDto } from 'apis/response/oshi';
+import { OshiAddRequestDto } from 'apis/request/oshi';
+import { postOshi } from 'apis/controller/Oshi';
+import './style.css';
 
 export default function Oshiadd() {
-  const navigater = useNavigate();
+  const navigate = useNavigate();
   const [cookies] = useCookies();
   const ohsinameRef = useRef<HTMLInputElement | null>(null);
   const oshidescRef = useRef<HTMLInputElement | null>(null);
@@ -22,19 +22,23 @@ export default function Oshiadd() {
   const [oshidescError, setOshidescError] = useState(false);
   const [oshinameErrorMessage, setOshinameErrorMessage] = useState('');
   const [oshidescErrorMessage, setOshidescErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Oshi 이름 변경 이벤트 처리
   const onOshinameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOshiname(event.target.value);
     setOshinameError(false);
     setOshinameErrorMessage('');
   };
 
+  // Oshi 설명 변경 이벤트 처리
   const onOshidescChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOshidesc(event.target.value);
     setOshidescError(false);
     setOshidescErrorMessage('');
   };
 
+  // 이미지 선택 이벤트 처리
   const onImageChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -47,34 +51,28 @@ export default function Oshiadd() {
     }
   };
 
+  // 서버 응답 처리
   const OshiAddResponse = (response: OshiResponseDto | ResponseDto | null) => {
     if (response === null) {
-      alert("네트워크 상태 확인");
+      alert("네트워크 상태를 확인해주세요.");
       return;
     }
-    if ('code' in response) {
-      const { code } = response as ResponseDto;
-      if (code === 'DN') {
-        setOshinameError(true);
-        setOshinameErrorMessage("중복된 이름입니다.");
-      }
+
+    if ('code' in response && response.code === 'DN') {
+      setOshinameError(true);
+      setOshinameErrorMessage("중복된 이름입니다.");
+    } else if ('id' in response) { // OshiResponseDto에 'id' 필드가 있다고 가정
+      navigate('/');
     } else {
-      navigater('/');
+      alert("알 수 없는 오류가 발생했습니다.");
     }
   };
 
-  const UrlResponse = (response: UrlResponseDto | ResponseDto | null) => {
-    if (response === null) {
-      alert("이미지 업로드 실패");
-      return '';
-    }
-    const { url } = response as UrlResponseDto;
-    return url;
-  };
-
+  // 작성 버튼 클릭 이벤트 처리
   const onAddButtonClickHandler = async () => {
     setOshinameError(false);
     setOshidescError(false);
+    setIsLoading(true);
 
     let isValid = true;
 
@@ -89,23 +87,23 @@ export default function Oshiadd() {
       isValid = false;
     }
 
-    if (!isValid) return;
+    if (!isValid) {
+      setIsLoading(false);
+      return;
+    }
 
-    if (image) {
-      const formData = new FormData();
-      formData.append('file', image);
+    // DTO 생성
+    const oshiAddRequest: OshiAddRequestDto = {
+      name: oshiname,
+      description: oshidesc,
+      file: image || undefined,
+    };
 
-      const urlResponse = await upload(cookies.accessToken, formData);
-      const imageUrl: string = UrlResponse(urlResponse);
-
-      const requestBody: OshiAddRequestDto = {
-        name: oshiname,
-        description: oshidesc,
-        profileImageUrl: imageUrl
-      };
-
-      const oshiResponse = await postOshi(cookies.accessToken, requestBody);
+    try {
+      const oshiResponse = await postOshi(cookies.accessToken, oshiAddRequest);
       OshiAddResponse(oshiResponse);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -118,7 +116,14 @@ export default function Oshiadd() {
               <div className='oshi-add-top-text'>{'Osh! 추가'}</div>
             </div>
             <div className='oshi-add-bottom'>
-              <div className='oshi-add-bottom-imagebox' style={{ backgroundImage: `url(${imagePreviewUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div
+                className='oshi-add-bottom-imagebox'
+                style={{
+                  backgroundImage: `url(${imagePreviewUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
                 <input
                   type="file"
                   accept="image/*"
@@ -126,7 +131,11 @@ export default function Oshiadd() {
                   onChange={onImageChangeHandler}
                   id="image-upload"
                 />
-                <label htmlFor="image-upload" className='oshi-add-bottom-inputbox-bottom-imagebutton' style={{ position: 'absolute', zIndex: 1, cursor: 'pointer' }}>
+                <label
+                  htmlFor="image-upload"
+                  className='oshi-add-bottom-inputbox-bottom-imagebutton'
+                  style={{ position: 'absolute', zIndex: 1, cursor: 'pointer' }}
+                >
                   이미지 선택
                 </label>
               </div>
@@ -159,8 +168,9 @@ export default function Oshiadd() {
                   <button
                     className='oshi-add-bottom-inputbox-bottom-writebutton'
                     onClick={onAddButtonClickHandler}
+                    disabled={isLoading}
                   >
-                    작성
+                    {isLoading ? '작성 중...' : '작성'}
                   </button>
                 </div>
               </div>

@@ -22,23 +22,30 @@ const authorization = (accessToken: string) => {
 
 // 오시 추가 API
 export const postOshi = async (
-  accessToken: string,
-  requestBody: OshiAddRequestDto
-): Promise<OshiResponseDto | ResponseDto | null> => {
-  const result = await axios
-    .post(OSHI_ADD_URL, requestBody, authorization(accessToken))
-    .then((response) => {
-      const responseBody: OshiResponseDto = response.data;
-      return responseBody;
-    })
-    .catch((error) => {
+    accessToken: string,
+    requestBody: OshiAddRequestDto
+  ): Promise<OshiResponseDto | ResponseDto | null> => {
+    // FormData 생성
+    const formData = new FormData();
+    formData.append('name', requestBody.name);
+    formData.append('description', requestBody.description);
+    if (requestBody.file) {
+      formData.append('file', requestBody.file);
+    }
+  
+    try {
+      const response = await axios.post(OSHI_ADD_URL, formData, {
+        headers: {
+          ...authorization(accessToken).headers,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data as OshiResponseDto;
+    } catch (error: any) {
       if (!error.response?.data) return null;
-      const responseBody: ResponseDto = error.response.data;
-      return responseBody;
-    });
-
-  return result;
-};
+      return error.response.data as ResponseDto;
+    }
+  };
 
 // 오시 조회 API
 export const getOshi = async (

@@ -25,23 +25,24 @@ public class WebSecurityConfig {
     private final jwtAuthentification jwtAuthentification;
 
     @Bean
-    public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-            .cors(cors -> cors.disable())  // Deprecated된 and() 대신 단순히 cors.disable()로 대체
-            .csrf(csrf -> csrf.disable())
-            .httpBasic(http -> http.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.GET, "/").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/search", "/api/oshi", "/api/oshis/{oshiId}", "/api/oshis/{oshiId}/categories").permitAll()
-                .anyRequest().authenticated()
-            )
-            .exceptionHandling(ex -> ex.authenticationEntryPoint(new FailedAuthenticationEntryPoint()));
+public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
+        .cors(cors -> cors.disable())  // CORS 활성화
+        .csrf(csrf -> csrf.disable())  // CSRF 비활성화
+        .httpBasic(http -> http.disable())  // HTTP Basic 인증 비활성화
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션 관리 비활성화
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // OPTIONS 메서드 허용
+            .requestMatchers(HttpMethod.GET, "/").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/search", "/api/oshi", "/api/oshis/{oshiId}", "/api/oshis/{oshiId}/categories").permitAll()
+            .anyRequest().authenticated()
+        )
+        .exceptionHandling(ex -> ex.authenticationEntryPoint(new FailedAuthenticationEntryPoint()));
 
-        httpSecurity.addFilterBefore(jwtAuthentification, UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
-    }
+    httpSecurity.addFilterBefore(jwtAuthentification, UsernamePasswordAuthenticationFilter.class);
+    return httpSecurity.build();
+}
 
 }
 

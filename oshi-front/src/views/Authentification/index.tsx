@@ -1,66 +1,78 @@
+// src/views/Authentification.tsx
 import React, { useState, useRef, ChangeEvent } from 'react';
 import './style.css';
 import Inputbox from 'components/inputbox/inputbox';
 import { SignInRequestDto, SignUpRequestDto } from 'apis/request/auth';
-import { signInRequset, signUpRequest } from 'apis';
 import { ResponseDto } from 'apis/response';
 import { SignInResponseDto, SignUpResponseDto } from 'apis/response/auth';
-import { useCookies } from 'react-cookie';
 import { MAIN_PATH } from 'constant';
 import { useNavigate } from 'react-router-dom';
+import { signInRequest, signUpRequest } from 'apis/controller/Auth';
+import useAuthStore from 'stores/useAuthStore';
 
 export default function Authentication() {
   // State: 로그인/회원가입 여부
   const [view, setView] = useState<'sign-in' | 'sign-up'>('sign-in');
-  // State: 쿠키 상태
-  const [cookie, setCookie] = useCookies();
+  // Zustand 스토어
+  const { setUser, setAccessToken, resetAuth } = useAuthStore();
   // function: navigate 함수
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
   // Component: Sign In Card 컴포넌트
   const SignInCard = () => {
-    // State: 이메일 요소 참조 상태
+    // Refs
     const emailRef = useRef<HTMLInputElement | null>(null);
-    // State: 비밀번호 요소 참조 상태
     const passwordRef = useRef<HTMLInputElement | null>(null);
-    // State: 이메일 상태
-    const [email, setEmail] = useState<string>('');
-    // State: 비밀번호 상태
-    const [password, setPassword] = useState<string>('');
-    // State: 비밀번호 타입 상태
-    const [passwordType, setPasswordType] = useState<'password' | 'text'>('password');
-    // State: 비밀번호 아이콘 상태
-    const [passwordIcon, setPasswordIcon] = useState<'eye-light-off-icon' | 'eye-light-on-icon'>('eye-light-off-icon');
-    // State: 에러 상태
-    const [error, setError] = useState<boolean>(false);
 
-    // function: sign in response 처리 함수
+    // State
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordType, setPasswordType] = useState<'password' | 'text'>('password');
+    const [passwordIcon, setPasswordIcon] = useState<'eye-light-off-icon' | 'eye-light-on-icon'>('eye-light-off-icon');
+    const [error, setError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+
+    // Function: sign in response 처리 함수
     const signInResponse = (response: SignInResponseDto | ResponseDto | null) => {
       if (!response) {
-        alert('네트워크 상태를 확인해주세요');
+        alert('네트워크 상태를 확인해주세요.');
         return;
       }
 
-      const { code } = response;
-      if (code === 'DBE') alert('데이터베이스 오류입니다');
-      if (code === 'SF' || code === 'VF') {
-        setError(true);
+      // ResponseDto 타입인지 확인 (에러 응답)
+      if ('code' in response) {
+        const { code } = response;
+        switch (code) {
+          case 'DBE':
+            alert('데이터베이스 오류입니다.');
+            break;
+          case 'SF':
+          case 'VF':
+            setError(true);
+            setErrorMessage('이메일 주소 또는 비밀번호를 잘못 입력했습니다. 내용을 다시 확인해주세요.');
+            break;
+          default:
+            alert('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
+        return;
       }
-      if (code !== 'SU') return;
-      const { token, expirationTime } = response as SignInResponseDto;
-      const now = new Date().getTime();
-      const expires = new Date(now + expirationTime * 1000);
 
-      // 쿠키 설정
-      setCookie('accessToken', token, { expires, path: MAIN_PATH() });
-
-      navigator(MAIN_PATH());
+      // SignInResponseDto 타입인 경우 (성공 응답)
+      if ('token' in response && 'expirationTime' in response) {
+        setAccessToken(response.token, response.expirationTime);
+        // 사용자 정보를 서버에서 가져오는 로직이 필요하다면 추가
+        // 예: getSignInUserRequest(response.token).then(setUser)
+        navigate(MAIN_PATH());
+      } else {
+        alert('로그인에 실패했습니다.');
+      }
     };
 
-    // event handler: 패스워드 아이콘 버튼 클릭 핸들러
-    const onPasswordButtonClickHandler = () => {
+    // Event Handlers
+    const onPasswordToggle = () => {
       if (passwordType === 'text') {
-        setPasswordType('password'); // 수정된 부분
+        setPasswordType('password');
         setPasswordIcon('eye-light-off-icon');
       } else {
         setPasswordType('text');
@@ -68,38 +80,46 @@ export default function Authentication() {
       }
     };
 
-    // event handler: 이메일 인풋 키 다운 이벤트 처리
-    const onEmailKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key !== 'Enter') return;
-      if (!passwordRef.current) return;
-      passwordRef.current.focus();
+    const onEmailKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        passwordRef.current?.focus();
+      }
     };
 
-    // event handler: 패스워드 인풋 키 다운 이벤트 처리
-    const onPasswordKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key !== 'Enter') return;
-      onSignInButtonClickHandler();
+    const onPasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        onSignIn();
+      }
     };
 
-    // event handler: 이메일 변경 이벤트 처리
-    const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
       setError(false);
-      const value = event.target.value;
-      setEmail(value);
+      setErrorMessage('');
+      setEmail(event.target.value);
     };
 
-    // event handler: 비밀번호 변경 이벤트 처리
-    const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
       setError(false);
-      const value = event.target.value;
-      setPassword(value);
+      setErrorMessage('');
+      setPassword(event.target.value);
     };
 
-    // event handler: 로그인 버튼 클릭 이벤트 처리
-    const onSignInButtonClickHandler = () => {
-      // 로그인 처리 로직
-      const requestbody: SignInRequestDto = { email, password };
-      signInRequset(requestbody).then(signInResponse);
+    const onSignIn = async () => {
+      // 유효성 검사
+      if (!email || !password) {
+        setError(true);
+        setErrorMessage('모든 필드를 입력해주세요.');
+        return;
+      }
+
+      const requestBody: SignInRequestDto = { email, password };
+      try {
+        const response = await signInRequest(requestBody);
+        signInResponse(response);
+      } catch (error) {
+        console.error('로그인 중 오류 발생:', error);
+        alert('로그인 중 오류가 발생했습니다.');
+      }
     };
 
     // Render: Sign In Card
@@ -108,7 +128,7 @@ export default function Authentication() {
         <div className='auth-card-box'>
           <div className="auth-card-top">
             <div className="auth-title-box">
-              <div className='auth-title-text'>{'로그인'}</div>
+              <div className='auth-title-text'>로그인</div>
             </div>
             <Inputbox
               ref={emailRef}
@@ -117,8 +137,9 @@ export default function Authentication() {
               placeholder='이메일 주소를 입력해주세요'
               error={error}
               value={email}
-              onChange={onEmailChangeHandler}
-              onKeyDown={onEmailKeyDownHandler}
+              onChange={onEmailChange}
+              onKeyDown={onEmailKeyDown}
+              message={errorMessage}
             />
             <Inputbox
               ref={passwordRef}
@@ -127,66 +148,64 @@ export default function Authentication() {
               placeholder='비밀번호를 입력해주세요'
               error={error}
               value={password}
-              onChange={onPasswordChangeHandler}
+              onChange={onPasswordChange}
               icon={passwordIcon}
-              onButtonClick={onPasswordButtonClickHandler}
-              onKeyDown={onPasswordKeyDownHandler}
+              onButtonClick={onPasswordToggle}
+              onKeyDown={onPasswordKeyDown}
+              message={errorMessage}
             />
           </div>
           <div className="auth-card-bottom">
             {error && (
               <div className="auth-sign-in-error-box">
-                <div className='auth-sign-in-error-message'>
-                  {'이메일 주소 또는 비밀번호를 잘못 입력했습니다. 내용을 다시 확인해주세요'}
-                </div>
+                <div className='auth-sign-in-error-message'>{errorMessage}</div>
               </div>
             )}
-            <div className='black-large-full-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
-            <div className='auth-gotosignup-box'>{'혹시 처음 사이트에 오셨나요?'}<span>회원가입</span></div>
+            <button
+              className='black-large-full-button'
+              onClick={onSignIn}
+              disabled={!email || !password}
+            >
+              로그인
+            </button>
+            <div
+              className='auth-gotosignup-box'
+              onClick={() => setView('sign-up')}
+              style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+            >
+              혹시 처음 사이트에 오셨나요? <span>회원가입</span>
+            </div>
           </div>
         </div>
       </div>
     );
-  }
+  };
 
   // Component: Sign Up Card 컴포넌트
   const SignUpCard = () => {
+    // Refs
     const emailRef = useRef<HTMLInputElement | null>(null);
-    // State: 유저네임 요소 참조 상태
     const usernameRef = useRef<HTMLInputElement | null>(null);
-    // State: 비밀번호 요소 참조 상태
     const passwordRef = useRef<HTMLInputElement | null>(null);
-    // State: 비밀번호확인 요소 참조 상태
-    const passwordcheckRef = useRef<HTMLInputElement | null>(null);
+    const passwordCheckRef = useRef<HTMLInputElement | null>(null);
 
-    // State: 이메일 상태
+    // State
     const [email, setEmail] = useState<string>('');
-    // State: 유저 이름 상태
     const [username, setUsername] = useState<string>('');
-    // State: 비밀번호 상태
     const [password, setPassword] = useState<string>('');
-    // State: 비밀번호 확인 상태
-    const [passwordcheck, setPasswordcheck] = useState<string>('');
-    // State: 비밀번호 타입 상태
+    const [passwordCheck, setPasswordCheck] = useState<string>('');
     const [passwordType, setPasswordType] = useState<'password' | 'text'>('password');
-    // State: 비밀번호 아이콘 상태
     const [passwordIcon, setPasswordIcon] = useState<'eye-light-off-icon' | 'eye-light-on-icon'>('eye-light-off-icon');
-    // State: 이메일  에러 상태
-    const [emailerror, setEmailError] = useState<boolean>(false);
-    // State: 유저 네임 에러 상태
-    const [usernameerror, setUsernameError] = useState<boolean>(false);
-    // State: 비밀번호  에러 상태
-    const [passworderror, setPasswordError] = useState<boolean>(false);
-    // State: 비밀번호 확인 에러 상태
-    const [passwordcheckerror, setpasswordcheckError] = useState<boolean>(false);
-    // State: 이메일 오류 메시지 벨류 상태
-    const [emailerrormessage, setEmailErrorMessage] = useState<string>('');
-    // State: 닉네임 오류 메시지 벨류 상태
-    const [usernameerrormessage, setUsernameErrorMessage] = useState<string>('');
-    // State: 비밀번호 오류 메시지 벨류 상태
-    const [passworderrormessage, setPasswordErrorMessage] = useState<string>('');
-    // State: 비밀번호 확인 오류 메시지 벨류 상태
-    const [passwordcheckerrormessage, setPasswordcheckErrorMessage] = useState<string>('');
+
+    const [emailError, setEmailError] = useState<boolean>(false);
+    const [usernameError, setUsernameError] = useState<boolean>(false);
+    const [passwordError, setPasswordError] = useState<boolean>(false);
+    const [passwordCheckError, setPasswordCheckError] = useState<boolean>(false);
+
+    const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
+    const [usernameErrorMessage, setUsernameErrorMessage] = useState<string>('');
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
+    const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] = useState<string>('');
 
     // Function: sign up response 처리 함수
     const signUpResponse = (response: SignUpResponseDto | ResponseDto | null) => {
@@ -194,37 +213,42 @@ export default function Authentication() {
         alert('서버 에러');
         return;
       }
-      const { code } = response;
-      if (code === 'DBE') alert('데이터베이스 오류입니다');
-      if (code === 'DE') {
-        setEmailError(true);
-        setEmailErrorMessage('이미 존재하는 이메일입니다');
-      }
-      if (code === 'DN') {
-        setUsernameError(true);
-        setUsernameErrorMessage('이미 존재하는 닉네임입니다');
-      }
-      if (code === 'VF') {
-        alert('모든 값을 입력하세요');
-      }
-      if (code === 'DBE') {
-        alert('데이터베이스 오류입니다');
-      }
-      if (code !== 'SU') {
-        return;}
-      if (code === 'SU') {
-        alert('회원가입 성공');
-        setView('sign-in');
+
+      if ('code' in response) {
+        const { code } = response;
+        switch (code) {
+          case 'DBE':
+            alert('데이터베이스 오류입니다.');
+            break;
+          case 'DE':
+            setEmailError(true);
+            setEmailErrorMessage('이미 존재하는 이메일입니다.');
+            break;
+          case 'DN':
+            setUsernameError(true);
+            setUsernameErrorMessage('이미 존재하는 닉네임입니다.');
+            break;
+          case 'VF':
+            alert('모든 값을 입력하세요.');
+            break;
+          case 'SU':
+            alert('회원가입 성공');
+            setView('sign-in');
+            break;
+          default:
+            alert('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
+        return;
       }
 
-      
-      // 회원가입 성공 후 로직
+      // 추가적인 응답 처리 로직 (필요 시)
     };
 
     // Function: 패스워드 아이콘 버튼 클릭 핸들러
-    const onPasswordButtonClickHandler = () => {
+    const onPasswordToggle = () => {
       if (passwordType === 'text') {
-        setPasswordType('password'); // 수정된 부분
+        setPasswordType('password');
         setPasswordIcon('eye-light-off-icon');
       } else {
         setPasswordType('text');
@@ -232,71 +256,61 @@ export default function Authentication() {
       }
     };
 
-    // Function: 이메일 인풋 키 다운 이벤트 처리
-    const onEmailKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key !== 'Enter') return;
-      if (!usernameRef.current) return;
-      usernameRef.current?.focus();
+    // Event Handlers
+    const onEmailKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        usernameRef.current?.focus();
+      }
     };
 
-    // Function: 닉네임 인풋 키 다운 이벤트 처리
-    const onUsernameKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key !== 'Enter') return;
-      if (!passwordRef.current) return;
-      passwordRef.current?.focus();
+    const onUsernameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        passwordRef.current?.focus();
+      }
     };
 
-    // Function: 패스워드 인풋 키 다운 이벤트 처리
-    const onPasswordKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key !== 'Enter') return;
-      passwordcheckRef.current?.focus();
+    const onPasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        passwordCheckRef.current?.focus();
+      }
     };
 
-    // Function: 비밀번호 확인 인풋 키 다운 이벤트 처리
-    const onPasswordcheckKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key !== 'Enter') return;
-      onSignUpButtonClickHandler();
+    const onPasswordCheckKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        onSignUp();
+      }
     };
 
-    // event handler: 이메일 변경 이벤트 처리
-    const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
       setEmailError(false);
       setEmailErrorMessage('');
-      const value = event.target.value;
-      setEmail(value);
+      setEmail(event.target.value);
     };
 
-    // event handler: 유저 이름 변경 이벤트 처리
-    const onUsernameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
       setUsernameError(false);
       setUsernameErrorMessage('');
-      const value = event.target.value;
-      setUsername(value);
+      setUsername(event.target.value);
     };
 
-    // event handler: 비밀번호 변경 이벤트 처리
-    const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
       setPasswordError(false);
       setPasswordErrorMessage('');
-      const value = event.target.value;
-      setPassword(value);
+      setPassword(event.target.value);
     };
 
-    // event handler: 비밀번호 확인 변경 이벤트 처리
-    const onPasswordcheckChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-      setpasswordcheckError(false);
-      setPasswordcheckErrorMessage('');
-      const value = event.target.value;
-      setPasswordcheck(value);
+    const onPasswordCheckChange = (event: ChangeEvent<HTMLInputElement>) => {
+      setPasswordCheckError(false);
+      setPasswordCheckErrorMessage('');
+      setPasswordCheck(event.target.value);
     };
 
-    // Function: 회원가입 버튼 클릭 이벤트 처리
-    const onSignUpButtonClickHandler = () => {
+    const onSignUp = async () => {
       // 모든 에러 상태 초기화
       setEmailError(false);
       setUsernameError(false);
       setPasswordError(false);
-      setpasswordcheckError(false);
+      setPasswordCheckError(false);
 
       let isValid = true;
 
@@ -308,6 +322,13 @@ export default function Authentication() {
         isValid = false;
       }
 
+      // 유저네임 유효성 검사
+      if (!username.trim()) {
+        setUsernameError(true);
+        setUsernameErrorMessage('닉네임을 입력해주세요.');
+        isValid = false;
+      }
+
       // 비밀번호 길이 검사
       if (password.length < 8) {
         setPasswordError(true);
@@ -316,84 +337,95 @@ export default function Authentication() {
       }
 
       // 비밀번호 확인 검사
-      if (password !== passwordcheck) {
-        setpasswordcheckError(true);
-        setPasswordcheckErrorMessage('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      if (password !== passwordCheck) {
+        setPasswordCheckError(true);
+        setPasswordCheckErrorMessage('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
         isValid = false;
       }
 
-      // 모든 검사가 통과된 경우에만 회원가입 로직 실행
       if (!isValid) return;
 
-      const requestbody: SignUpRequestDto = { email, password, username };
-      signUpRequest(requestbody).then(signUpResponse);
-      console.log('회원가입');
+      const requestBody: SignUpRequestDto = { email, password, username };
+
+      try {
+        const response = await signUpRequest(requestBody);
+        signUpResponse(response);
+      } catch (error) {
+        console.error('회원가입 중 오류 발생:', error);
+        alert('회원가입 중 오류가 발생했습니다.');
+      }
     };
 
-    // render : Sign up card 컴포넌트 렌더
+    // Render: Sign Up Card
     return (
       <div className='auth-card'>
         <div className='auth-card-box'>
           <div className="auth-card-top">
             <div className="auth-title-box">
-              <div className='auth-title-text'>{'회원가입'}</div>
+              <div className='auth-title-text'>회원가입</div>
             </div>
             <Inputbox
               ref={emailRef}
               label='이메일'
               type='text'
               placeholder='이메일 주소를 입력해주세요'
-              error={emailerror}
+              error={emailError}
               value={email}
-              onChange={onEmailChangeHandler}
-              onKeyDown={onEmailKeyDownHandler}
-              message={emailerrormessage}
+              onChange={onEmailChange}
+              onKeyDown={onEmailKeyDown}
+              message={emailErrorMessage}
             />
             <Inputbox
               ref={usernameRef}
               label='닉네임'
               type='text'
               placeholder='닉네임을 입력해주세요'
-              error={usernameerror}
+              error={usernameError}
               value={username}
-              onChange={onUsernameChangeHandler}
-              onKeyDown={onUsernameKeyDownHandler}
-              message={usernameerrormessage}
+              onChange={onUsernameChange}
+              onKeyDown={onUsernameKeyDown}
+              message={usernameErrorMessage}
             />
             <Inputbox
               ref={passwordRef}
               label='비밀번호'
               type={passwordType}
               placeholder='비밀번호를 입력해주세요'
-              error={passworderror}
+              error={passwordError}
               value={password}
-              onChange={onPasswordChangeHandler}
+              onChange={onPasswordChange}
               icon={passwordIcon}
-              onButtonClick={onPasswordButtonClickHandler}
-              onKeyDown={onPasswordKeyDownHandler}
-              message={passworderrormessage}
+              onButtonClick={onPasswordToggle}
+              onKeyDown={onPasswordKeyDown}
+              message={passwordErrorMessage}
             />
             <Inputbox
-              ref={passwordcheckRef}
+              ref={passwordCheckRef}
               label='비밀번호 확인'
               type={passwordType}
               placeholder='비밀번호를 재입력해주세요'
-              error={passwordcheckerror}
-              value={passwordcheck}
-              onChange={onPasswordcheckChangeHandler}
+              error={passwordCheckError}
+              value={passwordCheck}
+              onChange={onPasswordCheckChange}
               icon={passwordIcon}
-              onButtonClick={onPasswordButtonClickHandler}
-              onKeyDown={onPasswordcheckKeyDownHandler}
-              message={passwordcheckerrormessage}
+              onButtonClick={onPasswordToggle}
+              onKeyDown={onPasswordCheckKeyDown}
+              message={passwordCheckErrorMessage}
             />
           </div>
           <div className="auth-card-bottom">
-            <div className='black-large-full-button' onClick={onSignUpButtonClickHandler}>{'회원가입'}</div>
+            <button
+              className='black-large-full-button'
+              onClick={onSignUp}
+              disabled={!email || !username || !password || !passwordCheck}
+            >
+              회원가입
+            </button>
           </div>
         </div>
       </div>
     );
-  }
+  };
 
   // Render: 인증 화면 렌더
   return (
@@ -405,8 +437,8 @@ export default function Authentication() {
               <div className='auth-jumbotron-logo'></div>
             </div>
             <div className='auth-jumbotron-text-box'>
-              <div className='auth-jumbotron-text'>{'오시'}</div>
-              <div className='auth-jumbotron-text'>{'오시인'}</div>
+              <div className='auth-jumbotron-text'>오시</div>
+              <div className='auth-jumbotron-text'>오시인</div>
             </div>
           </div>
           <div className='card'>

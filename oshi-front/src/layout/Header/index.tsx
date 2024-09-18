@@ -14,7 +14,7 @@ export default function Header() {
   const [cookie,setCookie] = useCookies();
 
   //state : 로그인 유저 상태
-  const {loginUser,setLoginUser,resetloginuser} = useLoginUserStore();
+  const {loginUser,setLoginUser,resetLoginUser} = useLoginUserStore();
   //  state: log-in상태
 
   const [islogin,setLogin] = useState<boolean>(false);
@@ -58,7 +58,7 @@ export default function Header() {
     };
     // event handler 로그아웃 클릭 이벤트 처리 함수
     const onLogOutButtonClickHandler = () =>{
-      resetloginuser();
+      resetLoginUser();
       setCookie('accessToken', '', { expires: new Date() });
       navigate(MAIN_PATH());
     

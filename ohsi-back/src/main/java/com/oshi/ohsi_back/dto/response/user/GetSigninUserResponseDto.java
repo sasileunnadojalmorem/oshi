@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import com.oshi.ohsi_back.common.Responsecode;
 import com.oshi.ohsi_back.common.Responsemessage;
 import com.oshi.ohsi_back.dto.response.ResponseDto;
+import com.oshi.ohsi_back.entity.ImageEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
 
+import lombok.Builder;
 import lombok.Getter;
 
 
@@ -28,12 +30,13 @@ public class GetSigninUserResponseDto  {
 
 
     //
-    public GetSigninUserResponseDto(UserEntity userEntity) { 
+    @Builder
+    public GetSigninUserResponseDto(UserEntity userEntity,ImageEntity imageEntity) { 
 
         this.email = userEntity.getEmail();
         this.userId = userEntity.getUserId();
         this.username = userEntity.getUsername();
-        this.profileImageUrl = userEntity.getProfileImage().getUrl();
+        if(imageEntity != null) this.profileImageUrl = imageEntity.getUrl();
         
     }
 
