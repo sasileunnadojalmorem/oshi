@@ -3,6 +3,4 @@ export default interface UserItem {
     userEmail: string;
     userName: string;
     userImage: string | null; // null을 허용
-    
-    
 }

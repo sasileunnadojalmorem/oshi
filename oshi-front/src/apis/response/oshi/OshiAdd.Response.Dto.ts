@@ -5,5 +5,4 @@ export default interface OshiAddResponseDto  extends ResponseDto{
     name:string;
     description:string;
     ohsiimageurl:string;
-
 }

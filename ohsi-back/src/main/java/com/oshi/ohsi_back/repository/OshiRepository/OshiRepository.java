@@ -22,7 +22,7 @@ public interface OshiRepository extends JpaRepository<OshiEntity, Integer>,OshiR
     OshiEntity findByName(String name);
 
     
-@Query("SELECT new com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto(i.url, o) " +
+    @Query("SELECT new com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto(i.url, o) " +
     "FROM ImageEntity i " +
     "JOIN OshiEntity o ON o.oshiId = i.relatedId " +
     "WHERE o.oshiId = :oshiId AND i.relatedType = 'OSHI'")
@@ -32,4 +32,6 @@ public interface OshiRepository extends JpaRepository<OshiEntity, Integer>,OshiR
        "LEFT JOIN ImageEntity i ON o.oshiId = i.relatedId AND i.relatedType = 'oshi' " +
        "WHERE o.name LIKE CONCAT('%', :keyword, '%')")
     Page<OshiResponseDto> searchOshiList(@Param("keyword") String keyword, Pageable pageable);
+
+    
 }
