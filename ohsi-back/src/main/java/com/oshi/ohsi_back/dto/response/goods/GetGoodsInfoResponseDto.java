@@ -11,43 +11,24 @@ import com.oshi.ohsi_back.dto.response.ResponseDto;
 import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 import com.oshi.ohsi_back.entity.ImageEntity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class GetGoodsInfoResponseDto extends ResponseDto{
+public class GetGoodsInfoResponseDto {
 
     private GoodsResponseDto goodsResponseDto;
 
-    private GetGoodsInfoResponseDto(BaseGoodsEntity baseGoodsEntity) {
-        super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);    
-        this.goodsResponseDto = new GoodsResponseDto(baseGoodsEntity);
-    }//이미지가 없을 경우 생성자
-
-    private GetGoodsInfoResponseDto(BaseGoodsEntity baseGoodsEntity, List<ImageEntity> images){
-        super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);    
+    
+    @Builder
+    public GetGoodsInfoResponseDto(BaseGoodsEntity baseGoodsEntity, List<ImageEntity> images){
         this.goodsResponseDto = new GoodsResponseDto(baseGoodsEntity, images);
         
     }//이미지가 있을경우의 생성자
 
 
-    public static ResponseEntity<? super GetGoodsInfoResponseDto> success(BaseGoodsEntity baseGoodsEntity) {
-        GetGoodsInfoResponseDto responseBody = new GetGoodsInfoResponseDto(baseGoodsEntity);
-        
-        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-    }
-
-    public static ResponseEntity<? super GetGoodsInfoResponseDto> success(BaseGoodsEntity baseGoodsEntity,List<ImageEntity> images) {
-        GetGoodsInfoResponseDto responseBody = new GetGoodsInfoResponseDto(baseGoodsEntity,images);
-        
-        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-    }
-
-    public static ResponseEntity<ResponseDto> notExistBoard() {
-        ResponseDto responseBody = new ResponseDto(Responsecode.NOT_EXISTED_BOARD, Responsemessage.NOT_EXISTED_BOARD);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
-    }
 
 
 }

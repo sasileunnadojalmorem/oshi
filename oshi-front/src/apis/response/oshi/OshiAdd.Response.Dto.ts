@@ -1,8 +1,4 @@
-import ResponseDto from "../Response.dto";
-
-export default interface OshiAddResponseDto  extends ResponseDto{
-    oshiid:number;
-    name:string;
-    description:string;
-    ohsiimageurl:string;
+import OshiResponseDto from "./Oshi.Response.Dto";
+export default interface OshiAddResponseDto   {
+    oshiResponseDto : OshiResponseDto;
 }

@@ -1,7 +1,6 @@
 package com.oshi.ohsi_back.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,21 +21,19 @@ import lombok.RequiredArgsConstructor;
 public class UseroshiController {
 
     private final UserOshiService userOshiService;
+
     @PostMapping("/")
-    ResponseEntity<? super AddUserOshiResponseDto> useroshi(
-        @RequestBody@Valid AddUserOshiRequsetDto dto, @AuthenticationPrincipal String email
-    )
-    {
-        ResponseEntity<? super AddUserOshiResponseDto> response = userOshiService.findstate(dto, email);
-        return response;
+    public AddUserOshiResponseDto useroshi(
+        @RequestBody @Valid AddUserOshiRequsetDto dto, 
+        @AuthenticationPrincipal String email
+    ) {
+        return userOshiService.findstate(dto, email);
     }
     
     @GetMapping("get")
-    ResponseEntity<? super GetUserOshiResponseDto> getUserOshi(
+    public GetUserOshiResponseDto getUserOshiList(
         @AuthenticationPrincipal String email
-    ){
-        ResponseEntity<? super GetUserOshiResponseDto> response = userOshiService.GetUserOshi(email);
-        return response;
-
+    ) {
+        return userOshiService.GetUserOshi(email);
     }
 }

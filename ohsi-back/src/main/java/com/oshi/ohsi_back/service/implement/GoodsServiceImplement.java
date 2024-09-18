@@ -1,12 +1,7 @@
 package com.oshi.ohsi_back.service.implement;
 
-import org.apache.el.stream.Optional;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,20 +18,17 @@ import com.oshi.ohsi_back.dto.request.goods.UpdateGoodsRequestDto;
 import com.oshi.ohsi_back.dto.response.goods.AddGoodsResponseDto;
 import com.oshi.ohsi_back.dto.response.goods.GetGoodsInfoResponseDto;
 import com.oshi.ohsi_back.dto.response.goods.GetGoodsListResponseDto;
-import com.oshi.ohsi_back.dto.response.goods.GetGoodsResponseDto;
-import com.oshi.ohsi_back.dto.response.goods.GoodsResponseDto;
 import com.oshi.ohsi_back.dto.response.goods.SearchGoodsResponseDto;
 import com.oshi.ohsi_back.entity.BaseGoodsEntity;
 import com.oshi.ohsi_back.entity.CategoryEntity;
 import com.oshi.ohsi_back.entity.ImageEntity;
 import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
-import com.oshi.ohsi_back.exception.SaleException;
 import com.oshi.ohsi_back.exception.exceptionclass.CustomException;
 import com.oshi.ohsi_back.properties.ErrorCode;
-import com.oshi.ohsi_back.repository.CategoryRepository;
 import com.oshi.ohsi_back.repository.ImageRepository;
 import com.oshi.ohsi_back.repository.UserRepository;
+import com.oshi.ohsi_back.repository.CategoryRepository.CategoryRepository;
 import com.oshi.ohsi_back.repository.GoodsRepositoy.BaseGoodsRepository;
 import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.service.Fileservice;
@@ -44,6 +36,7 @@ import com.oshi.ohsi_back.service.GoodsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -57,7 +50,7 @@ public class GoodsServiceImplement implements GoodsService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<?> AddGoods(AddGoodsRequestDto dto, String email) {
+    public AddGoodsResponseDto AddGoods(AddGoodsRequestDto dto, String email) {
         log.info("AddGoods method started with user email: {}", email);
         log.info("Received DTO: {}", dto);
 
@@ -113,11 +106,11 @@ public class GoodsServiceImplement implements GoodsService {
         }
 
         log.info("Successfully added goods with name: {}", dto.getName());
-        return ResponseEntity.ok("Goods added successfully.");
+        return new AddGoodsResponseDto(baseGoodsEntity);
     }
 
     @Override
-    public ResponseEntity<?> GetGoodsInfo(GetGoodsInfoRequsetDto dto) {
+    public GetGoodsInfoResponseDto GetGoodsInfo(GetGoodsInfoRequsetDto dto) {
         boolean existsGoods = baseGoodsRepository.existsByGoodsId(dto.getGoodsId());
         if (!existsGoods) {
             throw new CustomException(ErrorCode.NOT_EXISTED_BOARD);
@@ -126,29 +119,27 @@ public class GoodsServiceImplement implements GoodsService {
         BaseGoodsEntity baseGoodsEntity = baseGoodsRepository.findByGoodsId(dto.getGoodsId());
         List<ImageEntity> images = imageRepository.findByRelatedIdAndRelatedType(dto.getGoodsId(), ImageType.goods);
 
-        if (!images.isEmpty()) {
-            return ResponseEntity.ok(GetGoodsInfoResponseDto.success(baseGoodsEntity, images));
-        }
-        return ResponseEntity.ok(GetGoodsInfoResponseDto.success(baseGoodsEntity));
+        
+        return new GetGoodsInfoResponseDto(baseGoodsEntity,images);
     }
 
     @Override
-    public ResponseEntity<?> Searchgoods(SearchGoodsRequestDto dto) {
+    public SearchGoodsResponseDto Searchgoods(SearchGoodsRequestDto dto) {
         Pageable pageable = PageRequest.of(0, 10);
         SearchGoodsResponseDto result = baseGoodsRepository.searchGoods(dto.getKeyword(), pageable);
-        return ResponseEntity.ok(result);
+        return result;
     }
 
     @Override
-    public ResponseEntity<?> GetGoodsList(GetGoodsListRequestDto dto) {
+    public GetGoodsListResponseDto GetGoodsList(GetGoodsListRequestDto dto) {
         Pageable pageable = PageRequest.of(dto.getPagenum(), 10);
         GetGoodsListResponseDto result = baseGoodsRepository.findGoods(dto, pageable);
-        return ResponseEntity.ok(result);
+        return result;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<?> updateGoods(UpdateGoodsRequestDto dto, String email) {
+    public void updateGoods(UpdateGoodsRequestDto dto, String email) {
         UserEntity user = userRepository.findByEmail(email);
         if (user == null) {
             throw new CustomException(ErrorCode.NOT_EXISTED_USER);
@@ -180,11 +171,10 @@ public class GoodsServiceImplement implements GoodsService {
         }
 
         baseGoodsRepository.save(baseGoodsEntity);
-        return ResponseEntity.ok("Goods updated successfully.");
     }
 
     @Override
-    public ResponseEntity<?> deleteGoods(DeleteGoodsRequestDto dto, String email) {
+    public void deleteGoods(DeleteGoodsRequestDto dto, String email) {
         BaseGoodsEntity baseGoodsEntity = baseGoodsRepository.findById(dto.getGoodsId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTED_BOARD));
 
@@ -198,6 +188,5 @@ public class GoodsServiceImplement implements GoodsService {
         }
 
         baseGoodsRepository.deleteById(dto.getGoodsId());
-        return ResponseEntity.ok("Goods deleted successfully.");
     }
 }

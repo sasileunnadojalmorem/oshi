@@ -14,11 +14,14 @@ public class GetSaleListResponseDto {
     private List<SaleResponseDto> saleList;
     private int totalPages;
     private int totalCount;
+    private int currentPage;
+
     @Builder
-    public GetSaleListResponseDto(List<SaleResponseDto> saleEntities, int totalPages, int totalCount) {
+    public GetSaleListResponseDto(List<SaleResponseDto> saleEntities, int totalPages, int totalCount ,int currentPage) {
         // SaleEntity 리스트를 SaleResponseDto 리스트로 변환
         this.saleList = saleEntities;
         this.totalPages = totalPages;
         this.totalCount = totalCount;
+        this.currentPage = currentPage;
     }
 }

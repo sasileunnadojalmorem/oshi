@@ -1,4 +1,4 @@
-package com.oshi.ohsi_back.repository;
+package com.oshi.ohsi_back.repository.CategoryRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,10 +11,10 @@ import com.oshi.ohsi_back.dto.response.category.CategoryResponseDto;
 import com.oshi.ohsi_back.entity.CategoryEntity;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
+public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer>,CategoryRepositoryCustom {
     
     boolean existsByName(String name);
-    
+    boolean existsByCategoryId(int categoryId);
     CategoryEntity findByCategoryId(int categoryId);
     CategoryEntity findByName(String name);
     // OshiEntity의 oshiId로 조회

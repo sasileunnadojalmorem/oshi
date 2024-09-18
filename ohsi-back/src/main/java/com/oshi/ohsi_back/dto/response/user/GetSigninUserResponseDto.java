@@ -1,4 +1,4 @@
-package com.oshi.ohsi_back.dto.request.user;
+package com.oshi.ohsi_back.dto.response.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +16,7 @@ import lombok.Getter;
 
 
 @Getter
-public class GetSigninUserResponseDto extends ResponseDto {
+public class GetSigninUserResponseDto  {
 
     @NotNull
     private int userId;
@@ -28,9 +28,8 @@ public class GetSigninUserResponseDto extends ResponseDto {
 
 
     //
-    private GetSigninUserResponseDto(UserEntity userEntity) { 
+    public GetSigninUserResponseDto(UserEntity userEntity) { 
 
-        super (Responsecode.SUCCESSS,Responsemessage.SUCCESSS);
         this.email = userEntity.getEmail();
         this.userId = userEntity.getUserId();
         this.username = userEntity.getUsername();
@@ -38,17 +37,7 @@ public class GetSigninUserResponseDto extends ResponseDto {
         
     }
 
-    public static ResponseEntity<GetSigninUserResponseDto> success(UserEntity userEntity) {
-        GetSigninUserResponseDto result =  new GetSigninUserResponseDto(userEntity);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
 
-    }
-
-    public static ResponseEntity<ResponseDto> notExistUser(){
-        ResponseDto result = new ResponseDto(Responsecode.NOT_EXISTED_USER,Responsecode.NOT_EXISTED_USER);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
-
-    }
     
 
 

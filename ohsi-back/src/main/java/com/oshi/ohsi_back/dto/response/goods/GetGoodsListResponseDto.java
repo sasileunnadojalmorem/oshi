@@ -12,11 +12,14 @@ public class GetGoodsListResponseDto {
     private List<GoodsResponseDto> goodsList;
     private int totalPages;
     private int totalCount;
+    private int currentPage;
+
 
     @Builder
-    public GetGoodsListResponseDto(List<GoodsResponseDto> goodsEntities, int totalPages, int totalCount) {
+    public GetGoodsListResponseDto(List<GoodsResponseDto> goodsEntities, int totalPages, int totalCount,int currentPage) {
         this.goodsList = goodsEntities;
         this.totalPages = totalPages;
         this.totalCount = totalCount;
+        this.currentPage = currentPage;
     }
 }

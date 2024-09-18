@@ -29,5 +29,5 @@ public class AddCategoryRequestDto {
 
     private MultipartFile file;
 
-    private Integer authorid;
+    private Integer authorId;
 }

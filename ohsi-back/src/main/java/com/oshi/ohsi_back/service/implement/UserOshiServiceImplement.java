@@ -1,12 +1,11 @@
 package com.oshi.ohsi_back.service.implement;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oshi.ohsi_back.dto.request.oshi.AddUserOshiRequsetDto;
 import com.oshi.ohsi_back.dto.response.oshi.AddUserOshiResponseDto;
@@ -31,78 +30,60 @@ public class UserOshiServiceImplement implements UserOshiService {
     private final UserRepository userRepository;
     private final UserOshiRepository userOshiRepository;
     private final OshiRepository oshiRepository;
-    @Override
-    public ResponseEntity<? super AddUserOshiResponseDto> findstate(AddUserOshiRequsetDto dto, String email) {
-        UserEntity userEntity = userRepository.findByEmail(email);
-        if (userEntity == null) {
-            return AddUserOshiResponseDto.notExistUser();
-        }
-
-        int userid = userEntity.getUserId();
-        int oshi_id = dto.getOshi_id();
-        UserOshiEntity checkuserOshiEntity = userOshiRepository.findByUser_idAndOshi_id(userid, oshi_id);
-
-        if ("check".equals(dto.getState())) {
-            // 오시 정보가 존재하는지 확인하고 결과를 반환
-            if (checkuserOshiEntity != null) {
-                return AddUserOshiResponseDto.alreadyExists();
-            } else {
-                return AddUserOshiResponseDto.doesNotExist();
-            }
-        } else if ("handle".equals(dto.getState())) {
-            // 오시 정보가 존재하면 삭제, 그렇지 않으면 추가
-            if (checkuserOshiEntity != null) {
-                return DelUserOshi(userid, oshi_id);
-            } else {
-                return AddUserOshi(userid, oshi_id);
-            }
-        }
-
-        // state가 "check"나 "handle"이 아닌 경우의 처리
-        return AddUserOshiResponseDto.databaseError();
-    }
 
     @Override
-    public ResponseEntity<? super AddUserOshiResponseDto> AddUserOshi(int user_id, int oshi_id) {
-        UserOshiEntity userOshiEntity = new UserOshiEntity(user_id, oshi_id);
-        userOshiRepository.save(userOshiEntity);
-        return AddUserOshiResponseDto.success();
-    }
-
-    @Override
-    public ResponseEntity<? super AddUserOshiResponseDto> DelUserOshi(int user_id, int oshi_id) {
-        UserOshiEntity userOshiEntity = userOshiRepository.findByUser_idAndOshi_id(user_id, oshi_id);
-        if (userOshiEntity != null) {
-            userOshiRepository.delete(userOshiEntity);
-            return AddUserOshiResponseDto.success();
-        } else {
-            return AddUserOshiResponseDto.doesNotExist();
-        }
-    }
-
-    @Override
-public ResponseEntity<? super GetUserOshiResponseDto> GetUserOshi(String email) {
-    try {
-        // 1. 유저를 이메일로 찾고 존재 여부 확인
+    public AddUserOshiResponseDto findstate(AddUserOshiRequsetDto dto, String email) {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) {
             throw new CustomException(ErrorCode.NOT_EXISTED_USER);
         }
 
-        int userId = userEntity.getUserId();
+        int userid = userEntity.getUserId();
+        int oshiId = dto.getOshi_id();
+        UserOshiEntity checkuserOshiEntity = userOshiRepository.findByUser_idAndOshi_id(userid, oshiId);
 
-        // 2. 커스텀 쿼리를 사용하여 유저의 오시 리스트와 관련된 데이터를 한 번에 가져옴
-        GetUserOshiResponseDto oshiResponseList = oshiRepository.findByUserId(userId);
+        if ("check".equals(dto.getState())) {
+            // 오시 정보가 존재하는지 확인하고 결과를 반환
+            return checkuserOshiEntity != null ? new AddUserOshiResponseDto(1) : new AddUserOshiResponseDto(0);
+        } else if ("handle".equals(dto.getState())) {
+            if (checkuserOshiEntity != null) {
+                // 오시 정보가 존재하면 삭제
+                userOshiRepository.delete(checkuserOshiEntity);
+                return new AddUserOshiResponseDto(0);
+            } else {
+                // 오시 정보가 없으면 추가
+                UserOshiEntity userOshiEntity = new UserOshiEntity(userid, oshiId);
+                userOshiRepository.save(userOshiEntity);
+                return new AddUserOshiResponseDto(1);
+            }
+        }
 
-        // 3. 오시 리스트가 없는 경우 빈 리스트 반환
-        
-
-        // 4. 성공적으로 유저 오시 리스트 반환
-        return ResponseEntity.ok(oshiResponseList);
-
-    } catch (Exception e) {
-        e.printStackTrace();
-            throw new CustomException(ErrorCode.DATABASE_ERROR);
+        throw new CustomException(ErrorCode.DATABASE_ERROR);
     }
-}
+
+    @Override
+    public GetUserOshiResponseDto GetUserOshi(String email) {
+        try {
+            // 1. 유저를 이메일로 찾고 존재 여부 확인
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) {
+                throw new CustomException(ErrorCode.NOT_EXISTED_USER);
+            }
+
+            int userId = userEntity.getUserId();
+
+            // 2. 커스텀 쿼리를 사용하여 유저의 오시 리스트와 관련된 데이터를 한 번에 가져옴
+            List<UserOshiEntity> oshiEntities = userOshiRepository.findByUser(userId);
+
+            List<OshiResponseDto> oshiResponseDtos = oshiEntities.stream()
+            .map(oshiEntity -> new OshiResponseDto(oshiEntity.getOshi())) // 필요한 경우 status 추가 가능
+            .collect(Collectors.toList());
+            // 3. 성공적으로 유저 오시 리스트 반환
+            return new GetUserOshiResponseDto(oshiResponseDtos);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomException(ErrorCode.DATABASE_ERROR);
+        }
+    }
 }

@@ -59,19 +59,9 @@ public class GoodsRepositoryCustomImpl implements GoodsRepositoryCustom {
             .map(entry -> new GoodsResponseDto(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
 
-        // 총 개수 계산
-        long totalCount = queryFactory
-            .selectFrom(baseGoods)
-            .where(baseGoods.name.contains(keyword))
-            .fetchCount();
-
-        int totalPages = (int) Math.ceil((double) totalCount / pageable.getPageSize());
-
-        // 결과 반환
+        
         return SearchGoodsResponseDto.builder()
                 .baseGoodsEntities(goodsList)
-                .totalPages(totalPages)
-                .totalCount((int) totalCount)
                 .build();
     }
 
@@ -114,7 +104,7 @@ public class GoodsRepositoryCustomImpl implements GoodsRepositoryCustom {
         .selectFrom(baseGoods)
         .where(whereClause)
         .fetchCount();
-
+    
     int totalPages = (int) Math.ceil((double) totalCount / pageable.getPageSize());
 
     // 결과 반환
@@ -122,6 +112,7 @@ public class GoodsRepositoryCustomImpl implements GoodsRepositoryCustom {
             .goodsEntities(goodsList)
             .totalPages(totalPages)
             .totalCount((int) totalCount)
+            .currentPage((int)pageable.getOffset())
             .build();
 }
 

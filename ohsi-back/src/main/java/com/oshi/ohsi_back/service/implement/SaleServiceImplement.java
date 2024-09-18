@@ -26,14 +26,15 @@ import com.oshi.ohsi_back.entity.OshiEntity;
 import com.oshi.ohsi_back.entity.SaleEntity;
 import com.oshi.ohsi_back.entity.UserEntity;
 import com.oshi.ohsi_back.exception.SaleException;
+import com.oshi.ohsi_back.exception.exceptionclass.CustomException;
 import com.oshi.ohsi_back.properties.ErrorCode;
 import com.oshi.ohsi_back.service.Fileservice;
 import com.oshi.ohsi_back.service.SaleService;
 import com.oshi.ohsi_back.repository.UserRepository;
+import com.oshi.ohsi_back.repository.CategoryRepository.CategoryRepository;
 import com.oshi.ohsi_back.repository.GoodsRepositoy.BaseGoodsRepository;
 import com.oshi.ohsi_back.repository.OshiRepository.OshiRepository;
 import com.oshi.ohsi_back.repository.SaleRepository.SaleRepository;
-import com.oshi.ohsi_back.repository.CategoryRepository;
 import com.oshi.ohsi_back.repository.ImageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -108,6 +109,19 @@ public class SaleServiceImplement implements SaleService {
     public GetSaleListResponseDto getSaleList(GetSaleListRequestDto dto) {
     int pageSize = 10;
     try {
+        int saleId = dto.getTypeId();
+        if(dto.getMethod().equals("oshi")){
+            boolean oshiEntity = oshiRepository.existsByOshiId(dto.getTypeId());
+            if(!oshiEntity) throw new CustomException(ErrorCode.NOT_EXISTED_BOARD);
+        }
+        else if(dto.getMethod().equals("category")){
+            boolean categoryEntity = categoryRepository.existsByCategoryId(dto.getTypeId());
+            if(!categoryEntity) throw new CustomException(ErrorCode.NOT_EXISTED_BOARD);
+        }
+        else if(dto.getMethod().equals("goods")){
+            boolean baseGoodsEntity = baseGoodsRepository.existsByGoodsId(dto.getTypeId());
+            if(!baseGoodsEntity) throw new CustomException(ErrorCode.NOT_EXISTED_BOARD);
+        }
         Pageable pageable = PageRequest.of(dto.getPagenum(), pageSize);
         Page<SaleResponseDto> response = saleRepository.getSaleList(pageable, dto);
         // Page<SaleResponseDto>를 받아서 DTO로 변환
@@ -115,6 +129,7 @@ public class SaleServiceImplement implements SaleService {
            .saleEntities(response.getContent())   // 리스트를 가져옴
            .totalPages(response.getTotalPages())  // 전체 페이지 수
            .totalCount((int)response.getTotalElements())  // 전체 요소 수
+           .currentPage(dto.getPagenum())
            .build();
     } catch (Exception e) {
         e.printStackTrace();

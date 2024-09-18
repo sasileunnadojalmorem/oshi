@@ -7,12 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetCategoryRequseDto {
+public class GetCategoryListRequseDto {
 
     @NotNull
     private int oshiid;
     @NotNull
     private int pagenum;
     @NotBlank
-    private String sortedBy;
+    private String sortOrder;
 }

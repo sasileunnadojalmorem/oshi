@@ -51,9 +51,9 @@ public class CategoryEntity {
         this.oshi = new OshiEntity();
         this.oshi.setOshiId(dto.getOshiId()); 
         // 연관된 엔터티들의 ID만 설정
-        if(dto.getAuthorid() != null) {
+        if(dto.getAuthorId() != null) {
             this.author = new AuthorEntity();
-            this.author.setId(dto.getAuthorid());
+            this.author.setId(dto.getAuthorId());
         }
 
     }

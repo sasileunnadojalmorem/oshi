@@ -1,7 +1,10 @@
     package com.oshi.ohsi_back.repository.SaleRepository;
 
     import com.querydsl.jpa.impl.JPAQueryFactory;
-    import com.oshi.ohsi_back.dto.request.sale.GetSaleListRequestDto;
+
+import lombok.RequiredArgsConstructor;
+
+import com.oshi.ohsi_back.dto.request.sale.GetSaleListRequestDto;
     import com.oshi.ohsi_back.dto.response.Sale.SaleResponseDto;
     import com.querydsl.core.types.OrderSpecifier;
     import com.querydsl.core.types.Projections;
@@ -21,13 +24,10 @@
     import java.util.List;
 
     @Repository
+    @RequiredArgsConstructor
     public class SaleRepositoryCustomImpl implements SaleRepositoryCustom {
 
         private final JPAQueryFactory queryFactory;
-
-        public SaleRepositoryCustomImpl(JPAQueryFactory queryFactory) {
-            this.queryFactory = queryFactory;
-        }
 
         @Override
         public Page<SaleResponseDto> getSaleList(Pageable pageable, GetSaleListRequestDto dto) {

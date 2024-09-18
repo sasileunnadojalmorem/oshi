@@ -1,94 +1,67 @@
 import { useState, useRef } from 'react';
 import './style.css';
 import Inputbox from 'components/inputbox/inputbox';
-import { SaveImage, OshiAddRequset, upload } from 'apis';
 import { useCookies } from 'react-cookie';
 import { ResponseDto } from 'apis/response';
-import { OshiAddResponseDto } from 'apis/response/oshi';
+import {  OshiResponseDto } from 'apis/response/oshi';
 import { OshiAddRequestDto } from 'apis/request/oshi';
-import { SaveImageRequsetDto } from 'apis/request/image';
 import { UrlResponseDto } from 'apis/response/image';
 import { useNavigate } from 'react-router-dom';
 
-// component 최애 추가 컴포넌트//
 export default function Oshiadd() {
-
   const navigater = useNavigate();
-  // state : 쿠키 상태
   const [cookies] = useCookies();
-  // state: 최애 이름 참조 상태
   const ohsinameRef = useRef<HTMLInputElement | null>(null);
-  // state: 최애 desc 참조 상태
   const oshidescRef = useRef<HTMLInputElement | null>(null);
-
-  // state: 최애 이름 밸류 상태
   const [oshiname, setOshiname] = useState<string>('');
-  // state: 최애 description 밸류 상태
   const [oshidesc, setOshidesc] = useState<string>('');
-  // state: 이미지 파일 상태
-  const [image, setImage] = useState<File | null>(null); // state : 이미지 파일 상태
-  // state: 이미지 미리보기 파일 상태
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(''); // 이미지 미리보기 URL 상태 추가
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>('');
 
-  // state : 최애 이름 에러 상태
   const [oshinameError, setOshinameError] = useState(false);
-  // state : 최애 description 에러 상태
   const [oshidescError, setOshidescError] = useState(false);
-  
-
-  // state : 최애 이름 에러 메시지 상태
   const [oshinameErrorMessage, setOshinameErrorMessage] = useState('');
-  // state : 최애 description 에러 메시지 상태
   const [oshidescErrorMessage, setOshidescErrorMessage] = useState('');
 
-  // event handler : 최애 이름 변경 이벤트 처리
   const onOshinameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOshiname(event.target.value);
     setOshinameError(false);
     setOshinameErrorMessage('');
   };
 
-  // event handler : 최애 description 변경 이벤트 처리
   const onOshidescChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOshidesc(event.target.value);
     setOshidescError(false);
     setOshidescErrorMessage('');
   };
 
-  // event handler : 이미지 변경 이벤트 처리
   const onImageChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreviewUrl(reader.result as string); // 이미지 미리보기 URL 설정
+        setImagePreviewUrl(reader.result as string);
       };
-      reader.readAsDataURL(file); // 이미지를 base64로 읽음
+      reader.readAsDataURL(file);
     }
   };
 
-  // API 응답 처리 함수
-  const OshiAddResponse = (response: OshiAddResponseDto | ResponseDto | null) => {
-    // 여기서 response 처리, 예를 들어 성공/실패 메시지 표시 등
+  const OshiAddResponse = (response: OshiResponseDto | ResponseDto | null) => {
     if (response === null) {
       alert("네트워크 상태 확인");
       return;
     }
-    const { code } = response;
-    
-    if (code === 'DN') {
-      setOshinameError(true);
-      setOshinameErrorMessage("중복된 이름입니다.")
+    if ('code' in response) {
+      const { code } = response as ResponseDto;
+      if (code === 'DN') {
+        setOshinameError(true);
+        setOshinameErrorMessage("중복된 이름입니다.");
+      }
+    } else {
+      navigater('/');
     }
-    
-    if (code !== 'SU') return;
-
-    if( code === 'SU') {
-      navigater('');
-      return response;
-    };
-  }
+  };
 
   const UrlResponse = (response: UrlResponseDto | ResponseDto | null) => {
     if (response === null) {
@@ -99,7 +72,6 @@ export default function Oshiadd() {
     return url;
   };
 
-  // event handler : 최애 추가 버튼 클릭 이벤트 처리
   const onAddButtonClickHandler = async () => {
     setOshinameError(false);
     setOshidescError(false);
@@ -117,30 +89,26 @@ export default function Oshiadd() {
       isValid = false;
     }
 
-    if (!isValid) return; // 유효성 검사 실패 시 리턴
+    if (!isValid) return;
 
     if (image) {
       const formData = new FormData();
       formData.append('file', image);
 
-      
       const urlResponse = await upload(cookies.accessToken, formData);
-      const imageUrl : string = UrlResponse(urlResponse);
-      const reqesutbody : OshiAddRequestDto = {name: oshiname, description: oshidesc, profileImageUrl: imageUrl };
-      OshiAddRequset(cookies.accessToken, reqesutbody)
-      .then( async oshi => {
-          const response = await OshiAddResponse(oshi);
-          const { oshiid } =  response as OshiAddResponseDto;
-          const responsebody:SaveImageRequsetDto = {url:imageUrl, type:'OSHI', referenceId:oshiid};
-          console.log(oshiid);
-          await SaveImage(cookies.accessToken, responsebody);
-       })
-     
-        
+      const imageUrl: string = UrlResponse(urlResponse);
+
+      const requestBody: OshiAddRequestDto = {
+        name: oshiname,
+        description: oshidesc,
+        profileImageUrl: imageUrl
+      };
+
+      const oshiResponse = await postOshi(cookies.accessToken, requestBody);
+      OshiAddResponse(oshiResponse);
     }
   };
 
-  // render 최애 추가 컴포넌트 랜더//
   return (
     <div id='oshi-add-wrapper'>
       <div className='oshi-add-container'>
@@ -151,11 +119,11 @@ export default function Oshiadd() {
             </div>
             <div className='oshi-add-bottom'>
               <div className='oshi-add-bottom-imagebox' style={{ backgroundImage: `url(${imagePreviewUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  style={{ display: 'none' }} 
-                  onChange={onImageChangeHandler} 
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={onImageChangeHandler}
                   id="image-upload"
                 />
                 <label htmlFor="image-upload" className='oshi-add-bottom-inputbox-bottom-imagebutton' style={{ position: 'absolute', zIndex: 1, cursor: 'pointer' }}>

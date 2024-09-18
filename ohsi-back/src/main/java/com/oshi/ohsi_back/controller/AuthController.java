@@ -1,7 +1,6 @@
 package com.oshi.ohsi_back.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,20 +25,20 @@ public class AuthController {
     
 
     @PostMapping("/sign-up")
-    public ResponseEntity<? super SignUpResponseDto> signUp(
+    public SignUpResponseDto signUp(
         @RequestBody @Valid SignUpRequestDto requestBody, HttpServletRequest http
     ) {
         // 유효성 검사에서 실패하면 전역 예외 처리기로 넘어감
-        ResponseEntity<? super SignUpResponseDto> response = authService.signUp(requestBody, http);
+        SignUpResponseDto response = authService.signUp(requestBody, http);
         return response;
     }
 
 
     @PostMapping("/sign-in")
-    public ResponseEntity<? super SigninResponseDto> signIn(
+    public SigninResponseDto signIn(
         @RequestBody@Valid SignInRequestDto requestBody
     ){
-        ResponseEntity<? super SigninResponseDto> response  =  authService.signIn(requestBody);
+        SigninResponseDto response  =  authService.signIn(requestBody);
         return response;
     }
 

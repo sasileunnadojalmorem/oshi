@@ -8,6 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class CategoryResponseDto {
+    private int categoryId;
     private String imageUrl;
     private int oshiId;
     private String oshiName;
@@ -25,6 +26,7 @@ public class CategoryResponseDto {
         this.categoryName = categoryEntity.getName();
         this.categoryType = categoryEntity.getType();
         this.imageUrl = imageUrl;
+        this.categoryId = categoryEntity.getCategoryId();
 
         // Author가 null이 아닌 경우에만 authorId와 authorName 설정
         if (categoryEntity.getAuthor() != null) {

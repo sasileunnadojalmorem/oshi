@@ -1,6 +1,6 @@
 import ResponseDto from "../Response.dto";
 
-export default interface SignInResponseDto extends ResponseDto{
+export default interface SignInResponseDto {
     token: string;
     expirationTime: number;
 

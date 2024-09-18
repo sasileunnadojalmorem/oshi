@@ -36,34 +36,34 @@ public class GoodsController {
     private final GoodsService goodsService;
 
     @PostMapping("/add")
-    public ResponseEntity<? super AddGoodsResponseDto > addGoods(
+    public AddGoodsResponseDto addGoods(
         @ModelAttribute AddGoodsRequestDto dto,
         @AuthenticationPrincipal String email) 
     {   
-        ResponseEntity<?super AddGoodsResponseDto> response = goodsService.AddGoods(dto, email);
+        AddGoodsResponseDto response = goodsService.AddGoods(dto, email);
         return response;  // Return the response entity with the map and HTTP status
     }
     @GetMapping("/list")
-    public ResponseEntity<GetGoodsListResponseDto> getGoodsList(
+    public GetGoodsListResponseDto getGoodsList(
         @RequestBody@Valid GetGoodsListRequestDto dto
     )
     {
-        ResponseEntity<GetGoodsListResponseDto> response = goodsService.GetGoodsList(dto);
+        GetGoodsListResponseDto response = goodsService.GetGoodsList(dto);
         return response;  // Return the response entity with the map and HTTP status
     }
     @GetMapping("/info")
-    public ResponseEntity<? super GetGoodsInfoResponseDto> getGoodsInfo(
+    public GetGoodsInfoResponseDto getGoodsInfo(
         @RequestBody@Valid GetGoodsInfoRequsetDto dto)
     {
-        ResponseEntity<? super GetGoodsInfoResponseDto> response = goodsService.GetGoodsInfo(dto);
+        GetGoodsInfoResponseDto response = goodsService.GetGoodsInfo(dto);
         return response;
     }
 
     @GetMapping("/search")
-    public ResponseEntity<? super SearchGoodsResponseDto> searchgoods(
+    public SearchGoodsResponseDto searchgoods(
         @RequestBody@Valid SearchGoodsRequestDto dto)
     {
-        ResponseEntity<? super SearchGoodsResponseDto> responseEntity = goodsService.Searchgoods(dto);
+        SearchGoodsResponseDto responseEntity = goodsService.Searchgoods(dto);
         return responseEntity;  // Return the response entity with the map and HTTP status
 
     }

@@ -7,35 +7,21 @@ import com.oshi.ohsi_back.common.Responsecode;
 import com.oshi.ohsi_back.common.Responsemessage;
 import com.oshi.ohsi_back.dto.response.ResponseDto;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 
-public class SignUpResponseDto extends ResponseDto{
+public class SignUpResponseDto {
 
-    private SignUpResponseDto(){
-        super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
-    }
-    
+    private String token;
+    private int  expirationTime;
 
-    public static ResponseEntity<SignUpResponseDto> success() {
-        SignUpResponseDto responseBody = new SignUpResponseDto();
-        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-    }
-    
+    @Builder
+    public SignUpResponseDto(String token){
 
-    public static ResponseEntity<ResponseDto> duplicationEmail() {
-        ResponseDto result = new ResponseDto(Responsecode.DUPLICATE_EMAIL,Responsemessage.DUPLICATE_EMAIL);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
-    }
-
-    public static ResponseEntity<ResponseDto> duplicationName() {
-        ResponseDto result = new ResponseDto(Responsecode.DUPLICATE_NAME,Responsemessage.DUPLICATE_NAME);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
-    }
-
-    public static ResponseEntity<ResponseDto> databaseError() {
-        return ResponseDto.databaseError();
+        this.token  = token;
+        this.expirationTime = 3600; // 1 hour
     }
 
 }

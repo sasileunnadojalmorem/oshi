@@ -1,14 +1,13 @@
 package com.oshi.ohsi_back.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.oshi.ohsi_back.dto.response.oshi.OshiResponseDto;
 import com.oshi.ohsi_back.dto.response.oshi.SearchOshiResponseDto;
@@ -23,32 +22,29 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("api/oshi")
 @RequiredArgsConstructor
-public class OshiControllor {
+public class OshiController {
 
     private final OshiService oshiService;
 
     @PostMapping("add")
-    public ResponseEntity<? super OshiResponseDto> postOshi(
+    public OshiResponseDto postOshi(
         @ModelAttribute OshiRequestDto requestbody,
         @AuthenticationPrincipal String email
-    ){
-        ResponseEntity<? super OshiResponseDto> response = oshiService.postoshi(requestbody, email);
-        return response;
+    ) {
+        return oshiService.postoshi(requestbody, email);
     }
-    
+
     @GetMapping("")
-    public ResponseEntity<? super GetOshiResponseDto> getOshi(
-        @RequestBody@Valid GetOshiRequestDto requestbody
-    ){
-        ResponseEntity<? super GetOshiResponseDto> response = oshiService.getoshi(requestbody);
-        return response;
+    public GetOshiResponseDto getOshi(
+        @RequestBody @Valid GetOshiRequestDto requestbody
+    ) {
+        return oshiService.getoshi(requestbody);
     }
-    
+
     @GetMapping("/search")
-    public ResponseEntity<? super SearchOshiResponseDto> searchOshi(
-        @RequestBody@Valid SearchOhsiRequestDto dto
-    ){
-        ResponseEntity<? super SearchOshiResponseDto> responseEntity = oshiService.searchOshi(dto);
-        return responseEntity;
+    public SearchOshiResponseDto searchOshi(
+        @RequestBody @Valid SearchOhsiRequestDto dto
+    ) {
+        return oshiService.searchOshi(dto);
     }
 }
