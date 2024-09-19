@@ -245,6 +245,7 @@ export default function Authentication() {
           // 사용자 정보를 서버에서 가져오는 로직이 필요하다면 추가
           // 예: getSignInUserRequest(response.token).then(setUser)
           navigate(MAIN_PATH());
+          
         } else {
           alert('로그인에 실패했습니다.');
         }
