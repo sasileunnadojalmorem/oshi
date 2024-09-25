@@ -1,4 +1,4 @@
-import OshiAddRequestDto from "./OshiAdd.request.dto";
+import OshiAddRequestDto from "./Oshiadd.request.dto";
 import  GetOshiRequestDto  from "./GetOshi.request.Dto";
 import SearchOshiRequestDto from "./Searchoshi.Request.Dto";
 

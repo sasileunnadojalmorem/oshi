@@ -1,7 +1,7 @@
 package com.oshi.ohsi_back.exception;
 
+import com.oshi.ohsi_back.core.properties.ErrorCode;
 import com.oshi.ohsi_back.exception.exceptionclass.CustomException;
-import com.oshi.ohsi_back.properties.ErrorCode;
 
 public class SaleException extends CustomException {
 

@@ -35,10 +35,11 @@ import { useLoginUserStore } from 'stores';
 import { GetSigninUserResponseDto } from 'apis/response/user';
 import { ResponseDto } from 'apis/response';
 import { UserItem } from 'types/interface';
+import useAuthStore from 'stores/useAuthStore';
 
 function App() {
     // Zustand 스토어
-    const { setLoginUser, resetLoginUser } = useLoginUserStore();
+    const { setUser,setAccessToken,resetAuth } = useAuthStore();
     // Cookies
     const [cookies] = useCookies(['accessToken']);
 
@@ -50,9 +51,13 @@ function App() {
         const { code } = responseBody;
         if (code === 'DBE' || code === 'NU' || code === 'VF') {
           // 오류 코드에 따른 처리 (예: 로그아웃, 에러 메시지 표시 등)
-          resetLoginUser();
+          resetAuth();
           return;
         }
+      }
+      if('accessToken' in responseBody && 'expirationTime' in responseBody) {
+        const {accessToken, expirationTime } = responseBody;
+        setAccessToken(accessToken as string, expirationTime as number);
       }
 
       // responseBody가 GetSigninUserResponseDto인지 확인
@@ -63,24 +68,24 @@ function App() {
             userName: responseBody.username,
             userImage: responseBody.profileImageUrl || null,
         };
-        setLoginUser(loginUser);
+        setUser(loginUser);
       }
     }
 
     // effect: access token cookie 값이 변경될 때 이펙트
     useEffect(() => {
       if (!cookies.accessToken) {
-        resetLoginUser();
+        resetAuth();
         return;
       }
       getSignInUserRequest(cookies.accessToken)
         .then(getSignInUserResponse)
         .catch((error) => {
           console.error("Error fetching sign-in user:", error);
-          resetLoginUser();
+          resetAuth();
         });
       
-    }, [cookies.accessToken, resetLoginUser]);
+    }, [cookies.accessToken, resetAuth]);
 
     // Zustand 스토어에서 로그인 상태 확인
     const loginUser = useLoginUserStore(state => state.loginUser);

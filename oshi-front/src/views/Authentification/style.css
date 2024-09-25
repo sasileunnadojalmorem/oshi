@@ -1,114 +1,229 @@
-.auth-wrapper{
-    background-color: antiquewhite;
-    padding: 100px 0 100px;
-    height: calc(100vh-64px-100px-150px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Main Layout */
+.auth-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.auth-container{
-
-    
-    height: 100%;
-    width: 760px;
-    background: #D9D9D9;
-    border-radius: 79px;
-   
-}   
-
-.auth-jumbotron-box{
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    gap: 30px;
-        
-    /* Rectangle 25 */
-
-
-
-
+/* 공통 인풋박스 스타일 */
+.inputbox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
-.auth-jumbtoron-content{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
+.inputbox-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
 }
 
-
-
-.auth-jumbtoron-logo{
-    width: 50px;
-    height: 50px;
-    background-image: url(assets/Eye.png);
-    background-position: 50%50%;
-    background-repeat:no-repeat ;
+/* 인풋 컨테이너 기본 상태 */
+.inputbox-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
 }
 
+/* 에러 상태일 때 스타일 */
+.inputbox-container-error {
+  border-color: #ff4d4f;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
 
-.auth-jumbtoron-text-box{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+.inputbox-container-error .input {
+  color: #ff4d4f;
+}
+
+/* 인풋 필드 기본 스타일 */
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+  background-color: transparent;
+}
+
+/* 인풋에 placeholder 스타일 */
+.input::placeholder {
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* 아이콘 버튼 스타일 */
+.icon-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  margin-left: 10px;
+}
+
+/* 에러 메시지 스타일 */
+.inputbox-message {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #ff4d4f;
+  min-height: 16px; /* 에러 메시지 공간 유지 */
+}
+
+/* 공통 카드 스타일 */
+.auth-card {
+  width: 100%;
+  max-width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.auth-card-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.auth-card-top {
+  margin-bottom: 20px;
+}
+
+.auth-title-box {
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .auth-jumbotron-text{
-    /* PROJECT */
-
-    
-
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 64px;
-    line-height: 64px;
-    /* identical to box height, or 100% */
-
-    color: #AD49C6;
-
+  font-family: LINESeedKR-Bd;
+  color:violet;
 
 }
-
-.auth-card-top{
-    gap: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-}
-.auth-title-box{
-    display: flex;
-    justify-content: center;
-}
-.auth-title-text{
-    /* Create an account */
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 150%;
-    /* identical to box height, or 36px */
-    text-align: center;
-    letter-spacing: -0.01em;
-
-    color: #000000;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-
+.auth-jumbotron-text-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}.auth-title-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
 }
 
+/* 에러 박스 스타일 */
+.auth-sign-in-error-box {
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
 
-.auth-card-box{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.auth-sign-in-error-message {
+  color: #ff4d4f;
+  font-size: 14px;
+}
+
+/* 버튼 스타일 */
+.black-large-full-button {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.black-large-full-button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.black-large-full-button:hover:enabled {
+  background-color: #333;
+}
+
+/* 회원가입 링크 스타일 */
+.auth-gotosignup-box {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.auth-gotosignup-box span {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-gotosignup-box:hover {
+  color: darkblue;
+}
+
+/* 미디어 쿼리로 반응형 처리 */
+@media (max-width: 768px) {
+  .auth-card {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .black-large-full-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .auth-title-text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .black-large-full-button {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .auth-title-text {
+    font-size: 18px;
+  }
+
+  .auth-gotosignup-box {
+    font-size: 12px;
+  }
 }

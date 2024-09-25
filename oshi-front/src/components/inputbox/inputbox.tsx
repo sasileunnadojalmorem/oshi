@@ -1,4 +1,4 @@
-import React, { ChangeEvent, forwardRef,  KeyboardEvent } from 'react';
+import React, { ChangeEvent, forwardRef, KeyboardEvent } from 'react';
 import './style.css';
 
 interface Props { 
@@ -9,17 +9,13 @@ interface Props {
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   icon?: 'eye-light-off-icon' | 'eye-light-on-icon';  
-  onButtonClick?: () => void; 
-
-  message?: string;  // 에러 메시지 
-  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void; // onKeyDown 이벤트 핸들러 
+  onButtonClick?: () => void;
+  message?: string;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const Inputbox = forwardRef<HTMLInputElement, Props>((props, ref) => {
-
   const { label, type, error, placeholder, value, onChange, icon, onButtonClick, message, onKeyDown } = props;
-
-
 
   return (
     <div className='inputbox'>

@@ -71,17 +71,17 @@ export const getOshi = async (
 export const searchOshi = async (
   requestBody: SearchOshiRequestDto
 ): Promise<SearchOshiResponseDto | ResponseDto | null> => {
-  const result = await axios
-    .post(OSHI_SEARCH_URL, requestBody)
-    .then((response) => {
-      const responseBody: SearchOshiResponseDto = response.data;
-      return responseBody;
-    })
-    .catch((error) => {
-      if (!error.response?.data) return null;
-      const responseBody: ResponseDto = error.response.data;
-      return responseBody;
+  try {
+    const response = await axios.get<SearchOshiResponseDto>(OSHI_SEARCH_URL, {
+      params: requestBody,  // GET 요청의 경우, requestBody를 params로 전달
     });
 
-  return result;
+    const responseBody: SearchOshiResponseDto = response.data;
+    return responseBody;
+  } catch (error: any) {
+    if (!error.response?.data) return null;
+
+    const responseBody: ResponseDto = error.response.data;
+    return responseBody;
+  }
 };

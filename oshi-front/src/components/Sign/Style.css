@@ -1,0 +1,88 @@
+/* 공통 카드 스타일 */
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .auth-card-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .auth-card-top {
+    margin-bottom: 20px;
+  }
+  
+  .auth-title-box {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .auth-title-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* 에러 박스 스타일 */
+  .auth-sign-in-error-box {
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .auth-sign-in-error-message {
+    color: #ff4d4f;
+    font-size: 14px;
+  }
+  
+  /* 버튼 스타일 */
+  .black-large-full-button {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+  
+  .black-large-full-button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+  }
+  
+  .black-large-full-button:hover:enabled {
+    background-color: #333;
+  }
+  
+  /* 회원가입 링크 스타일 */
+  .auth-gotosignup-box {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .auth-gotosignup-box span {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .auth-gotosignup-box:hover {
+    color: darkblue;
+  }

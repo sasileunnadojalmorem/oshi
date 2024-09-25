@@ -3,7 +3,7 @@ import { SignInRequestDto,SignUpRequestDto } from "../request/auth";
 import { SignInResponseDto,SignUpResponseDto } from "../response/auth";
 import { ResponseDto } from "../response";
 import { GetSigninUserResponseDto } from "../response/user";
-import OshiAddRequestDto from "../request/oshi/OshiAdd.request.dto";
+import { OshiAddRequestDto } from "apis/request/oshi";
 import OshiAddResponseDto from "../response/oshi/OshiAdd.Response.Dto";
 
 import { SaveImageResponseDto, UrlResponseDto } from "../response/image";

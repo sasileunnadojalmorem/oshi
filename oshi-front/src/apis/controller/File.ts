@@ -17,7 +17,6 @@ export const getImageRequest = async (fileName: string, accessToken: string) => 
     const IMAGE_URL = `${API_DOMAIN}/${fileName}`;
     
     const result = await axios.get(IMAGE_URL, {
-        headers: authorization(accessToken).headers,
         responseType: 'blob' // 이미지 같은 binary 데이터를 받기 위해 responseType을 설정
     })
     .then(response => {
@@ -28,5 +27,5 @@ export const getImageRequest = async (fileName: string, accessToken: string) => 
         const responseBody: ResponseDto = error.response.data;
         return responseBody;
     });
-    return result;
+    return result;  
 }

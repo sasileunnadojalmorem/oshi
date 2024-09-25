@@ -1,6 +1,6 @@
 package com.oshi.ohsi_back.exception;
 
-import com.oshi.ohsi_back.properties.ErrorCode;
+import com.oshi.ohsi_back.core.properties.ErrorCode;
 import com.oshi.ohsi_back.exception.dto.ErrorResponse;
 import com.oshi.ohsi_back.exception.dto.ValidationErrorResponse;
 import com.oshi.ohsi_back.exception.exceptionclass.CustomException;

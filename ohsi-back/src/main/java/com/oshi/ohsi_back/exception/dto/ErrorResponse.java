@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 
-import com.oshi.ohsi_back.properties.ErrorCode;
+import com.oshi.ohsi_back.core.properties.ErrorCode;
 
 @Getter
 @Builder

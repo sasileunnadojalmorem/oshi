@@ -1,6 +1,6 @@
 package com.oshi.ohsi_back.exception.exceptionclass;
 
-import com.oshi.ohsi_back.properties.ErrorCode;
+import com.oshi.ohsi_back.core.properties.ErrorCode;
 
 public class CustomException extends RuntimeException {
     
