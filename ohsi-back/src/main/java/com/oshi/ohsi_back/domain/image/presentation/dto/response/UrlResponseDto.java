@@ -14,7 +14,7 @@ public class UrlResponseDto extends ResponseDto {
 
     private String url;
     private UrlResponseDto(String url) {
-        super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
+        super(Responsecode.SUCCESS, Responsemessage.SUCCESS);
         
         this.url = url;
     }

@@ -15,6 +15,7 @@ import com.oshi.ohsi_back.domain.ohsi.presentation.dto.request.SearchOhsiRequest
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.GetOshiResponseDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.OshiResponseDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.SearchOshiResponseDto;
+import com.oshi.ohsi_back.domain.user.domain.entitiy.UserEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,16 +29,17 @@ public class OshiController {
     // POST 요청으로 Oshi 추가
     @PostMapping("add")
     public OshiResponseDto postOshi(
-        @ModelAttribute OshiRequestDto requestbody,
-        @AuthenticationPrincipal String email
+        @ModelAttribute @Valid OshiRequestDto requestbody,
+        @AuthenticationPrincipal UserEntity user
     ) {
-        return oshiService.postoshi(requestbody, email);
+        return oshiService.postoshi(requestbody, user);
     }
 
     // GET 요청으로 Oshi 정보 조회
     @GetMapping("")
     public GetOshiResponseDto getOshi(
-        @ModelAttribute @Valid GetOshiRequestDto requestbody
+        @ModelAttribute @Valid GetOshiRequestDto requestbody,
+        @AuthenticationPrincipal UserEntity user
     ) {
         return oshiService.getoshi(requestbody);
     }
@@ -45,7 +47,8 @@ public class OshiController {
     // GET 요청으로 Oshi 검색 (파라미터로 전달)
     @GetMapping("/search")
     public SearchOshiResponseDto searchOshi(
-        @Valid @ModelAttribute SearchOhsiRequestDto dto  // 쿼리 파라미터를 DTO로 매핑
+        @Valid @ModelAttribute SearchOhsiRequestDto dto,
+        @AuthenticationPrincipal UserEntity user
     ) {
         return oshiService.searchOshi(dto);
     }

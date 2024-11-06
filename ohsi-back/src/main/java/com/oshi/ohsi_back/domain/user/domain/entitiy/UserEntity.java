@@ -3,11 +3,16 @@ package com.oshi.ohsi_back.domain.user.domain.entitiy;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.oshi.ohsi_back.domain.Auth.presentation.dto.request.SignUpRequestDto;
 import com.oshi.ohsi_back.domain.goods.domain.entity.BaseGoodsEntity;
 import com.oshi.ohsi_back.domain.image.domain.entity.ImageEntity;
 import com.oshi.ohsi_back.domain.sale.domain.entity.SaleEntity;
+import com.oshi.ohsi_back.domain.user.domain.enums.Role;
 
 @Entity
 @Table(name = "user")
@@ -15,6 +20,7 @@ import com.oshi.ohsi_back.domain.sale.domain.entity.SaleEntity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserEntity {
 
     @Id
@@ -55,5 +61,8 @@ public class UserEntity {
             image.setId(dto.getProfileImageId());
             this.profileImage = image;
         }
+    }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(Role.USER.getKey()));
     }
 }

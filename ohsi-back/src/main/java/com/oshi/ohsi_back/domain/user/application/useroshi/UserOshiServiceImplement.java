@@ -13,6 +13,7 @@ import com.oshi.ohsi_back.domain.ohsi.infrastructure.OshiRepository;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.OshiResponseDto;
 import com.oshi.ohsi_back.domain.user.domain.entitiy.UserEntity;
 import com.oshi.ohsi_back.domain.user.domain.entitiy.UserOshiEntity;
+import com.oshi.ohsi_back.domain.user.execption.UserException;
 import com.oshi.ohsi_back.domain.user.infrastructure.UserOshiRepository;
 import com.oshi.ohsi_back.domain.user.infrastructure.UserRepository;
 import com.oshi.ohsi_back.domain.user.presentation.dto.request.AddUserOshiRequsetDto;
@@ -32,10 +33,9 @@ public class UserOshiServiceImplement implements UserOshiService {
 
     @Override
     public AddUserOshiResponseDto findstate(AddUserOshiRequsetDto dto, String email) {
-        UserEntity userEntity = userRepository.findByEmail(email);
-        if (userEntity == null) {
-            throw new CustomException(ErrorCode.NOT_EXISTED_USER);
-        }
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
+            () -> new UserException(ErrorCode.NOT_EXISTED_USER)
+        );
 
         int userid = userEntity.getUserId();
         int oshiId = dto.getOshi_id();
@@ -64,10 +64,9 @@ public class UserOshiServiceImplement implements UserOshiService {
     public GetUserOshiResponseDto GetUserOshi(String email) {
         try {
             // 1. 유저를 이메일로 찾고 존재 여부 확인
-            UserEntity userEntity = userRepository.findByEmail(email);
-            if (userEntity == null) {
-                throw new CustomException(ErrorCode.NOT_EXISTED_USER);
-            }
+            UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
+            () -> new UserException(ErrorCode.NOT_EXISTED_USER)
+        );
 
             int userId = userEntity.getUserId();
 

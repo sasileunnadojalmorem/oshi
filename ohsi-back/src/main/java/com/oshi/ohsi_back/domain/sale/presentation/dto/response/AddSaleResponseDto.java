@@ -17,7 +17,7 @@ public class AddSaleResponseDto extends ResponseDto{
     private int Sales_id;
 
     private AddSaleResponseDto(SaleEntity saleEntity){
-        super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
+        super(Responsecode.SUCCESS, Responsemessage.SUCCESS);
         this.Sales_id = saleEntity.getSalesId();
     }
 

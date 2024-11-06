@@ -1,8 +1,6 @@
 package com.oshi.ohsi_back.domain.category.presentation.controller;
 
 import jakarta.validation.Valid;
-
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +18,7 @@ import com.oshi.ohsi_back.domain.category.presentation.dto.response.CategoryResp
 import com.oshi.ohsi_back.domain.category.presentation.dto.response.GetCategoryInfoResponseDto;
 import com.oshi.ohsi_back.domain.category.presentation.dto.response.GetCategoryListResponseDto;
 import com.oshi.ohsi_back.domain.category.presentation.dto.response.SearchCategoryResponseDto;
+import com.oshi.ohsi_back.domain.user.domain.entitiy.UserEntity;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,37 +32,31 @@ public class CategoryContoller {
     private final CategoryService categoryService;
 
     @PostMapping("/add")
-    public CategoryResponseDto AddCategory(
+    public CategoryResponseDto addCategory(
             @ModelAttribute @Valid AddCategoryRequestDto requestbody, 
-            @AuthenticationPrincipal String email) {
+            @AuthenticationPrincipal UserEntity user) {
 
-        CategoryResponseDto response = categoryService.AddCategory(requestbody, email);
-        return response;
+        return categoryService.addCategory(requestbody, user);
     }
     
     @GetMapping("/list")
     public GetCategoryListResponseDto getCategoryByOshiId(
             @Valid @RequestBody GetCategoryListRequseDto requestbody
         ) {
-        GetCategoryListResponseDto response = categoryService.getcategorybyoshiid(requestbody);
-        return response;
+        return categoryService.getCategoryByOshiId(requestbody);
     }
 
     @GetMapping("/info")
     public GetCategoryInfoResponseDto getCategoryByOshiInfo(
             @Valid @RequestBody GetCategoryInfoRequsetDto requestbody
         ) {
-        GetCategoryInfoResponseDto response = categoryService.getCategotyInfo(requestbody);
-        return response;
+        return categoryService.getCategoryInfo(requestbody);
     }
 
     @GetMapping("/search")
     public SearchCategoryResponseDto searchCategoryByOshiId(
             @Valid @RequestBody SearchCategoryRequestDto requestbody
         ) {
-        SearchCategoryResponseDto response = categoryService.searchCategory(requestbody);
-        return response;
-        
-        }
-
+        return categoryService.searchCategory(requestbody);
+    }
 }

@@ -20,6 +20,7 @@ import com.oshi.ohsi_back.domain.ohsi.presentation.dto.request.SearchOhsiRequest
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.GetOshiResponseDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.OshiResponseDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.SearchOshiResponseDto;
+import com.oshi.ohsi_back.domain.user.domain.entitiy.UserEntity;
 import com.oshi.ohsi_back.domain.user.infrastructure.UserRepository;
 import com.oshi.ohsi_back.exception.exceptionclass.CustomException;
 
@@ -36,14 +37,13 @@ public class OshiServiceImplement implements OshiService {
     private final Fileservice fileService;
 
     @Override
-    public OshiResponseDto postoshi(OshiRequestDto oshiDto, String email) {
+    public OshiResponseDto postoshi(OshiRequestDto oshiDto, UserEntity user) {
         OshiEntity oshiEntity = null;
         ImageEntity imageEntity = null;
         String imageUrl = null;
         MultipartFile file = oshiDto.getFile();  // 파일 객체 가져오기
 
-        log.info("Checking if user exists with email: {}", email);
-        boolean existUser = userRepository.existsByEmail(email);
+        boolean existUser = userRepository.existsByEmail(user.getEmail());
         oshiEntity = oshiRepository.findByName(oshiDto.getName());
         if (oshiDto.getName() == null || oshiDto.getName().trim().isEmpty()) {
             log.warn("Oshi name is missing or empty");
@@ -55,11 +55,7 @@ public class OshiServiceImplement implements OshiService {
             log.warn("Duplicate Oshi name detected: {}", oshiDto.getName());
             throw new CustomException(ErrorCode.DUPLICATE_OSHI);
         }
-        if (!existUser) {
-            log.warn("User not found with email: {}", email);
-            throw new CustomException(ErrorCode.NOT_EXISTED_USER);
-        }
-
+        
         // 오시 엔티티 생성 및 저장 (이미지와 연결)
         log.info("Creating Oshi entity with name: {}", oshiDto.getName());
         oshiEntity = new OshiEntity(oshiDto);  // OshiEntity 생성

@@ -10,13 +10,13 @@ import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.AddGoodsR
 import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.GetGoodsInfoResponseDto;
 import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.GetGoodsListResponseDto;
 import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.SearchGoodsResponseDto;
+import com.oshi.ohsi_back.domain.user.domain.entitiy.UserEntity;
 
 public interface GoodsService {
-
-    AddGoodsResponseDto AddGoods(AddGoodsRequestDto dto, String email);
-    GetGoodsInfoResponseDto GetGoodsInfo(GetGoodsInfoRequsetDto dto);
-    SearchGoodsResponseDto Searchgoods(SearchGoodsRequestDto dto);
-    GetGoodsListResponseDto GetGoodsList(GetGoodsListRequestDto dto);
-    void updateGoods(UpdateGoodsRequestDto dto, String email);
-    void deleteGoods(DeleteGoodsRequestDto dto, String email);
+    AddGoodsResponseDto addGoods(AddGoodsRequestDto dto, UserEntity user);
+    GetGoodsInfoResponseDto getGoodsInfo(GetGoodsInfoRequsetDto dto);
+    SearchGoodsResponseDto searchGoods(SearchGoodsRequestDto dto);
+    GetGoodsListResponseDto getGoodsList(GetGoodsListRequestDto dto);
+    void updateGoods(UpdateGoodsRequestDto dto, UserEntity user);
+    void deleteGoods(DeleteGoodsRequestDto dto, UserEntity user);
 }

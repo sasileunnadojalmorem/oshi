@@ -22,7 +22,7 @@ public class GetGoodsResponseDto extends ResponseDto {
 
 
     private GetGoodsResponseDto(Page<BaseGoodsEntity> goodsPage) {
-        super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);   
+        super(Responsecode.SUCCESS, Responsemessage.SUCCESS);   
         this.goodsPage = goodsPage;
     }
 

@@ -99,7 +99,7 @@ function App() {
             <Route path={OSHI_PATH()}>
               <Route path={ADD_PATH()} element={<Navigate to="/" replace />} />
               <Route path={OSHI_SHOW_PATH(':oshid')}>
-                <Route path={CATEGORY_PATH()} element={<Navigate to="/" replace />} />
+                <Route path={CATEGORY_PATH()} element={<Oshilistcategory/>} />
                 <Route path={GOODS_PATH()} element={<Navigate to="/" replace />} />
               </Route>
             </Route>

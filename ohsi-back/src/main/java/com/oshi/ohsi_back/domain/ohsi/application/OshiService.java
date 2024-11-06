@@ -1,15 +1,15 @@
 package com.oshi.ohsi_back.domain.ohsi.application;
 
-
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.request.GetOshiRequestDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.request.OshiRequestDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.request.SearchOhsiRequestDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.GetOshiResponseDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.OshiResponseDto;
 import com.oshi.ohsi_back.domain.ohsi.presentation.dto.response.SearchOshiResponseDto;
+import com.oshi.ohsi_back.domain.user.domain.entitiy.UserEntity;
 
 public interface OshiService {
-    OshiResponseDto postoshi(OshiRequestDto oshiDto, String email);
+    OshiResponseDto postoshi(OshiRequestDto oshiDto, UserEntity user);
     GetOshiResponseDto getoshi(GetOshiRequestDto dto);
     SearchOshiResponseDto searchOshi(SearchOhsiRequestDto dto);
 }

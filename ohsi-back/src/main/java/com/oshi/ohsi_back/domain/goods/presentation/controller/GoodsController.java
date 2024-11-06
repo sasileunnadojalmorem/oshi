@@ -1,8 +1,6 @@
-
 package com.oshi.ohsi_back.domain.goods.presentation.controller;
 
 import jakarta.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,8 +23,8 @@ import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.request.UpdateGood
 import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.AddGoodsResponseDto;
 import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.GetGoodsInfoResponseDto;
 import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.GetGoodsListResponseDto;
-import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.GetGoodsResponseDto;
 import com.oshi.ohsi_back.domain.goods.presentation.dto.goods.response.SearchGoodsResponseDto;
+import com.oshi.ohsi_back.domain.user.domain.entitiy.UserEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,52 +37,47 @@ public class GoodsController {
     @PostMapping("/add")
     public AddGoodsResponseDto addGoods(
         @ModelAttribute AddGoodsRequestDto dto,
-        @AuthenticationPrincipal String email) 
+        @AuthenticationPrincipal UserEntity user) 
     {   
-        AddGoodsResponseDto response = goodsService.AddGoods(dto, email);
-        return response;  // Return the response entity with the map and HTTP status
+        return goodsService.addGoods(dto, user);
     }
+    
     @GetMapping("/list")
     public GetGoodsListResponseDto getGoodsList(
-        @RequestBody@Valid GetGoodsListRequestDto dto
-    )
-    {
-        GetGoodsListResponseDto response = goodsService.GetGoodsList(dto);
-        return response;  // Return the response entity with the map and HTTP status
+        @RequestBody @Valid GetGoodsListRequestDto dto
+    ) {
+        return goodsService.getGoodsList(dto);
     }
+
     @GetMapping("/info")
     public GetGoodsInfoResponseDto getGoodsInfo(
-        @RequestBody@Valid GetGoodsInfoRequsetDto dto)
+        @RequestBody @Valid GetGoodsInfoRequsetDto dto)
     {
-        GetGoodsInfoResponseDto response = goodsService.GetGoodsInfo(dto);
-        return response;
+        return goodsService.getGoodsInfo(dto);
     }
 
     @GetMapping("/search")
     public SearchGoodsResponseDto searchgoods(
-        @RequestBody@Valid SearchGoodsRequestDto dto)
+        @RequestBody @Valid SearchGoodsRequestDto dto)
     {
-        SearchGoodsResponseDto responseEntity = goodsService.Searchgoods(dto);
-        return responseEntity;  // Return the response entity with the map and HTTP status
-
+        return goodsService.searchGoods(dto);
     }
 
     @PatchMapping("/update")
     public ResponseEntity<Void> updateGoods(
         @ModelAttribute @Valid UpdateGoodsRequestDto dto,
-        @AuthenticationPrincipal String email
-    ){
-        goodsService.updateGoods(dto, email);
+        @AuthenticationPrincipal UserEntity user
+    ) {
+        goodsService.updateGoods(dto, user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteGoods(
         @RequestBody @Valid DeleteGoodsRequestDto dto,
-        @AuthenticationPrincipal String email
-    ){
-
-        goodsService.deleteGoods(dto, email);
+        @AuthenticationPrincipal UserEntity user
+    ) {
+        goodsService.deleteGoods(dto, user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

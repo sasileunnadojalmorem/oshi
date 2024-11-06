@@ -16,7 +16,8 @@ public class ImageResponseDto extends ResponseDto{
     private int imageId;
     private ImageEntity imageEntity;
     private ImageResponseDto(ImageEntity imageEntity){
-        super(Responsecode.SUCCESSS, Responsemessage.SUCCESSS);
+        super(Responsecode.SUCCESS, Responsemessage.SUCCESS
+        );
         this.imageId = imageEntity.getId();  // id
         this.imageEntity = imageEntity;
        
